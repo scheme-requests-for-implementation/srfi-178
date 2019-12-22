@@ -93,7 +93,7 @@ procedure arguments and expect booleans in return.
         <br />
       </dd>
 
-      <dt><i>bvec</i></dt>
+      <dt><i>vec</i></dt>
       <dd>
         A heterogeneous vector; that is, it must
         satisfy the predicate <code>vector?</code>.
@@ -186,7 +186,7 @@ procedure arguments and expect booleans in return.
         ...
       </i></dt>
       <dd>
-        At least one <code><i>something</i></code> must be
+        One or more <code><i>something</i></code>s must be
         arguments.
         <br />
         <br />
@@ -339,16 +339,16 @@ and an undefined value with no change to <i>bvec1</i>.</p>
 
 {all new}
 
-<p><code>(bitvector-prefix-length <i>bool bvec1 bvec2</i> -> index</code><br />
+<p><code>(bitvector-prefix-length <i>bool bvec1 bvec2</i>) -> index</code><br />
 
-<code>(bitvector-suffix-length <i>bool bvec1 bvec2</i> -> index</code></p>
+<code>(bitvector-suffix-length <i>bool bvec1 bvec2</i>) -> index</code></p>
 
 <p>Return the number of elements equal to <i>bool</i> in the prefix/suffix 
 of the two <i>bvecs</i>.</p>
 
-<code>(bitvector-prefix? <i>bvec1 bvec2</i> -> boolean</code><br />
+<code>(bitvector-prefix? <i>bvec1 bvec2</i>) -> boolean</code><br />
 
-<p><code>(bitvector-suffix? <i>bvec1 bvec2</i> -> boolean</code></p>
+<p><code>(bitvector-suffix? <i>bvec1 bvec2</i>) -> boolean</code></p>
 
 Returns <code>#t</code> if <i>bvec1</i> is a prefix/suffix of <i>bvec2</i>,
 and <code>#f</code> otherwise.</p>
@@ -484,7 +484,7 @@ that is, each value is changed to the opposite value.
 The following ten procedures correspond to the useful set
 of non-trivial two-argument boolean functions. For each such function,
 the corresponding bitvector operator
-maps that function across two or more bitvectors in a element-wise fashion.
+maps that function across two or more bitvectors in an element-wise fashion.
 The core idea of this group of functions is this element-wise "lifting"
 of the set of dyadic boolean functions to bitvector parameters.  </p>
 <p> <code>(bitvector-and </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> {map}<br />
@@ -506,9 +506,9 @@ everywhere that a, b and c all agree. That is, it does <em>not</em> produce
 </p>
 <pre>
      (bitvector-ior (bitvector-and a b c)
-                  (bitvector-and (bitvector-not a)
-                               (bitvector-not b)
-                               (bitvector-not c)))
+                    (bitvector-and (bitvector-not a)
+                                   (bitvector-not b)
+                                   (bitvector-not c)))
 </pre>
 <p>
 Rather, it produces <code>(bitvector-eqv a (bitvector-eqv b c))</code> or the equivalent
@@ -572,8 +572,8 @@ Return -1 if <em>bvec</em> contains no values equal to <i>bit</i>.
 These procedures operate on a contiguous field of bits (a "byte", in
 Common Lisp parlance) in a given bitvector. The <em>start</em> and <em>end</em>
 arguments, which are not optional, are
-non-negative exact integers specifying the field: it is the <em>end-start</em> bits
-running from bit <em>start</em> to bit <em>end</em>-1.
+non-negative exact integers specifying the field: it is the <em>end&nbsp;&#x2212;&nbsp;start</em> bits
+running from bit <em>start</em> to bit <em>end</em>&nbsp;&#x2212;&nbsp;1.
 </p>
 
 
