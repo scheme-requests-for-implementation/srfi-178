@@ -258,7 +258,7 @@ On the first call to <i>f</i>, the state's value is <i>seed</i>.</p>
 <p>The same as <code>bitvector-append</code>, but takes a list of bitvectors rather than
 multiple arguments.</p>
 
-<p><code>(bitvector-append-subitvectors [<i>bvec start end] ...</i>) -> bitvector</code> {UW}</p>
+<p><code>(bitvector-append-subbitvectors [<i>bvec start end] ...</i>) -> bitvector</code> {UW}</p>
 
 <p>Concatenates the result of applying <code>bitvector-copy</code> to each triplet of
 <i>bvec, start, end</i> arguments, but may be implemented more efficiently.</p>
@@ -407,18 +407,18 @@ onto <i>to</i>, starting at index <i>at</i>.
 
 <H3>Conversion</H3>
 
-<p><code>(bitvector->list/int <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> int-list</code> {UI}<br />
-<code>(bitvector->list/bool <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> bool-list</code> {UI}<br />
+<p><code>(bitvector->list/int <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of integers</code> {UI}<br />
+<code>(bitvector->list/bool <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of booleans</code> {UI}<br />
 
-<code>(reverse-bitvector->list/int <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> int-list</code> {UB}<br />
-<code>(reverse-bitvector->list/bool <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> bool-list</code> {UB}<br />
+<code>(reverse-bitvector->list/int <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of integers</code> {UB}<br />
+<code>(reverse-bitvector->list/bool <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of booleans</code> {UB}<br />
 
 <code>(list->bitvector <i>list</i>) -> bitvector</code> {}<br />
 
 <code>(reverse-list->bitvector <i>list</i>) -> bitvector</code> {IW}<br />
 
-<code>(bitvector->intvector <i>bvec</i>) -> intvector</code> {U}<br />
-<code>(bitvector->boolvector <i>bvec</i>) -> boolvector</code> {U}<br />
+<code>(bitvector->vector/int <i>bvec</i>) -> vector of integers</code> {U}<br />
+<code>(bitvector->vector/bool <i>bvec</i>) -> vector of booleans</code> {U}<br />
 
 <code>(vector->bitvector <i>bvec</i>) -> bitvector</code> {W}</p>
 
@@ -442,16 +442,19 @@ string is not in this format.</p>
 <code>(bitvector->integer </code><em>bitvector</em> [ <em>len</em> ]<code>)</code> {new}<br />
 </p>
 <p>
-Returns a non-negative exact integer whose bits, starting with the least significant bit as bit 0,
+Returns a non-negative exact integer whose bits,
+starting with the least significant bit as bit 0,
 correspond to the values in <em>bitvector</em>.
-</p>
-<p>
+This ensures compatibility with the integers-as-bits operations of
+<a href="http://srfi.schemers.org/srfi-151/srfi-151.html">SRFI 151</a>.<p>
 <code>(integer->bitvector </code><em>integer</em><code>)</code> {new}</p>
 </p>
 <p>
-Returns a bitvector whose values correspond to the bits of <em>integer</em>,
-a non-negative exact integer,
+Returns a bitvector whose values correspond to the bits
+of <em>integer</em>, a non-negative exact integer,
 starting with the least significant bit as bit 0.
+This ensures compatibility with the integers-as-bits operations of
+<a href="http://srfi.schemers.org/srfi-151/srfi-151.html">SRFI 151</a>.<p>
 </p>
 
 <h3>Generators</h3>
