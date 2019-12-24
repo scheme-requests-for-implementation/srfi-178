@@ -1,0 +1,5 @@
+(define bitvector-logical-shift #f)
+(define bitvector-logical-shift! #f)
+(define bitvector-count #f)
+(define bitvector-if #f)
+(define bitvector-first-bit #f)
