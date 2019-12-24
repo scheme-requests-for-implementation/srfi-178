@@ -455,6 +455,31 @@ starting with the least significant bit as bit 0.
 This ensures compatibility with the integers-as-bits operations of
 <a href="http://srfi.schemers.org/srfi-151/srfi-151.html">SRFI 151</a>.<p>
 </p>
+<p><code>(bitvector->bytevector </code><i>bvec</i><code> [<i>start</i> [<i>end</i>] ])</code> {new}</p>
+<p>
+Returns a bytevector into which the bits of <i>bvec</i> have been packed
+in strict big-endian order.
+That is, bit 0 of <i>bvec</i> is put into the most significant bit of
+byte 0 of the result.
+Any additional bits in the result are set to 0.
+</p>
+<p><code>(bitvector->bytevector! </code><i>bytevec at bvec</i> [ <i>start</i> [ <i>end</i> ] ]<code>)</code></p>
+<p>
+Packs the selected bits of <i>bvec</i> into <i>bytevec</i> starting at
+bit (not byte) <i>at</i>.
+All other bits of <i>bvec</i> are undisturbed.
+Returns an unspecified value.
+</p>
+<p><code>(bytevector->bitvector </code><i>bvec</i><code> [<i>start</i> [<i>end</i>] ])</code> {new}</p>
+<p>
+Returns a bitvector into which the bits of <i>bytevec</i> have been unpacked
+in strict big-endian order.
+</p>
+<p><b>Note:</b>
+<i>Start</i> and <i>end</i> are bit indices, not byte indices.
+For example, requesting bits 8 through 15 will create a bitvector
+of length 8 with the contents of byte 1 of <i>bytevec</i>,
+starting with the most significant bit.</p>
 
 <h3>Generators</h3>
 <p>

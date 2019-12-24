@@ -26,6 +26,7 @@
           reverse-list->bitvector bitvector->vector/int
           bitvector->vector/bool vector->bitvector bitvector->string
           string->bitvector bitvector->integer integer->bitvector
+          bitvector->bytevector bitvector->bytevector! bytevector->bitvector
           make-bitvector/int-generator make-bitvector/bool-generator
           make-bitvector-accumulator bitvector-not bitvector-not!
           bitvector-and bitvector-and!  bitvector-ior bitvector-ior!
@@ -46,6 +47,7 @@
   (include "178/macros.scm")
   (include "178/wrappers.scm")
   (include "178/convert.scm")
+  (include "178/gen-acc.scm")
   (include "178/fields.scm")
   (include "178/logic-ops.scm")
   (include "178/macros.scm")
