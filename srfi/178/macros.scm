@@ -15,10 +15,8 @@
     ((I bit)
      (cond
        ((eqv? bit 0) 0)
-       ((eqv? bit 1) 1)
        ((eqv? bit #f) 0)
-       ((eqv? bit #t) 0)
-       (else (error "invalid bit" bit))))))
+       (else 1)))))
 
 
 (define (I* bit) (I bit))
