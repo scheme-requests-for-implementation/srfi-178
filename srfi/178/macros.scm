@@ -8,6 +8,7 @@
   bitvector?
   (u8vec U))
 
+
 ;;; Convert a bit to an integer: macro and procedure definitions
 
 (define-syntax I
@@ -15,17 +16,17 @@
     ((I bit)
      (cond
        ((eqv? bit 0) 0)
-       ((eqv? bit #f) 0)
+       ((not bit) 0)
        (else 1)))))
 
 
 (define (I* bit) (I bit))
 
-;;; Convert an integer to a bool: macro and procedure definitions
+;;; Convert a bit to a bool: macro and procedure definitions
 
 (define-syntax B
   (syntax-rules ()
-    ((B int) (eqv? int 1))))
+    ((B int) (not (or (eqv? bit 0) (not bit))))))
 
 (define (B* int) (B int))
 
