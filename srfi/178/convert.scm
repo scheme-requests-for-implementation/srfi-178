@@ -29,8 +29,8 @@
 
 (define bitvector->bytevector
   (case-lambda
-    ((bvec) (bitvector->bytevector* bvec 0 (bitvector-length bvec))
-    ((bvec start) (bitvector->bytevector* bvec start (bitvector-length bvec))
+    ((bvec) (bitvector->bytevector* bvec 0 (bitvector-length bvec)))
+    ((bvec start) (bitvector->bytevector* bvec start (bitvector-length bvec)))
     ((bvec start end) (bitvector->bytevector* bvec start end))))
 
 (define (bytevector->bitvector* bytevec start end)
@@ -43,10 +43,16 @@
     ((bytevec start)
      (bytevector->bitvector* bytevec start (bitvector-length bytevec)))
     ((bytevec start end)
-    (bytevector->bitvector* bytevec start end))))
+     (bytevector->bitvector* bytevec start end))))
 
 (define (bytevector->bitvector* bytevec start end)
-  #f)
+  (let* ((length (- end start))
+         (result (make-bitvector length)))
+    (let loop ((i 0) (start start) (length length))
+      (unless (= length 0))
+        (bitvector-set! result i (bytevector-u8-ref bytevec start))
+        (loop (+ i 1) (+ start 1) (- length 1)))
+      result)))
 
 (define bitvector->bytevector
   (case-lambda
