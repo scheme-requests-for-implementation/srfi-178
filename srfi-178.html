@@ -57,7 +57,7 @@ are the only type of homogeneous numeric vectors for which bitwise
 operations make sense.
 In addition, there are two ways to view them: as vectors of exact integers
 limited to the values 0 and 1, and as vectors of booleans.
-This SRFI is designed to support both.
+This SRFI is designed to allow bitvectors to be viewed in either way.
 
 <H1>Specification</H1>
 
@@ -75,9 +75,8 @@ one ending in <code>/bool</code> that returns a boolean.</p>
 <p>Mapping, folding, and unfolding
 procedures also come in two flavors:
 those ending in <code>/int</code> pass exact integers to their
-procedure arguments and expect exact integers in return, whereas
-those ending in <code>/bool</code> pass booleans to their
-procedure arguments and expect booleans in return.
+procedure arguments, whereas
+those ending in <code>/bool</code> pass booleans to theirs.
 
 <H2>Notation</H2>
 
@@ -215,6 +214,18 @@ will be removed before finalization.</p>
 
 <H2>Procedures</H2>
 
+<H3>Bit conversion</H3>
+
+<p><code>(bit->integer <i>bit</i>) -> exact integer</code></p>
+
+<p>Returns 0 if <i>bit</i> is 0 or <code>#f</code>
+and 1 if <i>bit</i> is 1 or <code>#t</code>.</p>
+
+<p><code>(bit->boolean <i>bit</i>) -> exact integer</code></p>
+
+<p>Returns <code>#f</code> if <i>bit</i> is 0 or <code>#f</code>
+and <code>#t</code> if <i>bit</i> is 1 or <code>#t</code>.</p>
+
 <H3>Constructors</H3>
 
 <p><code>(make-bitvector <i>size</i> [<i>fill</i>]) -> bitvector </code> {IW}</p>
@@ -348,11 +359,11 @@ and an undefined value with no change to <i>bvec1</i>.</p>
 
 {all new}
 
-<p><code>(bitvector-prefix-length <i>bool bvec1 bvec2</i>) -> index</code><br />
+<p><code>(bitvector-prefix-length <i>bvec1 bvec2</i>) -> index</code><br />
 
-<code>(bitvector-suffix-length <i>bool bvec1 bvec2</i>) -> index</code></p>
+<code>(bitvector-suffix-length <i>bvec1 bvec2</i>) -> index</code></p>
 
-<p>Return the number of elements equal to <i>bool</i> in the prefix/suffix 
+<p>Return the number of elements that are equal in the prefix/suffix 
 of the two <i>bvecs</i>.</p>
 
 <code>(bitvector-prefix? <i>bvec1 bvec2</i>) -> boolean</code><br />
@@ -370,12 +381,12 @@ elements equal to <i>bit</i>
 added (if necessary) so that the length of the result
 is <i>length</i>.</p>
 
-<p><code>(bitvector-trim <i>bvec</i>) -> bvec</code> {new}<br />
-<code>(bitvector-trim-right <i>bvec</i>) -> bvec</code> {new}<br />
-<code>(bitvector-trim-both <i>bvec</i>) -> bvec</code> {new}</p>
+<p><code>(bitvector-trim <i>bit bvec</i>) -> bvec</code> {new}<br />
+<code>(bitvector-trim-right <i>bit bvec</i>) -> bvec</code> {new}<br />
+<code>(bitvector-trim-both <i>bit bvec</i>) -> bvec</code> {new}</p>
 
 <p>Returns a copy of <i>bvec</i> with leading/trailing/both
-elements equal to <i>bool</i> removed.</p>
+elements equal to <i>bit</i> removed.</p>
 
 <H3>Mutators</H3>
 
@@ -429,8 +440,8 @@ elements as the argument, in reverse order where specified.</p>
 <p><code>(bitvector->string <i>bvec</i>) -> string</code> {new}</p>
 
 Returns a string beginning with <code>"#*"</code> and followed by the values of <i>bvec</i>
-represented as 0 and 1 characters, where 0 means <code>#f</code>
-and 1 means <code>#t</code>.
+represented as 0 and 1 characters.
+This is the Common Lisp representation of a bitvector
 
 <p><code>(string->bitvector <i>string</i>) -> bitvector</code> {new}</p>
 
@@ -456,25 +467,49 @@ starting with the least significant bit as bit 0.
 This ensures compatibility with the integers-as-bits operations of
 <a href="https://srfi.schemers.org/srfi-151/srfi-151.html">SRFI 151</a>.<p>
 </p>
+<p><code>(bitvector->bytevector </code><i>bvec</i><code> [<i>start</i> [<i>end</i>] ])</code> {new}</p>
+<p>
+Returns a bytevector into which the bits of <i>bvec</i> have been packed
+in strict big-endian order.
+That is, bit 0 of <i>bvec</i> is put into the most significant bit of
+byte 0 of the result.
+Any additional bits in the result are set to 0.
+</p>
+<p><code>(bitvector->bytevector! </code><i>bytevec at bvec</i> [ <i>start</i> [ <i>end</i> ] ]<code>)</code></p>
+<p>
+Packs the selected bits of <i>bvec</i> into <i>bytevec</i> starting at
+bit (not byte) <i>at</i>.
+All other bits of <i>bvec</i> are undisturbed.
+Returns an unspecified value.
+</p>
+<p><code>(bytevector->bitvector </code><i>bvec</i><code> [<i>start</i> [<i>end</i>] ])</code> {new}</p>
+<p>
+Returns a bitvector into which the bits of <i>bytevec</i> have been unpacked
+in strict big-endian order.
+</p>
+<p><b>Note:</b>
+<i>Start</i> and <i>end</i> are bit indices, not byte indices.
+For example, requesting bits 8 through 15 will create a bitvector
+of length 8 with the contents of byte 1 of <i>bytevec</i>,
+starting with the most significant bit.</p>
 
 <h3>Generators</h3>
 <p>
-<code>(make-bitvector/int-generator </code><em>bitvector</em><code>)</code> {B}<br />
-<code>(make-bitvector/bool-generator </code><em>bitvector</em><code>)</code> {B}</p>
+<code>(make-bitvector-generator/int </code><em>bitvector</em><code>)</code> {B}<br />
+<code>(make-bitvector-generator/bool </code><em>bitvector</em><code>)</code> {B}</p>
 <p>
 Returns a <a href="https://srfi.schemers.org/srfi-158/srfi-158.html">SRFI 158</a>
 generator that generates all the values of <em>bitvector</em> in order.
 Note that the generator is finite.
 </p>
 <p>
-<code>(make-bitvector-accumulator</code> <em>bool-or-eof</em><code>)</code> {B}</p>
+<code>(make-bitvector-accumulator</code> <em>bit-or-eof</em><code>)</code> {B}</p>
 <p>
 Returns a <a href="https://srfi.schemers.org/srfi-158/srfi-158.html">SRFI 158</a>
-accumulator that collects all the values of <em>bool-or-eof</em>.
+accumulator that collects all the values of <em>bit-or-eof</em>.
 When the argument is an end of file object, returns a bitvector containing
 all the values in order.</p>
 <H2>Bitwise operations</H2>
-
 
 <p>Procedures whose names end in <code>!</code> are the same as the
 corresponding procedures without <code>!</code>, except that the first
@@ -484,6 +519,9 @@ bitvector argument is mutated and an unspecified result is returned.</p>
 It is an error unless all <em>bitvector</em>
 arguments passed to the following procedures are of the same length.
 </p>
+
+<p>SRFI 151 procedures that involve shifting or rotating
+are not provided by this SRFI.</p>
 
 <h3 id="Basicoperations">Basic operations</h3>
 <p><code>(bitvector-not </code><em>bvec</em><code>)</code> {map}<br />
@@ -545,18 +583,10 @@ These operations are not associative.
 </p>
 <h3 id="Quasiintegeroperations">Quasi-integer operations</h3>
 <p>
-<code>(bitvector-logical-shift </code><em>bvec count</em><code>)</code> {new}<br />
-<code>(bitvector-logical-shift! </code><em>bvec count</em><code>)</code> {new}</p>
 <p>
-Returns a bitvector equal in length to <em>bvec</em>
-containing the logical left shift (toward lower indices) when <em>count</em>>=0
-or the right shift (toward upper indices) when <em>count</em>&lt;0.
-Newly vacated elements are filled with <i>bool</i>.
-</p>
+<code>(bitvector-count </code><em>bit bvec</em><code>)</code> {fold}</p>
 <p>
-<code>(bitvector-count </code><em>bit bvec1 bvec2 ...</em><code>)</code> {fold}</p>
-<p>
-Returns the population count of <i>bit</i> in <em>bvec</em>.
+Returns the number of <i>bit</i> values in <i>bvec</i>.
 </p>
 <p>
 <p>
@@ -592,7 +622,7 @@ running from bit <em>start</em> to bit <em>end</em>&nbsp;&#x2212;&nbsp;1.
 <p>
 <code>(bitvector-field-any? </code><em>bvec start end</em><code>)</code> {new}</p>
 <p>
-Returns true if any of the field's bits are set in <em>bvec</em>, and false otherwise.
+Returns <code>#t</code> if any of the field's bits are set in <em>bvec</em>, and <code>#f</code> otherwise.
 </p>
 
 
@@ -600,7 +630,7 @@ Returns true if any of the field's bits are set in <em>bvec</em>, and false othe
 <p>
 <code>(bitvector-field-every? </code><em>bvec start end</em><code>)</code> {new}</p>
 <p>
-  Returns false if any of the field's bits are not set in <em>bvec</em>, and true otherwise.
+  Returns <code>#f</code> if any of the field's bits are not set in <em>bvec</em>, and <code>#t</code> otherwise.
 </p>
 
 
@@ -614,18 +644,6 @@ Returns a bitvector containing
 <em>bvec</em> with the field's bits set appropriately.
 </p>
 
-
-<p>
-<code>(bitvector-field-replace </code><em>dest source start end</em><code>)</code>  {new}<br />
-<code>(bitvector-field-replace! </code><em>dest source start end</em><code>)</code> {new}</p>
-<p>
-Returns a bitvector containing
-<em>dest</em> with the field replaced
-by the first <em>end-start</em> bits in <em>source</em>.
-</p>
-
-
-
 <p>
 <code>(bitvector-field-replace-same </code><em>dest source start end</em><code>)</code> {new}<br />
 <code>(bitvector-field-replace-same! </code><em>dest source start end</em><code>)</code>  {new}</code> </p>
@@ -634,24 +652,6 @@ Returns a bitvector containing
 <em>dest</em> with its field replaced
 by the corresponding field in <em>source</em>.
 </p>
-
-
-<p>
-<code>(bitvector-field-rotate </code><em>bvec count start end</em><code>)</code> {new}</p>
-<p>
-Returns <em>bvec</em> with the field cyclically permuted
-by <em>count</em> bits towards high-order.
-</p>
-
-
-
-<p>
-<code>(bitvector-field-reverse </code><em>bvec start end</em><code>)</code> {new}<br />
-<code>(bitvector-field-reverse! </code><em>bvec start end</em><code>)</code> {new}</p>
-<p>
-Returns <em>bvec</em> with the order of the bits in the field reversed.
-</p>
-
 <p>
 <code>(bitvector-field-flip </code><em>bvec start end</em><code>)</code> {new}<br />
 <code>(bitvector-field-flip! </code><em>bvec start end</em><code>)</code> {new}</p>
@@ -660,9 +660,6 @@ Returns <em>bvec</em> with the bits in the field flipped:
 that is, each value is replaced by the opposite value.
 There is no SRFI 151 equivalent.
 </p>
-
-
-
 
 <H1>Implementation</H1>
 
