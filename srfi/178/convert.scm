@@ -55,6 +55,7 @@
     ((bytevec start end)
      (bytevector->bitvector* bytevec start end))))
 
+;; FIXME: Doesn't unpack the bytes of bytevec.
 (define (bytevector->bitvector* bytevec start end)
   (let* ((length (- end start))
          (result (make-bitvector length)))
@@ -72,6 +73,9 @@
      (bitvector->bytevector* bvec start (bitvector-length bvec)))
     ((bvec start end)
      (bitvector->bytevector* bvec start end))))
+
+(define (bitvector->bytevector!* bvec start end)
+  #f)
 
 (define bitvector->bytevector!
   (case-lambda
