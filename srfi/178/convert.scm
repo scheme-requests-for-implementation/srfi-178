@@ -29,7 +29,7 @@
 (define (bitvector->integer bvec)
   (let ((len (bitvector-length bvec)))
     (let lp ((r 0) (i 0))
-      (if (= l len)
+      (if (= i len)
           r
           (lp (bitwise-ior
                r
