@@ -37,7 +37,11 @@
               (+ i 1))))))
 
 (define (integer->bitvector int)
-  #f)
+  (bitvector-unfold/bool
+   (lambda (_ int)
+     (values (bit-set? 0 int) (arithmetic-shift int -1)))
+   (integer-length int)
+   int))
 
 (define bitvector->bytevector
   (case-lambda

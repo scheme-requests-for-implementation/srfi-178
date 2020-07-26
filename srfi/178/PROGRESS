@@ -56,7 +56,7 @@ bitvector-for-each/int          Done            wrappers.scm
 bitvector-for-each/bool         Done            wrappers.scm
 
 
-# Prefixes, suffixes, trimming, padding (Done)
+# Prefixes, suffixes, trimming, padding (TODO)
 
 bitvector-prefix-length         TODO            quasi-strs.scm
 bitvector-suffix-length         TODO            quasi-strs.scm
@@ -93,7 +93,7 @@ vector->bitvector               Done            wrappers.scm
 bitvector->string               Done            convert.scm
 string->bitvector               Done            convert.scm
 bitvector->integer              Done            convert.scm
-integer->bitvector              TODO            convert.scm
+integer->bitvector              Done            convert.scm
 bitvector->bytevector           Done            convert.scm
 bitvector->bytevector!          INCOMPLETE      convert.scm
 bytevector->bitvector           INCOMPLETE      convert.scm
