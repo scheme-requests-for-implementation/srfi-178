@@ -62,7 +62,7 @@
       (unless (= length 0))
         (bitvector-set! result i (bytevector-u8-ref bytevec start))
         (loop (+ i 1) (+ start 1) (- length 1)))
-      result)))
+    result))
 
 (define bitvector->bytevector
   (case-lambda
