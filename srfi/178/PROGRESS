@@ -1,0 +1,153 @@
+Name                            Status   File
+
+# Bit conversion (Not started)
+
+bit->integer                    TODO
+bit->boolean                    TODO
+
+
+# Constructors (Done)
+
+make-bitvector                  Done            wrappers.scm
+bitvector                       Done            wrappers.scm
+bitvector-unfold/int            Done            wrappers.scm
+bitvector-unfold/bool           Done            wrappers.scm
+bitvector-unfold-right/int      Done            wrappers.scm
+bitvector-unfold-right/bool     Done            wrappers.scm
+bitvector-copy                  Done            wrappers.scm
+bitvector-reverse-copy          Done            wrappers.scm
+bitvector-append                Done            wrappers.scm
+bitvector-concatenate           Done            wrappers.scm
+bitvector-append-subbitvectors  Done            wrappers.scm
+
+
+# Predicates (Done)
+
+bitvector?                      Done            macros.scm
+bitvector-empty?                Done            wrappers.scm
+bitvector=                      Done            wrappers.scm
+
+
+# Selectors (Done)
+
+bitvector-ref/int               Done            wrappers.scm
+bitvector-ref/bool              Done            wrappers.scm
+bitvector-length                Done            wrappers.scm
+
+
+# Iteration (Mostly done)
+
+bitvector-take                  Done            wrappers.scm
+bitvector-take-right            Done            wrappers.scm
+bitvector-drop                  Done            wrappers.scm
+bitvector-drop-right            Done            wrappers.scm
+bitvector-segment               Done            wrappers.scm
+bitvector-fold/int              Done            wrappers.scm
+bitvector-fold/bool             Done            wrappers.scm
+bitvector-fold-right/int        Done            wrappers.scm
+bitvector-fold-right/bool       Done            wrappers.scm
+bitvector-map/int               Done            wrappers.scm
+bitvector-map/bool              Done            wrappers.scm
+bitvector-map!/int              Done            wrappers.scm
+bitvector-map!/bool             Done            wrappers.scm
+bitvector-map->list/int         TODO            map2list.scm
+bitvector-map->list/bool        TODO            map2list.scm
+bitvector-for-each/int          Done            wrappers.scm
+bitvector-for-each/bool         Done            wrappers.scm
+
+
+# Prefixes, suffixes, trimming, padding (Done)
+
+bitvector-prefix-length         TODO            quasi-strs.scm
+bitvector-suffix-length         TODO            quasi-strs.scm
+bitvector-prefix?               TODO            quasi-strs.scm
+bitvector-suffix?               TODO            quasi-strs.scm
+bitvector-pad                   TODO            quasi-strs.scm
+bitvector-pad-right             TODO            quasi-strs.scm
+bitvector-trim                  TODO            quasi-strs.scm
+bitvector-trim-right            TODO            quasi-strs.scm
+bitvector-trim-both             TODO            quasi-strs.scm
+
+
+# Mutators (Done)
+
+bitvector-set!                  Done            wrappers.scm
+bitvector-swap!                 Done            wrappers.scm
+bitvector-fill!                 Done            wrappers.scm
+bitvector-reverse!              Done            wrappers.scm
+bitvector-copy!                 Done            wrappers.scm
+bitvector-reverse-copy!         Done            wrappers.scm
+
+
+# Conversion (Partially done)
+
+bitvector->list/int             Done            wrappers.scm
+bitvector->list/bool            Done            wrappers.scm
+reverse-bitvector->list/int     Done            wrappers.scm
+reverse-bitvector->list/bool    Done            wrappers.scm
+list->bitvector                 Done            wrappers.scm
+reverse-list->bitvector         Done            wrappers.scm
+bitvector->vector/int           Done            wrappers.scm
+bitvector->vector/bool          Done            wrappers.scm
+vector->bitvector               Done            wrappers.scm
+bitvector->string               Done            convert.scm
+string->bitvector               INCOMPLETE      convert.scm
+bitvector->integer              TODO            convert.scm
+integer->bitvector              TODO            convert.scm
+bitvector->bytevector           Done            convert.scm
+bitvector->bytevector!          INCOMPLETE      convert.scm
+bytevector->bitvector           INCOMPLETE      convert.scm
+
+
+# Generators (Done)
+
+make-bitvector-generator/int    Done            gen-acc.scm
+make-bitvector-generator/bool   Done            gen-acc.scm
+make-bitvector-accumulator      Done            gen-acc.scm
+
+
+# Basic operations (Done)
+
+bitvector-not                   Done            logic-ops.scm
+bitvector-not!                  Done            logic-ops.scm
+bitvector-and                   Done            logic-ops.scm
+bitvector-and!                  Done            logic-ops.scm
+bitvector-ior                   Done            logic-ops.scm
+bitvector-ior!                  Done            logic-ops.scm
+bitvector-xor                   Done            logic-ops.scm
+bitvector-xor!                  Done            logic-ops.scm
+bitvector-eqv                   Done            logic-ops.scm
+bitvector-eqv!                  Done            logic-ops.scm
+bitvector-nand                  Done            logic-ops.scm
+bitvector-nand!                 Done            logic-ops.scm
+bitvector-nor                   Done            logic-ops.scm
+bitvector-nor!                  Done            logic-ops.scm
+bitvector-andc1                 Done            logic-ops.scm
+bitvector-andc1!                Done            logic-ops.scm
+bitvector-andc2                 Done            logic-ops.scm
+bitvector-andc2!                Done            logic-ops.scm
+bitvector-orc1                  Done            logic-ops.scm
+bitvector-orc1!                 Done            logic-ops.scm
+bitvector-orc2                  Done            logic-ops.scm
+bitvector-orc2!                 Done            logic-ops.scm
+
+
+# Quasi-integer operations (Not started)
+
+bitvector-count                 TODO            quasi-ints.scm
+bitvector-if                    TODO            quasi-ints.scm
+bitvector-first-bit             TODO            quasi-ints.scm
+
+
+# Bit field operations (Not started)
+
+bitvector-field-any?            TODO            fields.scm
+bitvector-field-every?          TODO            fields.scm
+bitvector-field-clear           TODO            fields.scm
+bitvector-field-clear!          TODO            fields.scm
+bitvector-field-set             TODO            fields.scm
+bitvector-field-set!            TODO            fields.scm
+bitvector-field-replace-same    TODO            fields.scm
+bitvector-field-replace-same!   TODO            fields.scm
+bitvector-field-flip            TODO            fields.scm
+bitvector-field-flip!           TODO            fields.scm
