@@ -12,20 +12,19 @@
       (loop (cons (if (bitvector-ref/bool bvec i) #\1 #\0) r) (- i 1)))))
 
 (define (string->bitvector str)
-  (call/cc return
-    (cond
-      ((if (not (char=? (string-ref str 0) #\#)))
-       (return #f))
-      ((if (not (char=? (string-ref str 1) #\*))
-    (let loop ((ri 0) (si 2))
-      (cond
-        ((eqv? (string-ref str si) #\0))
-        (bitvector-set! #f)
-       ((eqv? (string-ref str si) #\1))
-        (bitvector-set! #t)
-       (else 
-         (return #f))))
-    r))
+  (call/cc
+   (lambda (return)
+     (and
+       (char=? (string-ref str 0) #\#)
+       (char=? (string-ref str 1) #\*)
+       (bitvector-unfold/int
+        (lambda (ri si)
+          (case (string-ref str si)
+            ((#\0) (values 0 (+ si 1)))
+            ((#\1) (values 1 (+ si 1)))
+            (else (return #f))))
+        (- (string-length str) 2)
+        2)))))
 
 (define (bitvector->integer bvec)
   #f)
