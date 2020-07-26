@@ -10,6 +10,6 @@
 (define (bitvector-if if-bvec then-bvec else-bvec)
   #f)
 
-(define bitvector-first-bit bit bvec)
+(define (bitvector-first-bit bit bvec)
   #f)
 
