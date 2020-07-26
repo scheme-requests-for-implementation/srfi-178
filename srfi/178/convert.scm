@@ -43,13 +43,7 @@
    (integer-length int)
    int))
 
-(define bitvector->bytevector
-  (case-lambda
-    ((bvec) (bitvector->bytevector* bvec 0 (bitvector-length bvec)))
-    ((bvec start) (bitvector->bytevector* bvec start (bitvector-length bvec)))
-    ((bvec start end) (bitvector->bytevector* bvec start end))))
-
-(define (bytevector->bitvector* bytevec start end)
+(define (bitvector->bytevector* bytevec start end)
   #f)
 
 (define bytevector->bitvector
@@ -79,7 +73,7 @@
     ((bvec start end)
      (bitvector->bytevector* bvec start end))))
 
-(define bitvector->bytevector!!
+(define bitvector->bytevector!
   (case-lambda
     ((bvec)
      (bitvector->bytevector!* bvec 0 (bitvector-length bvec)))
@@ -87,4 +81,3 @@
      (bitvector->bytevector!* bvec start (bitvector-length bvec)))
     ((bvec start end)
      (bitvector->bytevector!* bvec start end))))
-
