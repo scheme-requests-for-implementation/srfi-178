@@ -35,7 +35,7 @@ bitvector-ref/bool              Done            wrappers.scm
 bitvector-length                Done            wrappers.scm
 
 
-# Iteration (Mostly done)
+# Iteration (Done)
 
 bitvector-take                  Done            wrappers.scm
 bitvector-take-right            Done            wrappers.scm
@@ -50,8 +50,8 @@ bitvector-map/int               Done            wrappers.scm
 bitvector-map/bool              Done            wrappers.scm
 bitvector-map!/int              Done            wrappers.scm
 bitvector-map!/bool             Done            wrappers.scm
-bitvector-map->list/int         TODO            map2list.scm
-bitvector-map->list/bool        TODO            map2list.scm
+bitvector-map->list/int         Done            map2list.scm
+bitvector-map->list/bool        Done            map2list.scm
 bitvector-for-each/int          Done            wrappers.scm
 bitvector-for-each/bool         Done            wrappers.scm
 
@@ -94,7 +94,7 @@ bitvector->string               Done            convert.scm
 string->bitvector               Done            convert.scm
 bitvector->integer              Done            convert.scm
 integer->bitvector              Done            convert.scm
-bitvector->bytevector           Done            convert.scm
+bitvector->bytevector           INCOMPLETE      convert.scm
 bitvector->bytevector!          INCOMPLETE      convert.scm
 bytevector->bitvector           INCOMPLETE      convert.scm
 
