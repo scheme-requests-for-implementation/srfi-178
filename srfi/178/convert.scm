@@ -27,7 +27,14 @@
         2)))))
 
 (define (bitvector->integer bvec)
-  #f)
+  (let ((len (bitvector-length bvec)))
+    (let lp ((r 0) (i 0))
+      (if (= l len)
+          r
+          (lp (bitwise-ior
+               r
+               (arithmetic-shift (bitvector-ref/int bvec i) i))
+              (+ i 1))))))
 
 (define (integer->bitvector int)
   #f)
