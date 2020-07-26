@@ -1,6 +1,7 @@
 (define-library (srfi 178)
   (import (scheme base))
   (import (scheme case-lambda))
+  (import (srfi 151))
   (import (srfi 160 u8))
 
   (export make-bitvector bitvector bitvector-unfold/int
