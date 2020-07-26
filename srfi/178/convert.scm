@@ -1,3 +1,9 @@
+;;;; Bit conversions
+
+(define (bit->integer bit) (I bit))
+
+(define (bit->boolean bit) (B bit))
+
 (define (bitvector->string bvec)
   (let loop ((i (- (bitvector-length bvec) 1))
              (r '()))

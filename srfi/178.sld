@@ -43,7 +43,7 @@
           bitvector-field-replace-same bitvector-field-replace-same!
           bitvector-field-rotate bitvector-field-reverse
           bitvector-field-reverse!  bitvector-field-flip
-          bitvector-field-flip!)
+          bitvector-field-flip! bit->integer bit->boolean)
   (include "178/macros.scm")
   (include "178/wrappers.scm")
   (include "178/convert.scm")
