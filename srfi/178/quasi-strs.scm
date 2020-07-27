@@ -28,14 +28,14 @@
         bvec
         (let ((result (make-bitvector len bit)))
           (bitvector-copy! result (- old-len len) bvec)
-          result)))
+          result))))
 
 (define (bitvector-pad-right bit bvec len)
   (if (<= len (bitvector-length bvec))
       bvec
       (let ((result (make-bitvector len bit)))
         (bitvector-copy! result 0 bvec)
-        result))))
+        result)))
 
 (define (%bitvector-skip bvec bit)
   (let ((len (bitvector-length bvec))
