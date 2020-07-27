@@ -103,17 +103,39 @@
                           knil
                           (map U bvecs)))))
 
-(define (bitvector-map/int f . bvecs)
-    (W (u8vector-map f (map U bvecs))))
+(define bitvector-map/int
+  (case-lambda
+    ((f bvec)
+     (W (u8vector-map f (U bvec))))     ; fast path
+    ((f . bvecs)
+     (W (apply u8vector-map f (map U bvecs))))))
 
-(define (bitvector-map/bool f . bvecs)
-    (u8vector-map (lambda (x) (B (f (I x)))) (map U bvecs)))
+;; FIXME: The variadic case--yowch.
+(define bitvector-map/bool
+  (case-lambda
+    ((f bvec)
+     (W (u8vector-map (lambda (n) (I (f (B n)))) (U bvec))))  ; fast path
+    ((f . bvecs)
+     (W (apply u8vector-map
+	       (lambda ns (I (apply f (map bit->boolean ns))))
+	       (map U bvecs))))))
 
-(define (bitvector-map!/int f . bvecs)
-    (u8vector-map! f (map U bvecs)))
+(define bitvector-map!/int
+  (case-lambda
+    ((f bvec)
+     (u8vector-map! f (U bvec)))    ; fast path
+    ((f . bvecs)
+     (apply u8vector-map! f (map U bvecs)))))
 
-(define (bitvector-map!/bool f . bvecs)
-    (W (u8vector-map! (lambda (x) (B (f (I x)))) (map U bvecs))))
+;; FIXME: The variadic case--yowch.
+(define bitvector-map!/bool
+  (case-lambda
+    ((f bvec)
+     (u8vector-map! (lambda (n) (I (f (B n)))) (U bvec)))    ; fast path
+    ((f . bvecs)
+     (apply u8vector-map!
+	    (lambda ns (I (apply f (map bit->boolean ns))))
+	    (map U bvecs)))))
 
 (define (bitvector-for-each/int f . bvecs)
     (u8vector-for-each f (map U bvecs)))
