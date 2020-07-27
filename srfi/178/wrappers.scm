@@ -9,13 +9,13 @@
   (W (u8vector-unfold f length seed)))
 
 (define (bitvector-unfold/bool f length seed)
-  (W (u8vector-unfold (lambda (x) (I (f x))) length seed)))
+  (W (u8vector-unfold (lambda (i x) (I (f i x))) length seed)))
 
 (define (bitvector-unfold-right/int f length seed)
   (W (u8vector-unfold-right f length seed)))
 
 (define (bitvector-unfold-right/bool f length seed)
-  (W (u8vector-unfold-right (lambda (x) (I (f x))) length seed)))
+  (W (u8vector-unfold-right (lambda (i x) (I (f i x))) length seed)))
 
 (define bitvector-copy
   (case-lambda
