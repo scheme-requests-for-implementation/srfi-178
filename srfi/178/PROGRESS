@@ -134,22 +134,27 @@ bitvector-orc2!                 Done            logic-ops.scm
 
 # Quasi-integer operations (Mostly done)
 
-bitvector-logical-shift         ???             quasi-ints.scm
-bitvector-logical-shift!        ???             quasi-ints.scm
+bitvector-logical-shift         NOSPEC          quasi-ints.scm
+bitvector-logical-shift!        NOSPEC          quasi-ints.scm
 bitvector-count                 Done            quasi-ints.scm
 bitvector-if                    Done            quasi-ints.scm
 bitvector-first-bit             Done            quasi-ints.scm
 
 
-# Bit field operations (Not started)
+# Bit field operations (Mostly done)
 
-bitvector-field-any?            TODO            fields.scm
-bitvector-field-every?          TODO            fields.scm
-bitvector-field-clear           TODO            fields.scm
-bitvector-field-clear!          TODO            fields.scm
-bitvector-field-set             TODO            fields.scm
-bitvector-field-set!            TODO            fields.scm
-bitvector-field-replace-same    TODO            fields.scm
-bitvector-field-replace-same!   TODO            fields.scm
-bitvector-field-flip            TODO            fields.scm
-bitvector-field-flip!           TODO            fields.scm
+bitvector-field-any?            Done            fields.scm
+bitvector-field-every?          Done            fields.scm
+bitvector-field-clear           Done            fields.scm
+bitvector-field-clear!          Done            fields.scm
+bitvector-field-set             Done            fields.scm
+bitvector-field-set!            Done            fields.scm
+bitvector-field-replace-same    Done            fields.scm
+bitvector-field-replace-same!   Done            fields.scm
+bitvector-field-flip            Done            fields.scm
+bitvector-field-flip!           Done            fields.scm
+bitvector-field-replace         NOSPEC          fields.scm
+bitvector-field-replace!        NOSPEC          fields.scm
+bitvector-field-rotate          NOSPEC          fields.scm
+bitvector-field-reverse         NOSPEC          fields.scm
+bitvector-field-reverse!        NOSPEC          fields.scm

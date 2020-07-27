@@ -1,20 +1,38 @@
+;;; TODO: Bounds checks.
+
 (define (bitvector-field-any? bvec start end)
-  #f)
+  (let lp ((i start))
+    (and (< i end)
+         (or (bitvector-ref/bool bvec i)
+             (lp (+ i 1))))))
 
 (define (bitvector-field-every? bvec start end)
-  #f)
+  (let lp ((i start))
+    (or (>= i end)
+        (and (bitvector-ref/bool bvec i)
+             (lp (+ i 1))))))
+
+(define (%bitvector-field-modify bvec bit start end)
+  (%bitvector-tabulate
+   (bitvector-length bvec)
+   (lambda (i)
+     (if (and (>= i start) (< i end))
+         bit
+         (bitvector-ref/int bvec i)))))
 
 (define (bitvector-field-clear bvec start end)
-  #f)
+  (%bitvector-field-modify bvec 0 start end))
 
 (define (bitvector-field-clear! bvec start end)
-  #f)
+  (bitvector-fill! bvec 0 start end)
+  (unspecified))
 
 (define (bitvector-field-set bvec start end)
-  #f)
+  (%bitvector-field-modify bvec 1 start end))
 
 (define (bitvector-field-set! bvec start end)
-  #f)
+  (bitvector-fill! bvec 1 start end)
+  (unspecified))
 
 (define (bitvector-field-replace dest source start end)
   #f)
@@ -23,10 +41,17 @@
   #f)
 
 (define (bitvector-field-replace-same dest source start end)
-  #f)
+  (%bitvector-tabulate
+   (bitvector-length dest)
+   (lambda (i)
+     (bitvector-ref/int (if (and (>= i start) (< i end))
+                            source
+                            dest)
+                        i))))
 
 (define (bitvector-field-replace-same! dest source start end)
-  #f)
+  (bitvector-copy! dest start source start end)
+  (unspecified))
 
 (define (bitvector-field-rotate bvec count start end)
   #f)
@@ -38,8 +63,17 @@
   #f)
 
 (define (bitvector-field-flip bvec start end)
-  #f)
+  (%bitvector-tabulate
+   (bitvector-length bvec)
+   (lambda (i)
+     (if (and (>= start i) (< i end))
+         (not (bitvector-ref/bool bvec i))
+         (bitvector-ref/bool bvec i)))))
 
 (define (bitvector-field-flip! bvec start end)
-  #f)
+  (let lp ((i start))
+    (unless (>= i end)
+      (bitvector-set! bvec i (not (bitvector-ref/bool bvec i)))
+      (lp (+ i 1))))
+  (unspecified)))
 
