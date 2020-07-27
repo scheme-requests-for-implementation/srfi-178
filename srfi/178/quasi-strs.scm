@@ -27,7 +27,7 @@
     (if (<= len old-len)
         bvec
         (let ((result (make-bitvector len bit)))
-          (bitvector-copy! result (- old-len len) bvec)
+          (bitvector-copy! result (- len old-len) bvec)
           result))))
 
 (define (bitvector-pad-right bit bvec len)
@@ -42,31 +42,33 @@
         (int (bit->integer bit)))
     (let lp ((i 0))
       (and (< i len)
-	   (= int (bitvector-ref/int bvec i))
-	   (lp (+ i 1))))))
+           (if (= int (bitvector-ref/int bvec i))
+               (lp (+ i 1))
+               i)))))
 
 (define (%bitvector-skip-right bvec bit)
   (let ((len (bitvector-length bvec))
-	(int (bit->integer bit)))
+        (int (bit->integer bit)))
     (let lp ((i (- len 1)))
       (and (>= i 0)
-	   (= int (bitvector-ref/int bvec i))
-	   (lp (- i 1))))))
+           (if (= int (bitvector-ref/int bvec i))
+               (lp (- i 1))
+               i)))))
 
 (define (bitvector-trim bit bvec)
   (cond ((%bitvector-skip bvec bit) =>
-	 (lambda (skip)
-	   (bitvector-drop bvec skip)))
-	(else (bitvector))))
+         (lambda (skip)
+           (bitvector-copy bvec skip (bitvector-length bvec))))
+        (else (bitvector))))
 
 (define (bitvector-trim-right bit bvec)
   (cond ((%bitvector-skip-right bvec bit) =>
-	 (lambda (skip)
-	   (bitvector-drop-right bvec skip)))
+         (lambda (skip)
+           (bitvector-copy bvec 0 (+ skip 1))))
         (else (bitvector))))
 
 (define (bitvector-trim-both bit bvec)
   (cond ((%bitvector-skip bvec bit) =>
-	 (lambda (skip)
-	   (bitvector-copy bvec skip (%bitvector-skip-right bvec bit))))
-	(else (bitvector))))
+         (lambda (skip)
+           (bitvector-copy bvec skip (%bitvector-skip-right bvec bit))))
+        (else (bitvector))))
