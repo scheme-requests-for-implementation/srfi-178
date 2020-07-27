@@ -99,7 +99,7 @@
                           (U bvec)))
     ((kons knil . bvecs)
      (u8vector-fold-right (lambda (x . bits)
-                            (apply kons x (map bit->integer bits)))
+                            (apply kons x (map bit->boolean bits)))
                           knil
                           (map U bvecs)))))
 
@@ -208,11 +208,11 @@
 (define bitvector->list/bool
   (case-lambda
     ((bvec)
-     (map B* (u8vector->list (U bvec))))
+     (map bit->boolean (u8vector->list (U bvec))))
     ((bvec start)
-     (map B* (u8vector->list (U bvec) start)))
+     (map bit->boolean (u8vector->list (U bvec) start)))
     ((bvec start end)
-     (map B* (u8vector->list (U bvec) start end)))))
+     (map bit->boolean (u8vector->list (U bvec) start end)))))
 
 (define reverse-bitvector->list/int
   (case-lambda
@@ -226,11 +226,11 @@
 (define reverse-bitvector->list/bool
   (case-lambda
     ((bvec)
-     (map B* (reverse-u8vector->list (U bvec))))
+     (map bit->boolean (reverse-u8vector->list (U bvec))))
     ((bvec start)
-     (map B* (reverse-u8vector->list (U bvec) start)))
+     (map bit->boolean (reverse-u8vector->list (U bvec) start)))
     ((bvec start end)
-     (map B* (reverse-u8vector->list (U bvec) start end)))))
+     (map bit->boolean (reverse-u8vector->list (U bvec) start end)))))
 
 (define bitvector->vector/int
   (case-lambda
@@ -244,20 +244,20 @@
 (define bitvector->vector/bool
   (case-lambda
     ((bvec)
-     (map B* (u8vector->vector (U bvec))))
+     (map bit->boolean (u8vector->vector (U bvec))))
     ((bvec start)
-     (map B* (u8vector->vector (U bvec) start)))
+     (map bit->boolean (u8vector->vector (U bvec) start)))
     ((bvec start end)
-     (map B* (u8vector->vector (U bvec) start end)))))
+     (map bit->boolean (u8vector->vector (U bvec) start end)))))
 
 (define (list->bitvector list)
-  (W (list->u8vector (map I* list))))
+  (W (list->u8vector (map bit->integer list))))
 
 (define (reverse-list->bitvector list)
-  (W (reverse-list->u8vector (map I* list))))
+  (W (reverse-list->u8vector (map bit->integer list))))
 
 (define (bitvector . args) (list->bitvector args))
 
 (define (vector->bitvector vector)
-  (W (vector->u8vector (vector-map I* vector))))
+  (W (vector->u8vector (vector-map bit->integer vector))))
 
