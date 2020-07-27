@@ -71,37 +71,43 @@
 
 (define bitvector-fold/int
   (case-lambda
-    ((kons knil bvec) (u8vector-fold kons knil (U bvec)))
-    ((kons knil . bvecs) (u8vector-fold kons knil (map U bvecs)))))
+    ((kons knil bvec)
+     (u8vector-fold kons knil (U bvec)))  ; fast path
+    ((kons knil . bvecs)
+     (apply u8vector-fold kons knil (map U bvecs)))))
 
 (define bitvector-fold/bool
   (case-lambda
     ((kons knil bvec)
-     (u8vector-fold (lambda (x b) (kons x (B b)))
+     (u8vector-fold (lambda (x b) (kons x (B b)))  ; fast path
                     knil
                     (U bvec)))
     ((kons knil . bvecs)
-     (u8vector-fold (lambda (x . bits)
-                      (apply kons x (map bit->boolean bits)))
-                    knil
-                    (map U bvecs)))))
+     (apply u8vector-fold
+            (lambda (x . bits)
+              (apply kons x (map bit->boolean bits)))
+            knil
+            (map U bvecs)))))
 
 (define bitvector-fold-right/int
   (case-lambda
-    ((kons knil bvec) (u8vector-fold-right kons knil (U bvec)))
-    ((kons knil . bvecs) (u8vector-fold-right kons knil (map U bvecs)))))
+    ((kons knil bvec)
+     (u8vector-fold-right kons knil (U bvec)))    ; fast path
+    ((kons knil . bvecs)
+     (apply u8vector-fold-right kons knil (map U bvecs)))))
 
 (define bitvector-fold-right/bool
   (case-lambda
     ((kons knil bvec)
-     (u8vector-fold-right (lambda (x bit) (kons x (B bit)))
+     (u8vector-fold-right (lambda (x bit) (kons x (B bit)))  ; fast path
                           knil
                           (U bvec)))
     ((kons knil . bvecs)
-     (u8vector-fold-right (lambda (x . bits)
-                            (apply kons x (map bit->boolean bits)))
-                          knil
-                          (map U bvecs)))))
+     (apply u8vector-fold-right
+            (lambda (x . bits)
+              (apply kons x (map bit->boolean bits)))
+            knil
+            (map U bvecs)))))
 
 (define bitvector-map/int
   (case-lambda
@@ -117,8 +123,8 @@
      (W (u8vector-map (lambda (n) (I (f (B n)))) (U bvec))))  ; fast path
     ((f . bvecs)
      (W (apply u8vector-map
-	       (lambda ns (I (apply f (map bit->boolean ns))))
-	       (map U bvecs))))))
+               (lambda ns (I (apply f (map bit->boolean ns))))
+               (map U bvecs))))))
 
 (define bitvector-map!/int
   (case-lambda
@@ -134,8 +140,8 @@
      (u8vector-map! (lambda (n) (I (f (B n)))) (U bvec)))    ; fast path
     ((f . bvecs)
      (apply u8vector-map!
-	    (lambda ns (I (apply f (map bit->boolean ns))))
-	    (map U bvecs)))))
+            (lambda ns (I (apply f (map bit->boolean ns))))
+            (map U bvecs)))))
 
 (define bitvector-for-each/int
   (case-lambda
