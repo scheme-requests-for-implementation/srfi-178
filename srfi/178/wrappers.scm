@@ -71,26 +71,38 @@
 
 (define bitvector-fold/int
   (case-lambda
-    ((kons knil bvec) (W (u8vector-fold kons knil (U bvec))))
-    ((kons knil . bvecs) (W (u8vector-fold kons knil (map U bvecs))))))
+    ((kons knil bvec) (u8vector-fold kons knil (U bvec)))
+    ((kons knil . bvecs) (u8vector-fold kons knil (map U bvecs)))))
 
 (define bitvector-fold/bool
   (case-lambda
-    ((kons knil bvec) (W (u8vector-fold (lambda (x) (I (kons (B x))))
-                                        knil (U bvec))))
-    ((kons knil . bvecs) (W (u8vector-fold (lambda (x) (I (kons (B x))))
-                                           knil (map U bvecs))))))
+    ((kons knil bvec)
+     (u8vector-fold (lambda (x b) (kons x (B b)))
+                    knil
+                    (U bvec)))
+    ((kons knil . bvecs)
+     (u8vector-fold (lambda (x . bits)
+                      (apply kons x (map bit->boolean bits)))
+                    knil
+                    (map U bvecs)))))
+
 (define bitvector-fold-right/int
   (case-lambda
-    ((kons knil bvec) (W (u8vector-fold-right kons knil (U bvec))))
-    ((kons knil . bvecs) (W (u8vector-fold-right kons knil (map U bvecs))))))
+    ((kons knil bvec) (u8vector-fold-right kons knil (U bvec)))
+    ((kons knil . bvecs) (u8vector-fold-right kons knil (map U bvecs)))))
 
 (define bitvector-fold-right/bool
   (case-lambda
-    ((kons knil bvec) (W (u8vector-fold-right (lambda (x) (I (kons (B x))))
-                                        knil (U bvec))))
-    ((kons knil . bvecs) (W (u8vector-fold-right (lambda (x) (I (kons (B x))))
-                                           knil (map U bvecs))))))
+    ((kons knil bvec)
+     (u8vector-fold-right (lambda (x bit) (kons x (B bit)))
+                          knil
+                          (U bvec)))
+    ((kons knil . bvecs)
+     (u8vector-fold-right (lambda (x . bits)
+                            (apply kons x (map bit->integer bits)))
+                          knil
+                          (map U bvecs)))))
+
 (define (bitvector-map/int f . bvecs)
     (W (u8vector-map f (map U bvecs))))
 
