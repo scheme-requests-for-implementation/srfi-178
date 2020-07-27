@@ -26,7 +26,7 @@
 
 (define-syntax B
   (syntax-rules ()
-    ((B int) (not (or (eqv? bit 0) (not bit))))))
+    ((B bit) (not (or (eqv? bit 0) (not bit))))))
 
 (define (B* int) (B int))
 
