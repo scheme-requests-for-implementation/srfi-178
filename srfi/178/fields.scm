@@ -75,5 +75,5 @@
     (unless (>= i end)
       (bitvector-set! bvec i (not (bitvector-ref/bool bvec i)))
       (lp (+ i 1))))
-  (unspecified)))
+  (unspecified))
 
