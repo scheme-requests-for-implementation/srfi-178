@@ -42,10 +42,10 @@ bitvector-take-right            Done            wrappers.scm
 bitvector-drop                  Done            wrappers.scm
 bitvector-drop-right            Done            wrappers.scm
 bitvector-segment               Done            wrappers.scm
-bitvector-fold/int              Done            wrappers.scm
-bitvector-fold/bool             Done            wrappers.scm
-bitvector-fold-right/int        Done            wrappers.scm
-bitvector-fold-right/bool       Done            wrappers.scm
+bitvector-fold/int              FIXME           wrappers.scm
+bitvector-fold/bool             FIXME           wrappers.scm
+bitvector-fold-right/int        FIXME           wrappers.scm
+bitvector-fold-right/bool       FIXME           wrappers.scm
 bitvector-map/int               Done            wrappers.scm
 bitvector-map/bool              Done            wrappers.scm
 bitvector-map!/int              Done            wrappers.scm
@@ -132,11 +132,13 @@ bitvector-orc2                  Done            logic-ops.scm
 bitvector-orc2!                 Done            logic-ops.scm
 
 
-# Quasi-integer operations (Not started)
+# Quasi-integer operations (Mostly done)
 
-bitvector-count                 TODO            quasi-ints.scm
-bitvector-if                    TODO            quasi-ints.scm
-bitvector-first-bit             TODO            quasi-ints.scm
+bitvector-logical-shift         ???             quasi-ints.scm
+bitvector-logical-shift!        ???             quasi-ints.scm
+bitvector-count                 Done            quasi-ints.scm
+bitvector-if                    Done            quasi-ints.scm
+bitvector-first-bit             Done            quasi-ints.scm
 
 
 # Bit field operations (Not started)
