@@ -138,30 +138,30 @@
 
 (define bitvector-reverse!
   (case-lambda
-    ((bvec fill)
-     (u8vector-reverse! (U bvec) fill))
-    ((bvec fill start)
-     (u8vector-reverse! start (U bvec) fill start))
-    ((bvec fill start end)
-     (u8vector-reverse! start end (U bvec) fill start end))))
+    ((bvec)
+     (u8vector-reverse! (U bvec)))
+    ((bvec start)
+     (u8vector-reverse! (U bvec) start))
+    ((bvec start end)
+     (u8vector-reverse! (U bvec) start end))))
 
 (define bitvector-copy!
   (case-lambda
-    ((bvec to at from)
-     (u8vector-copy! (U bvec) to at from))
-    ((bvec to at from start)
-     (u8vector-copy! (U bvec) to at from start))
-    ((bvec to at from start end)
-     (u8vector-copy! (U bvec) to at from start end))))
+    ((to at from)
+     (u8vector-copy! (U to) at (U from)))
+    ((to at from start)
+     (u8vector-copy! (U to) at (U from) start))
+    ((to at from start end)
+     (u8vector-copy! (U to) at (U from) start end))))
 
 (define bitvector-reverse-copy!
   (case-lambda
-    ((bvec to at from)
-     (u8vector-reverse-copy! (U bvec) to at from))
-    ((bvec to at from start)
-     (u8vector-reverse-copy! (U bvec) to at from start))
-    ((bvec to at from start end)
-     (u8vector-reverse-copy! (U bvec) to at from start end))))
+    ((to at from)
+     (u8vector-reverse-copy! (U to) at (U from)))
+    ((to at from start)
+     (u8vector-reverse-copy! (U to) at (U from) start))
+    ((to at from start end)
+     (u8vector-reverse-copy! (U to) at (U from) start end))))
 
 (define bitvector->list/int
   (case-lambda
