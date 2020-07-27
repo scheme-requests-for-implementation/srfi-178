@@ -137,11 +137,22 @@
 	    (lambda ns (I (apply f (map bit->boolean ns))))
 	    (map U bvecs)))))
 
-(define (bitvector-for-each/int f . bvecs)
-    (u8vector-for-each f (map U bvecs)))
+(define bitvector-for-each/int
+  (case-lambda
+    ((f bvec)
+     (u8vector-for-each f (U bvec)))    ; fast path
+    ((f . bvecs)
+     (apply u8vector-for-each f (map U bvecs)))))
 
-(define (bitvector-for-each/bool f . bvecs)
-    (u8vector-for-each (lambda (x) (B (f (I x)))) (map U bvecs)))
+;; FIXME: The variadic case--yowch.
+(define bitvector-for-each/bool
+  (case-lambda
+    ((f bvec)
+     (u8vector-for-each (lambda (n) (f (B n))) (U bvec)))    ; fast path
+    ((f . bvecs)
+     (apply u8vector-for-each
+            (lambda ns (apply f (map bit->boolean ns)))
+            (map U bvecs)))))
 
 (define (bitvector-set! bvec i bit)
   (u8vector-set! (U bvec) i (I bit)))
