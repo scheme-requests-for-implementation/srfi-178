@@ -112,16 +112,29 @@
 (define bitvector-map/int
   (case-lambda
     ((f bvec)
-     (W (u8vector-map f (U bvec))))     ; fast path
+     (W (u8vector-map f (U bvec))))        ; one-bitvector fast path
+    ((f bvec1 bvec2)
+     (%bitvector-map2/int f bvec1 bvec2))  ; two-bitvector fast path
     ((f . bvecs)
-     (W (apply u8vector-map f (map U bvecs))))))
+     (W (apply u8vector-map f (map U bvecs))))))  ; normal path
+
+;; Tuned two-bitvector version, mainly for binary logical ops.
+(define (%bitvector-map2/int f bvec1 bvec2)
+  (let ((u8vec1 (U bvec1))
+        (u8vec2 (U bvec2)))
+    (%bitvector-tabulate/int
+     (bitvector-length bvec1)
+     (lambda (i)
+       (f (u8vector-ref u8vec1 i) (u8vector-ref u8vec2 i))))))
 
 ;; FIXME: The variadic case--yowch.
 (define bitvector-map/bool
   (case-lambda
-    ((f bvec)
-     (W (u8vector-map (lambda (n) (I (f (B n)))) (U bvec))))  ; fast path
-    ((f . bvecs)
+    ((f bvec)          ; one-bitvector fast path
+     (W (u8vector-map (lambda (n) (I (f (B n)))) (U bvec))))
+    ((f bvec1 bvec2)   ; two-bitvector fast path
+     (%bitvector-map2/int (lambda (n m) (I (f (B n) (B m)))) bvec1 bvec2))
+    ((f . bvecs)       ; normal path
      (W (apply u8vector-map
                (lambda ns (I (apply f (map bit->boolean ns))))
                (map U bvecs))))))
@@ -129,15 +142,31 @@
 (define bitvector-map!/int
   (case-lambda
     ((f bvec)
-     (u8vector-map! f (U bvec)))    ; fast path
+     (u8vector-map! f (U bvec)))            ; one-bitvector fast path
+    ((f bvec1 bvec2)
+     (%bitvector-map2!/int f bvec1 bvec2))  ; two-bitvector fast path
     ((f . bvecs)
-     (apply u8vector-map! f (map U bvecs)))))
+     (apply u8vector-map! f (map U bvecs)))))  ; normal path
+
+;; Tuned two-bitvector version, mainly for binary logical ops.
+(define (%bitvector-map2!/int f bvec1 bvec2)
+  (let ((len (bitvector-length bvec1))
+        (u8vec1 (U bvec1))
+        (u8vec2 (U bvec2)))
+    (let lp ((i 0))
+      (unless (>= i len)
+        (u8vector-set! u8vec1 i (f (u8vector-ref u8vec1 i)
+                                   (u8vector-ref u8vec2 i)))
+        (lp (+ i 1))))
+    bvec1))
 
 ;; FIXME: The variadic case--yowch.
 (define bitvector-map!/bool
   (case-lambda
-    ((f bvec)
-     (u8vector-map! (lambda (n) (I (f (B n)))) (U bvec)))    ; fast path
+    ((f bvec)          ; one-bitvector fast path
+     (u8vector-map! (lambda (n) (I (f (B n)))) (U bvec)))
+    ((f bvec1 bvec2)   ; two-bitvector fast path
+     (%bitvector-map2!/int (lambda (n m) (I (f (B n) (B m)))) bvec1 bvec2))
     ((f . bvecs)
      (apply u8vector-map!
             (lambda ns (I (apply f (map bit->boolean ns))))
