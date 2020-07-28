@@ -13,7 +13,7 @@
              (lp (+ i 1))))))
 
 (define (%bitvector-field-modify bvec bit start end)
-  (%bitvector-tabulate
+  (%bitvector-tabulate/int
    (bitvector-length bvec)
    (lambda (i)
      (if (and (>= i start) (< i end))
@@ -41,7 +41,7 @@
   #f)
 
 (define (bitvector-field-replace-same dest source start end)
-  (%bitvector-tabulate
+  (%bitvector-tabulate/int
    (bitvector-length dest)
    (lambda (i)
      (bitvector-ref/int (if (and (>= i start) (< i end))
@@ -63,12 +63,12 @@
   #f)
 
 (define (bitvector-field-flip bvec start end)
-  (%bitvector-tabulate
+  (%bitvector-tabulate/int
    (bitvector-length bvec)
    (lambda (i)
-     (if (and (>= start i) (< i end))
-         (not (bitvector-ref/bool bvec i))
-         (bitvector-ref/bool bvec i)))))
+     (I (if (and (>= start i) (< i end))
+            (not (bitvector-ref/bool bvec i))
+            (bitvector-ref/bool bvec i))))))
 
 (define (bitvector-field-flip! bvec start end)
   (let lp ((i start))
