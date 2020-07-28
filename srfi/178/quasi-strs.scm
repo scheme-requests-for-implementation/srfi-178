@@ -10,7 +10,18 @@
               (lp (+ i 1)))))))
 
 (define (bitvector-suffix-length bvec1 bvec2)
-  #f)
+  (let ((end1 (bitvector-length bvec1))
+        (end2 (bitvector-length bvec2)))
+    (let* ((delta (min end1 end2))
+           (start (- end1 delta)))
+      (if (eqv? bvec1 bvec2)
+          delta
+          (let lp ((i (- end1 1)) (j (- end2 1)))
+            (if (or (< i start)
+                    (not (= (bitvector-ref/int bvec1 i)
+                            (bitvector-ref/int bvec2 j))))
+                (- (- end1 i) 1)
+                (lp (- i 1) (- j 1))))))))
 
 (define (bitvector-prefix? bvec1 bvec2)
   (let ((len1 (bitvector-length bvec1)))

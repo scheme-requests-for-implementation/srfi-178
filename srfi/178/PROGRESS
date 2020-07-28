@@ -56,10 +56,10 @@ bitvector-for-each/int          Done            wrappers.scm
 bitvector-for-each/bool         Done            wrappers.scm
 
 
-# Prefixes, suffixes, trimming, padding (Mostly done)
+# Prefixes, suffixes, trimming, padding (Done)
 
 bitvector-prefix-length         Done            quasi-strs.scm
-bitvector-suffix-length         TODO            quasi-strs.scm
+bitvector-suffix-length         Done            quasi-strs.scm
 bitvector-prefix?               Done            quasi-strs.scm
 bitvector-suffix?               Done            quasi-strs.scm
 bitvector-pad                   Done            quasi-strs.scm
