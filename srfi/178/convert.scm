@@ -49,9 +49,13 @@
 (define bytevector->bitvector
   (case-lambda
     ((bytevec)
-     (bytevector->bitvector* bytevec 0 (bitvector-length bytevec)))
+     (bytevector->bitvector* bytevec
+                             0
+                             (* 8 (bytevector-length bytevec))))
     ((bytevec start)
-     (bytevector->bitvector* bytevec start (bitvector-length bytevec)))
+     (bytevector->bitvector* bytevec
+                             start
+                             (* 8 (bytevector-length bytevec))))
     ((bytevec start end)
      (bytevector->bitvector* bytevec start end))))
 
