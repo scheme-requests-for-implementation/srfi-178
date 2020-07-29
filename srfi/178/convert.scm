@@ -70,6 +70,41 @@
          (bitvector-set! to i (bit-set? j byte))
          (lp (+ i 1) (- j 1)))))))
 
+;; FIXME: Edge cases.
+(define (bytevector->bitvector* bytevec start end)
+  (let-values (((start-byte start-off) (floor/ start 8))
+               ((end-byte end-seg) (floor/ (- end 1) 8)))
+
+    (define (%unpack-bytevector! to)
+      (let ((ti 0))
+        ;; Copy leading bits.
+        (%bitvector-copy-byte! to
+                               0
+                               (bytevector-u8-ref bytevec start-byte)
+                               start-off)
+        ;; Copy all whole bytes.
+        (%bitvector-copy-bytevector! to
+                                     (- 8 start-off)
+                                     bytevec
+                                     (+ start-byte 1)
+                                     end-byte)
+        ;; Copy trailing bits.
+        (%bitvector-copy-byte! to
+                               (* 8 end-byte)
+                               (bytevector-u8-ref bytevec end-byte)
+                               0
+                               end-seg)))
+
+    (let ((result (make-bitvector (- end start))))
+      (if (= start-byte end-byte)
+          (%bitvector-copy-byte! result  ; range is intra-byte
+                                 0
+                                 (bytevector-u8-ref bytevec start-byte)
+                                 start-off
+                                 end-seg)
+          (%unpack-bytevector! result))
+      result)))
+
 ;; Write the bits of the selected range of the bytevector from into
 ;; the bitvector to.  start and end are bytevector indices.
 (define (%bitvector-copy-bytevector! to at from start end)
@@ -78,32 +113,6 @@
       (%bitvector-copy-byte! to i (bytevector-u8-ref from j))
       (lp (+ i 8) (+ j 1)))))
 
-;; FIXME: Edge cases.
-(define (bytevector->bitvector* bytevec start end)
-  (let-values (((start-byte start-off) (floor/ start 8))
-               ((end-byte end-seg) (floor/ end 8))
-               ((ri) 0))
-    (let* ((length (- end start))
-           (result (make-bitvector length)))
-      ;; Copy leading bits.
-      (%bitvector-copy-byte! result
-                             0
-                             (bytevector-u8-ref bytevec start-byte)
-                             start-off)
-      (set! ri (+ ri (- 8 start-off)))
-      ;; Copy all whole bytes.
-      (%bitvector-copy-bytevector! result
-                                   ri
-                                   bytevec
-                                   (+ start-byte 1)
-                                   end-byte)
-      ;; Copy trailing bits.
-      (%bitvector-copy-byte! result
-                             (+ ri (* 8 (- end-byte start-byte)))
-                             (bytevector-u8-ref bytevec end-byte)
-                             0
-                             end-seg)
-      result)))
 
 (define bitvector->bytevector
   (case-lambda
