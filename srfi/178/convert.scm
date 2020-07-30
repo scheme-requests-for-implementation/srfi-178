@@ -143,19 +143,12 @@
                                (- 7 i)))
             (+ i 1)))))
 
-;; FIXME: Simplify.
 (define (bitvector->bytevector!* bytevec at bvec start end)
   (let lp ((i 0) (j start))
-    (cond ((>= j end) (unspecified))
-          ((<= (- end j) 8)
-           (bytevector-u8-set! bytevec
-                               i
-                               (%bitvector->be-byte bvec j (- end j))))
-          (else
-           (bytevector-u8-set! bytevec
-                               i
-                               (%bitvector->be-byte bvec j 8))
-           (lp (+ i 1) (+ j 8))))))
+    (when (< j end)
+      (let ((len (min 8 (- end j))))
+        (bytevector-u8-set! bytevec i (%bitvector->be-byte bvec j len))
+        (lp (+ i 1) (+ j len))))))
 
 (define bitvector->bytevector!
   (case-lambda

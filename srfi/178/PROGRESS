@@ -94,8 +94,8 @@ bitvector->string               Done            convert.scm
 string->bitvector               Done            convert.scm
 bitvector->integer              Done            convert.scm
 integer->bitvector              Done            convert.scm
-bitvector->bytevector           INCOMPLETE      convert.scm
-bitvector->bytevector!          INCOMPLETE      convert.scm
+bitvector->bytevector           Done            convert.scm
+bitvector->bytevector!          Done            convert.scm
 bytevector->bitvector           INCOMPLETE      convert.scm
 
 
