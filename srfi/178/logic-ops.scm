@@ -56,7 +56,7 @@
   (bitvector-map!/int u1-nand a b))
 
 (define (u1-nor a b)
-  (u1-not (u1-or a b)))
+  (u1-not (u1-ior a b)))
 
 (define (bitvector-nor a b)
   (bitvector-map/int u1-nor a b))
