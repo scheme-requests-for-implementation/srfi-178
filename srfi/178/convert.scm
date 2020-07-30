@@ -120,11 +120,33 @@
 
 (define (bitvector->bytevector* bvec start end)
   (let ((result (make-bytevector (ceiling (/ (- start end) 8)))))
-    (bitvector-bytevector!* result 0 bvec start end)
+    (bitvector->bytevector!* result 0 bvec start end)
     result))
 
+;; Convert len (< 8) bits in bvec to a big-endian integer.
+(define (%bitvector->be-byte bvec start len)
+  (let lp ((r 0) (i 0))
+    (if (>= i len)
+        r
+        (lp (bitwise-ior
+             r
+             (arithmetic-shift (bitvector-ref/int bvec (+ i start))
+                               (- 7 i)))
+            (+ i 1)))))
+
+;; FIXME: Simplify.
 (define (bitvector->bytevector!* bytevec at bvec start end)
-  #f)
+  (let lp ((i 0) (j start))
+    (cond ((>= j end) (unspecified))
+          ((<= (- end j) 8)
+           (bytevector-u8-set! bytevec
+                               i
+                               (%bitvector->be-byte bvec j (- end j))))
+          (else
+           (bytevector-u8-set! bytevec
+                               i
+                               (%bitvector->be-byte bvec j 8))
+           (lp (+ i 1) (+ j 8))))))
 
 (define bitvector->bytevector!
   (case-lambda
