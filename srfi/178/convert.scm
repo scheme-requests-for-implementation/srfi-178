@@ -65,10 +65,10 @@
     ((to at byte) (%bitvector-copy-byte! to at byte 0 8))
     ((to at byte start) (%bitvector-copy-byte! to at byte start 8))
     ((to at byte start end)
-     (let lp ((i at) (j (- end 1)))
-       (unless (< j start)
-         (bitvector-set! to i (bit-set? j byte))
-         (lp (+ i 1) (- j 1)))))))
+     (let lp ((i at) (j start))
+       (when (< j end)
+         (bitvector-set! to i (bit-set? (- 7 j) byte))
+         (lp (+ i 1) (+ j 1)))))))
 
 ;; FIXME: Edge cases.
 (define (bytevector->bitvector* bytevec start end)
