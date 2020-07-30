@@ -43,9 +43,6 @@
    (integer-length int)
    int))
 
-(define (bitvector->bytevector* bytevec start end)
-  #f)
-
 (define bytevector->bitvector
   (case-lambda
     ((bytevec)
@@ -110,6 +107,8 @@
       (%bitvector-copy-byte! to i (bytevector-u8-ref from j))
       (lp (+ i 8) (+ j 1)))))
 
+;;;; Bitvector to bytevector conversions
+
 (define bitvector->bytevector
   (case-lambda
     ((bvec)
@@ -119,14 +118,19 @@
     ((bvec start end)
      (bitvector->bytevector* bvec start end))))
 
-(define (bitvector->bytevector!* bvec start end)
+(define (bitvector->bytevector* bvec start end)
+  (let ((result (make-bytevector (ceiling (/ (- start end) 8)))))
+    (bitvector-bytevector!* result 0 bvec start end)
+    result))
+
+(define (bitvector->bytevector!* bytevec at bvec start end)
   #f)
 
 (define bitvector->bytevector!
   (case-lambda
-    ((bvec)
-     (bitvector->bytevector!* bvec 0 (bitvector-length bvec)))
-    ((bvec start)
-     (bitvector->bytevector!* bvec start (bitvector-length bvec)))
-    ((bvec start end)
-     (bitvector->bytevector!* bvec start end))))
+    ((bytevec at bvec)
+     (bitvector->bytevector!* bytevec at bvec 0 (bitvector-length bvec)))
+    ((bytevec at bvec start)
+     (bitvector->bytevector!* bytevec at bvec start (bitvector-length bvec)))
+    ((bytevec at bvec start end)
+     (bitvector->bytevector!* bytevec at bvec start end))))
