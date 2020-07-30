@@ -26,7 +26,9 @@
         (- (string-length str) 2)
         2)))))
 
-(define (bitvector->integer bvec)
+;;;; Bitvector/integer conversions
+
+(define (%bitvector->integer bvec len)
   (let ((len (bitvector-length bvec)))
     (let lp ((r 0) (i 0))
       (if (= i len)
@@ -36,12 +38,19 @@
                (arithmetic-shift (bitvector-ref/int bvec i) i))
               (+ i 1))))))
 
+(define bitvector->integer
+  (case-lambda
+    ((bvec) (%bitvector->integer bvec (bitvector-length bvec)))
+    ((bvec len) (%bitvector->integer bvec len))))
+
 (define (integer->bitvector int)
   (bitvector-unfold/bool
    (lambda (_ int)
      (values (bit-set? 0 int) (arithmetic-shift int -1)))
    (integer-length int)
    int))
+
+;;;; Bytvector to bitvector conversion
 
 (define bytevector->bitvector
   (case-lambda
