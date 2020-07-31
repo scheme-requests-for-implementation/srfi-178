@@ -30,8 +30,8 @@
   (W (u8vector-concatenate (map U bvecs))))
 
 (define (bitvector-append-subbitvectors . args)
-  (W (u8vector-append-subvectors
-       (map (lambda (x) (if (bitvector? x) (U x) x)) args))))
+  (W (apply u8vector-append-subvectors
+            (map (lambda (x) (if (bitvector? x) (U x) x)) args))))
 
 (define (bitvector-empty? bvec)
   (eqv? 0 (u8vector-length (U bvec))))
