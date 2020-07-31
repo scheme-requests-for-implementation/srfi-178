@@ -1,44 +1,5 @@
 ;;;; SRFI 178 procedures that are just wrappers
 
-(define make-bitvector
-  (case-lambda
-    ((size) (W (make-u8vector size)))
-    ((size fill) (W (make-u8vector size (I fill))))))
-
-(define (bitvector-unfold/int f length seed)
-  (W (u8vector-unfold f length seed)))
-
-(define (bitvector-unfold/bool f length seed)
-  (W (u8vector-unfold (lambda (i x) (I (f i x))) length seed)))
-
-(define (bitvector-unfold-right/int f length seed)
-  (W (u8vector-unfold-right f length seed)))
-
-(define (bitvector-unfold-right/bool f length seed)
-  (W (u8vector-unfold-right (lambda (i x) (I (f i x))) length seed)))
-
-(define bitvector-copy
-  (case-lambda
-    ((bvec) (W (u8vector-copy (U bvec))))
-    ((bvec start) (W (u8vector-copy (U bvec) start)))
-    ((bvec start end) (W (u8vector-copy (U bvec) start end)))))
-
-(define bitvector-reverse-copy
-  (case-lambda
-    ((bvec) (W (u8vector-reverse-copy (U bvec))))
-    ((bvec start) (W (u8vector-reverse-copy (U bvec) start)))
-    ((bvec start end) (W (u8vector-reverse-copy (U bvec) start end)))))
-
-(define (bitvector-append . bvecs)
-  (bitvector-concatenate bvecs))
-
-(define (bitvector-concatenate bvecs)
-  (W (u8vector-concatenate (map U bvecs))))
-
-(define (bitvector-append-subbitvectors . args)
-  (W (u8vector-append-subvectors
-       (map (lambda (x) (if (bitvector? x) (U x) x)) args))))
-
 (define (bitvector-empty? bvec)
   (eqv? 0 (u8vector-length (U bvec))))
 
@@ -290,8 +251,6 @@
 
 (define (reverse-list->bitvector list)
   (W (reverse-list->u8vector (map bit->integer list))))
-
-(define (bitvector . args) (list->bitvector args))
 
 (define (vector->bitvector vector)
   (W (vector->u8vector (vector-map bit->integer vector))))

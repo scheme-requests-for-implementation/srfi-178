@@ -21,3 +21,7 @@
 (define-syntax B
   (syntax-rules ()
     ((B bit) (not (or (eqv? bit 0) (not bit))))))
+
+(define (bit->integer bit) (I bit))
+
+(define (bit->boolean bit) (B bit))
