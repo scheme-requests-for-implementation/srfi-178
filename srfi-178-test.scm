@@ -64,6 +64,12 @@
   (display message)
   (newline))
 
+;;;; Utility
+
+(define (proc-or a b) (or a b))
+
+(define (constantly x) (lambda (_) x))
+
 (define (check-bit-conversions)
   (print-header "Checking bit conversions...")
 
@@ -83,7 +89,7 @@
   (check (bitvector->list/int (make-bitvector 4 0))  => '(0 0 0 0))
   (check (bitvector->list/int (make-bitvector 4 #t)) => '(1 1 1 1))
 
-  ;;; Unfolds
+  ;;; unfolds
 
   (check (bitvector->list/int
           (bitvector-unfold/int (lambda (i n) (values 0 0)) 4 0))
@@ -115,7 +121,7 @@
           (bitvector-unfold-right/bool (lambda (i b) (values b (not b))) 4 #t))
    => '(0 1 0 1))
 
-  ;;; Copiers
+  ;;; copy
 
   (let ((bvec (bitvector 1 0 1 0)))
     (check (bitvector= bvec (bitvector-copy bvec)) => #t)
@@ -134,7 +140,7 @@
   (check (bitvector->list/int (bitvector-reverse-copy (bitvector 1 0 1 0) 2 4))
    => '(0 1))
 
-  ;;; Append & concatenate
+  ;;; append & concatenate
 
   (check (bitvector->list/int
           (bitvector-append (bitvector 1 0) (bitvector 0 1)))
@@ -182,7 +188,90 @@
   (check (bitvector-ref/int (bitvector 1 0 1 0) 3)  => 0)
   (check (bitvector-ref/bool (bitvector 1 0 1 0) 0) => #t)
   (check (bitvector-ref/bool (bitvector 1 0 1 0) 3) => #f))
+
+(define (check-iterators)
+  (print-header "Checking iteration...")
 
+  ;;; take & take-right
+
+  (check (bitvector= (bitvector-take (bitvector 1 0 1 0) 2)
+                     (bitvector 1 0))
+   => #t)
+  (check (bitvector-empty? (bitvector-take (bitvector 1 0) 0)) => #t)
+  (let ((bvec (bitvector 1 0 1 0)))
+    (check (bitvector= (bitvector-take bvec (bitvector-length bvec))
+                       bvec)
+     => #t)
+    (check (bitvector= (bitvector-take-right bvec (bitvector-length bvec))
+                       bvec)
+     => #t))
+  (check (bitvector= (bitvector-take-right (bitvector 1 0 1 0) 3)
+                     (bitvector 0 1 0))
+   => #t)
+  (check (bitvector-empty? (bitvector-take-right (bitvector 1 0) 0)) => #t)
+
+  ;;; drop & drop-right
+
+  (check (bitvector= (bitvector-drop (bitvector 1 0 1 0) 1)
+                     (bitvector 0 1 0))
+   => #t)
+  (let ((bvec (bitvector 1 0 1 0)))
+    (check (bitvector-empty? (bitvector-drop bvec (bitvector-length bvec)))
+     => #t)
+    (check (bitvector= (bitvector-drop bvec 0) bvec) => #t)
+    (check (bitvector= (bitvector-drop-right bvec 0) bvec) => #t)
+    (check (bitvector-empty?
+            (bitvector-drop-right bvec (bitvector-length bvec)))
+     => #t))
+  (check (bitvector= (bitvector-drop-right (bitvector 1 0 1 0) 1)
+                     (bitvector 1 0 1))
+   => #t)
+
+  ;;; segment
+
+  (check (bitvector= (car (bitvector-segment (bitvector 1 0 1 0) 2))
+                     (bitvector 1 0))
+   => #t)
+  (let ((bvec (bitvector 1 0 1 0)))
+    (check (bitvector= (bitvector-concatenate (bitvector-segment bvec 1))
+                       bvec)
+     => #t))
+
+  ;;; fold
+
+  (check (bitvector-fold/int + 0 (bitvector)) => 0)
+  (check (bitvector-fold/int + 0 (bitvector 1)) => 1)
+  (check (bitvector-fold/bool proc-or #f (bitvector)) => #f)
+  (check (bitvector-fold/bool proc-or #f (bitvector #t)) => #t)
+  (check (bitvector-fold-right/int + 0 (bitvector)) => 0)
+  (check (bitvector-fold-right/int + 0 (bitvector 1)) => 1)
+  (check (bitvector-fold-right/bool proc-or #f (bitvector)) => #f)
+  (check (bitvector-fold-right/bool proc-or #f (bitvector #t)) => #t)
+
+  ;;; map
+
+  (check (bitvector-empty? (bitvector-map/int values (bitvector))) => #t)
+  (check (bitvector= (bitvector-map/int (constantly 1) (bitvector 0 0 1))
+                     (bitvector 1 1 1))
+   => #t)
+  (check (bitvector= (bitvector-map/int (lambda (a b c) a)
+                                        (bitvector 0 0 1)
+                                        (bitvector 0 1 0)
+                                        (bitvector 1 0 0))
+                     (bitvector 0 0 1))
+   => #t)
+  (check (bitvector-empty? (bitvector-map/bool values (bitvector))) => #t)
+  (check (bitvector= (bitvector-map/bool (constantly #t)
+                                         (bitvector #f #f #t))
+                     (bitvector #t #t #t))
+   => #t)
+  (check (bitvector= (bitvector-map/bool (lambda (a b c) a)
+                                         (bitvector #f #f #t)
+                                         (bitvector #f #t #f)
+                                         (bitvector #t #f #f))
+                     (bitvector #f #f #t))
+   => #t))
+
 (define (check-bitvector-conversions)
   (print-header "Checking bitvector conversions...")
 
@@ -199,6 +288,7 @@
   (check-selectors)
   (check-bit-conversions)
   (check-constructors)
+  (check-iterators)
 
   (newline)
   (check-report))
