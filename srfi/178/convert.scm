@@ -65,56 +65,37 @@
     ((bytevec start end)
      (bytevector->bitvector* bytevec start end))))
 
-;; Write the bits of byte into the bitvector to.  Big-endian.
-(define %bitvector-copy-byte!
-  (case-lambda
-    ((to at byte) (%bitvector-copy-byte! to at byte 0 8))
-    ((to at byte start) (%bitvector-copy-byte! to at byte start 8))
-    ((to at byte start end)
-     (let lp ((i at) (j start))
-       (when (< j end)
-         (bitvector-set! to i (bit-set? (- 7 j) byte))
-         (lp (+ i 1) (+ j 1)))))))
+;; Write the bits of byte into the bitvector bvec starting at index at.
+;; Big-endian.
+(define (%bitvector-copy-byte! to at byte)
+  (let lp ((i at) (j start))
+    (when (< j end)
+      (bitvector-set! to i (bit-set? (- 7 j) byte))
+      (lp (+ i 1) (+ j 1)))))
 
-(define (%unpack-bytevector! to from start start-bit-bound end end-bit-bound)
-  ;; Copy leading byte/byte fragment.
-  (%bitvector-copy-byte! to 0 (bytevector-u8-ref from start) start-bit-bound)
-  ;; Copy all whole bytes.
-  (%bitvector-copy-bytevector! to (- 8 start-bit-bound) from (+ start 1) end)
-  ;; Copy trailing byte/byte fragment.
-  (%bitvector-copy-byte! to
-                         (* 8 end)
-                         (bytevector-u8-ref from end)
-                         0
-                         end-bit-bound))
+;; Unpack the bytes of bytevec into a fresh bitvector.  start and end
+;; are bytevector indices.
+(define (%unpack-bytevector bytevec start end)
+  (let ((result (make-bitvector (* 8 (- end start)))))
+    (let lp ((i 0) (j start))
+      (cond ((>= j end) result)
+            (else
+             (%bitvector-copy-byte! result i (bytevector-u8-ref bytevec j))
+             (lp (+ i 8) (+ j 1)))))))
 
-;; FIXME: Edge cases.
+;; Unpack the bytes of bytevec into a fresh bitvector.  NB: start and
+;; end are bit indices!
+;;
+;; FIXME: This implementation is inefficient when start and end do not
+;; align to byte boundaries; in this case, a subbitvector is copied.
 (define (bytevector->bitvector* bytevec start end)
   (let-values (((start-byte start-off) (floor/ start 8))
                ((end-byte end-seg) (floor/ end 8)))
-    (let ((result (make-bitvector (- end start)))
-          (end-bound (+ end-seg 1)))
-      (if (= start-byte end-byte)
-          (%bitvector-copy-byte! result  ; range is intra-byte
-                                 0
-                                 (bytevector-u8-ref bytevec start-byte)
-                                 start-off
-                                 end-bound)
-          (%unpack-bytevector! result
-                               bytevec
-                               start-byte
-                               start-off
-                               end-byte
-                               end-bound))
-      result)))
-
-;; Write the bits of the selected range of the bytevector from into
-;; the bitvector to.  start and end are bytevector indices.
-(define (%bitvector-copy-bytevector! to at from start end)
-  (let lp ((i at) (j start))
-    (unless (>= j end)
-      (%bitvector-copy-byte! to i (bytevector-u8-ref from j))
-      (lp (+ i 8) (+ j 1)))))
+    (let* ((end-byte* (+ end-byte (if (zero? end-seg) 0 1)))
+           (bvec (%unpack-bytevector bytevec start-byte end-byte*)))
+      (if (and (zero? start-off) (zero? end-seg))
+          bvec
+          (bitvector-copy bvec start-off (+ (* 8 end-byte) end-seg))))))
 
 ;;;; Bitvector to bytevector conversions
 

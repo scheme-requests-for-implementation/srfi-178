@@ -96,7 +96,7 @@ bitvector->integer              Done            convert.scm
 integer->bitvector              Done            convert.scm
 bitvector->bytevector           Done            convert.scm
 bitvector->bytevector!          Done            convert.scm
-bytevector->bitvector           INCOMPLETE      convert.scm
+bytevector->bitvector           Done            convert.scm
 
 
 # Generators (Done)
