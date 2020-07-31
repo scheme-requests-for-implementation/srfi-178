@@ -11,9 +11,9 @@ bit->boolean                    Done            convert.scm
 make-bitvector                  Done            wrappers.scm
 bitvector                       Done            wrappers.scm
 bitvector-unfold/int            Done            wrappers.scm
-bitvector-unfold/bool           FIXME           wrappers.scm
+bitvector-unfold/bool           Done            wrappers.scm
 bitvector-unfold-right/int      Done            wrappers.scm
-bitvector-unfold-right/bool     FIXME           wrappers.scm
+bitvector-unfold-right/bool     Done            wrappers.scm
 bitvector-copy                  Done            wrappers.scm
 bitvector-reverse-copy          FIXME           wrappers.scm
 bitvector-append                Done            wrappers.scm
