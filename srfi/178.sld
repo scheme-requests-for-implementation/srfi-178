@@ -87,10 +87,9 @@
           bitvector-field-reverse!  bitvector-field-flip
           bitvector-field-flip! bit->integer bit->boolean)
 
-  (import (srfi 178 bitvector))
-  (import (srfi 178 constructor))
   (include "178/macros.scm")
   (include "178/util.scm")
+  (include "178/wrappers.scm")
   (include "178/convert.scm")
   (include "178/gen-acc.scm")
   (include "178/fields.scm")
