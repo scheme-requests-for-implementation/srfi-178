@@ -68,8 +68,8 @@
 ;; Write the bits of byte into the bitvector bvec starting at index at.
 ;; Big-endian.
 (define (%bitvector-copy-byte! to at byte)
-  (let lp ((i at) (j start))
-    (when (< j end)
+  (let lp ((i at) (j 0))
+    (when (< j 8)
       (bitvector-set! to i (bit-set? (- 7 j) byte))
       (lp (+ i 1) (+ j 1)))))
 
