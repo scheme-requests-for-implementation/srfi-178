@@ -61,7 +61,7 @@
   (W (u8vector-drop-right (U bvec) n)))
 
 (define (bitvector-segment bvec n)
-  (W (u8vector-segment (U bvec) n)))
+  (map W (u8vector-segment (U bvec) n)))
 
 (define bitvector-fold/int
   (case-lambda

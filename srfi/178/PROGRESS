@@ -41,7 +41,7 @@ bitvector-take                  Done            wrappers.scm
 bitvector-take-right            Done            wrappers.scm
 bitvector-drop                  Done            wrappers.scm
 bitvector-drop-right            Done            wrappers.scm
-bitvector-segment               FIXME           wrappers.scm
+bitvector-segment               Done            wrappers.scm
 bitvector-fold/int              Done            wrappers.scm
 bitvector-fold/bool             Done            wrappers.scm
 bitvector-fold-right/int        Done            wrappers.scm
