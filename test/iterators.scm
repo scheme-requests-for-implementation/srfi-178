@@ -45,7 +45,7 @@
     (check (bitvector= (bitvector-concatenate (bitvector-segment bvec 1))
                        bvec)
      => #t))
-
+
   ;;; fold
 
   (check (bitvector-fold/int + 0 (bitvector)) => 0)
@@ -84,31 +84,64 @@
   ;;; map!
 
   (check (let ((bvec (bitvector)))
-	   (bitvector-map!/int values bvec)
-	   (bitvector-empty? bvec))
+           (bitvector-map!/int values bvec)
+           (bitvector-empty? bvec))
    => #t)
   (check (let ((bvec (bitvector 1 0 1 0)))
-	   (bitvector-map!/int (constantly 1) bvec)
-	   (bitvector= bvec (bitvector 1 1 1 1)))
+           (bitvector-map!/int (constantly 1) bvec)
+           (bitvector= bvec (bitvector 1 1 1 1)))
    => #t)
   (check (let ((bvec1 (bitvector 1 0 0))
                (bvec2 (bitvector 0 1 0))
                (bvec3 (bitvector 0 0 1)))
-	   (bitvector-map!/int (lambda (a b c) b) bvec1 bvec2 bvec3)
-	   (bitvector= bvec1 bvec2))
+           (bitvector-map!/int (lambda (a b c) b) bvec1 bvec2 bvec3)
+           (bitvector= bvec1 bvec2))
    => #t)
   (check (let ((bvec (bitvector)))
-	   (bitvector-map!/bool values bvec)
-	   (bitvector-empty? bvec))
+           (bitvector-map!/bool values bvec)
+           (bitvector-empty? bvec))
    => #t)
   (check (let ((bvec (bitvector #t #f #t #f)))
-	   (bitvector-map!/bool (constantly #t) bvec)
-	   (bitvector= bvec (bitvector #t #t #t #t)))
+           (bitvector-map!/bool (constantly #t) bvec)
+           (bitvector= bvec (bitvector #t #t #t #t)))
    => #t)
   (check (let ((bvec#t (bitvector #t #f #f))
                (bvec2 (bitvector #f #t #f))
                (bvec3 (bitvector #f #f #t)))
-	   (bitvector-map!/bool (lambda (a b c) b) bvec#t bvec2 bvec3)
-	   (bitvector= bvec#t bvec2))
+           (bitvector-map!/bool (lambda (a b c) b) bvec#t bvec2 bvec3)
+           (bitvector= bvec#t bvec2))
    => #t)
+
+
+  ;;; map->list
+
+  (check (bitvector-map->list/bool values (bitvector)) => '())
+  (check (bitvector-map->list/int (constantly 1) (bitvector 1 0 0)) => '(1 1 1))
+  (check (bitvector-map->list/int list (bitvector 1 0) (bitvector 0 1))
+   => '((1 0) (0 1)))
+  (check (bitvector-map->list/bool values (bitvector)) => '())
+  (check (bitvector-map->list/bool (constantly #t) (bitvector 1 0 0))
+   => '(#t #t #t))
+  (check (bitvector-map->list/bool list (bitvector 1 0) (bitvector 0 1))
+   => '((#t #f) (#f #t)))
+
+  ;;; for-each
+
+  (let ((bvec (bitvector 1 0 1 0)))
+    (check (let ((c 0))
+             (bitvector-for-each/int (lambda (_) (set! c (+ c 1))) bvec)
+             c)
+     => (bitvector-length bvec))
+    (check (let ((lis '()))
+             (bitvector-for-each/int (lambda (b) (set! lis (cons b lis))) bvec)
+             lis)
+     => (reverse-bitvector->list/int bvec))
+    (check (let ((c 0))
+             (bitvector-for-each/bool (lambda (_) (set! c (+ c 1))) bvec)
+             c)
+     => (bitvector-length bvec))
+    (check (let ((lis '()))
+             (bitvector-for-each/bool (lambda (b) (set! lis (cons b lis))) bvec)
+             lis)
+     => (reverse-bitvector->list/bool bvec)))
 )
