@@ -81,82 +81,7 @@
   (check (bit->boolean 1)  => #t)
   (check (bit->boolean #f) => #f)
   (check (bit->boolean #t) => #t))
-
-(define (check-constructors)
-  (print-header "Checking constructors...")
 
-  (check (bitvector-length (make-bitvector 8))       => 8)
-  (check (bitvector->list/int (make-bitvector 4 0))  => '(0 0 0 0))
-  (check (bitvector->list/int (make-bitvector 4 #t)) => '(1 1 1 1))
-
-  ;;; unfolds
-
-  (check (bitvector->list/int
-          (bitvector-unfold/int (lambda (i n) (values 0 0)) 4 0))
-   => '(0 0 0 0))
-  (check (bitvector->list/int
-          (bitvector-unfold/int (lambda (i n) (values n (if (zero? n) 1 0)))
-                                4
-                                1))
-   => '(1 0 1 0))
-  (check (bitvector->list/int
-          (bitvector-unfold/bool (lambda (i b) (values #f #f)) 4 #f))
-   => '(0 0 0 0))
-  (check (bitvector->list/int
-          (bitvector-unfold/bool (lambda (i b) (values b (not b))) 4 #t))
-   => '(1 0 1 0))
-  (check (bitvector->list/int
-          (bitvector-unfold-right/int (lambda (i n) (values 0 0)) 4 0))
-   => '(0 0 0 0))
-  (check (bitvector->list/int
-          (bitvector-unfold-right/int
-           (lambda (i n) (values n (if (zero? n) 1 0)))
-           4
-           1))
-   => '(0 1 0 1))
-  (check (bitvector->list/int
-          (bitvector-unfold-right/bool (lambda (i b) (values #f #f)) 4 #f))
-   => '(0 0 0 0))
-  (check (bitvector->list/int
-          (bitvector-unfold-right/bool (lambda (i b) (values b (not b))) 4 #t))
-   => '(0 1 0 1))
-
-  ;;; copy
-
-  (let ((bvec (bitvector 1 0 1 0)))
-    (check (bitvector= bvec (bitvector-copy bvec)) => #t)
-    (check (eqv? bvec (bitvector-copy bvec)) => #f))  ; fresh copy
-  (check (bitvector->list/int (bitvector-copy (bitvector 1 0 1 0) 1))
-   => '(0 1 0))
-  (check (bitvector->list/int (bitvector-copy (bitvector 1 0 1 0) 2 4))
-   => '(1 0))
-
-  (let ((bvec (bitvector 1 0 1 0)))
-    (check (bitvector->list/int (bitvector-reverse-copy bvec))
-     => (reverse (bitvector->list/int bvec)))
-    (check (eqv? bvec (bitvector-reverse-copy bvec)) => #f))  ; fresh copy
-  (check (bitvector->list/int (bitvector-reverse-copy (bitvector 1 0 1 0) 1))
-   => '(0 1 0))
-  (check (bitvector->list/int (bitvector-reverse-copy (bitvector 1 0 1 0) 2 4))
-   => '(0 1))
-
-  ;;; append & concatenate
-
-  (check (bitvector->list/int
-          (bitvector-append (bitvector 1 0) (bitvector 0 1)))
-   => '(1 0 0 1))
-  (check (bitvector->list/int
-          (bitvector-append (bitvector 1 0) (bitvector 0 1) (bitvector)))
-   => '(1 0 0 1))
-  (check (bitvector->list/int
-          (bitvector-concatenate
-           (list (bitvector 1 0) (bitvector 0 1) (bitvector))))
-   => '(1 0 0 1))
-  (check (bitvector->list/int
-          (bitvector-append-subbitvectors (bitvector 1 0 0 1) 0 2
-                                          (bitvector 1 1 1 1) 2 4))
-   => '(1 0 1 1)))
-
 (define (check-predicates)
   (print-header "Checking predicates...")
 
@@ -179,23 +104,10 @@
                      (bitvector 1 0 0))
    => #f))
 
-(define (check-selectors)
-  (print-header "Checking selectors...")
-
-  (check (bitvector-length (bitvector))             => 0)
-  (check (bitvector-length (bitvector 1 0 1 0))     => 4)
-  (check (bitvector-ref/int (bitvector 1 0 1 0) 0)  => 1)
-  (check (bitvector-ref/int (bitvector 1 0 1 0) 3)  => 0)
-  (check (bitvector-ref/bool (bitvector 1 0 1 0) 0) => #t)
-  (check (bitvector-ref/bool (bitvector 1 0 1 0) 3) => #f))
-
-(define (check-bitvector-conversions)
-  (print-header "Checking bitvector conversions...")
-
-  (check (bitvector->list/int (bitvector))             => '())
-  (check (bitvector->list/int (bitvector 1 0 1 0))     => '(1 0 1 0))
-  (check (bitvector->list/int (bitvector 1 0 1 0) 2)   => '(1 0))
-  (check (bitvector->list/int (bitvector 1 0 1 0) 1 3) => '(0 1)))
+(include "test/constructors.scm")
+(include "test/iterators.scm")
+(include "test/selectors.scm")
+(include "test/conversions.scm")
 
 (define (check-all)
   ;; Check predicates, bitvector conversions, and selectors first,
@@ -206,38 +118,6 @@
   (check-bit-conversions)
   (check-constructors)
   (check-iterators)
-
-  (newline)
-  (check-report))
-
-(define (check-selectors)
-  (print-header "Checking selectors...")
-
-  (check (bitvector-length (bitvector))             => 0)
-  (check (bitvector-length (bitvector 1 0 1 0))     => 4)
-  (check (bitvector-ref/int (bitvector 1 0 1 0) 0)  => 1)
-  (check (bitvector-ref/int (bitvector 1 0 1 0) 3)  => 0)
-  (check (bitvector-ref/bool (bitvector 1 0 1 0) 0) => #t)
-  (check (bitvector-ref/bool (bitvector 1 0 1 0) 3) => #f))
-
-(define (check-bitvector-conversions)
-  (print-header "Checking bitvector conversions...")
-
-  (check (bitvector->list/int (bitvector))             => '())
-  (check (bitvector->list/int (bitvector 1 0 1 0))     => '(1 0 1 0))
-  (check (bitvector->list/int (bitvector 1 0 1 0) 2)   => '(1 0))
-  (check (bitvector->list/int (bitvector 1 0 1 0) 1 3) => '(0 1)))
-
-(include "test/iterators.scm")
-
-(define (check-all)
-  ;; Check predicates, bitvector conversions, and selectors first,
-  ;; since they're used extensively in later tests.
-  (check-predicates)
-  (check-bitvector-conversions)
-  (check-selectors)
-  (check-bit-conversions)
-  (check-constructors)
 
   (newline)
   (check-report))
