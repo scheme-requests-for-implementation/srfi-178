@@ -238,13 +238,12 @@ all the elements of the bitvector are initialized to it.</p>
 
 <p>Returns a bitvector initialized with <i>values</i>.</p>
 
-<p><code>(bitvector-unfold/int <i>f length seed</i>) -> bitvector</code> {IW}<br />
-<code>(bitvector-unfold/bool <i>f length seed</i>) -> bitvector</code> {IW}<br />
+<p><code>(bitvector-unfold <i>f length seed</i>) -> bitvector</code> {IW}</p>
 
 <p>Creates a vector whose length is <i>length</i> and iterates across each index
 <i>k</i> between 0 and <i>length</i>, applying <i>f</i> at each iteration to the current
 index and current state, in that order, to receive two values: 
-the element to put in the k<i>th</i> slot of the new vector and a new state
+the bit to put in the k<i>th</i> slot of the new vector and a new state
 for the next iteration.
 On the first call to <i>f</i>, the state's value is <i>seed</i>.</p>
 
