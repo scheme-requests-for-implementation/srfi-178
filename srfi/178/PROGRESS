@@ -79,7 +79,7 @@ bitvector-copy!                 Done            wrappers.scm
 bitvector-reverse-copy!         Done            wrappers.scm
 
 
-# Conversion (Partially done)
+# Conversion (Done)
 
 bitvector->list/int             Done            wrappers.scm
 bitvector->list/bool            Done            wrappers.scm
