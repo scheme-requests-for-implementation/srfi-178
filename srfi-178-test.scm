@@ -108,6 +108,7 @@
 (include "test/iterators.scm")
 (include "test/selectors.scm")
 (include "test/conversions.scm")
+(include "test/quasi-string.scm")
 
 (define (check-all)
   ;; Check predicates, bitvector conversions, and selectors first,
@@ -118,6 +119,7 @@
   (check-bit-conversions)
   (check-constructors)
   (check-iterators)
+  (check-quasi-string-ops)
 
   (newline)
   (check-report))
