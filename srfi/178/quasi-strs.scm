@@ -81,5 +81,5 @@
 (define (bitvector-trim-both bit bvec)
   (cond ((%bitvector-skip bvec bit) =>
          (lambda (skip)
-           (bitvector-copy bvec skip (%bitvector-skip-right bvec bit))))
+           (bitvector-copy bvec skip (+ 1 (%bitvector-skip-right bvec bit)))))
         (else (bitvector))))
