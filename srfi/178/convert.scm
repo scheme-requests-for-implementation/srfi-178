@@ -11,12 +11,14 @@
              (r '()))
     (if (< i 0)
       (list->string (cons #\# (cons #\* r)))
-      (loop (cons (if (bitvector-ref/bool bvec i) #\1 #\0) r) (- i 1)))))
+      (loop (- i 1)
+            (cons (if (bitvector-ref/bool bvec i) #\1 #\0) r)))))
 
 (define (string->bitvector str)
   (call/cc
    (lambda (return)
      (and
+       (> (string-length str) 1)
        (char=? (string-ref str 0) #\#)
        (char=? (string-ref str 1) #\*)
        (bitvector-unfold/int

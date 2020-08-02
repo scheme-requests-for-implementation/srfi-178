@@ -88,9 +88,9 @@ reverse-bitvector->list/bool    Done            wrappers.scm
 list->bitvector                 Done            wrappers.scm
 reverse-list->bitvector         Done            wrappers.scm
 bitvector->vector/int           Done            wrappers.scm
-bitvector->vector/bool          FIXME           wrappers.scm
+bitvector->vector/bool          Done            wrappers.scm
 vector->bitvector               Done            wrappers.scm
-bitvector->string               FIXME           convert.scm
+bitvector->string               Done            convert.scm
 string->bitvector               Done            convert.scm
 bitvector->integer              Done            convert.scm
 integer->bitvector              Done            convert.scm
