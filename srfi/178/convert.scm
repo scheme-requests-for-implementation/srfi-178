@@ -45,14 +45,13 @@
 ;;;; Bitvector/integer conversions
 
 (define (%bitvector->integer bvec len)
-  (let ((len (bitvector-length bvec)))
-    (let lp ((r 0) (i 0))
-      (if (= i len)
-          r
-          (lp (bitwise-ior
-               r
-               (arithmetic-shift (bitvector-ref/int bvec i) i))
-              (+ i 1))))))
+  (let lp ((r 0) (i 0))
+    (if (>= i len)
+        r
+        (lp (bitwise-ior
+             r
+             (arithmetic-shift (bitvector-ref/int bvec i) i))
+            (+ i 1)))))
 
 (define bitvector->integer
   (case-lambda
