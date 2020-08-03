@@ -1,7 +1,7 @@
 (define (check-bitvector-conversions)
   (print-header "Checking bitvector conversions...")
 
-  ;;; list conversions
+  ;;; lists
 
   (check (bitvector->list/int (bitvector))             => '())
   (check (bitvector->list/int (bitvector 1 0 1 0))     => '(1 0 1 0))
@@ -36,14 +36,14 @@
   (check (bitvector= (reverse-list->bitvector '(1 0 #t #f)) (bitvector 0 1 0 1))
    => #t)
 
-  ;;; vector conversions
+  ;;; vectors
 
   (check (bitvector->vector/int (bitvector))          => #())
   (check (bitvector->vector/int (bitvector 1 0 1 0))  => #(1 0 1 0))
   (check (bitvector->vector/bool (bitvector))         => #())
   (check (bitvector->vector/bool (bitvector 1 0 1 0)) => #(#t #f #t #f))
 
-  ;;; string conversions
+  ;;; strings
 
   (check (bitvector->string (bitvector 1 0 1 0))     => "#*1010")
   (check (bitvector->string (bitvector))             => "#*")
@@ -57,4 +57,23 @@
     (check (bitvector= (string->bitvector (bitvector->string bvec))
                        bvec)
      => #t))
+
+  ;;; integers
+
+  (check (bitvector->integer (bitvector 0 1 0 1)) => #xa)
+  (check (bitvector->integer (bitvector 0 1 0 1) 2) => #x2)
+  (check (bitvector= (integer->bitvector #xa) (bitvector 0 1 0 1)) => #t)
+
+  ;;; bytevectors
+
+  (check (bitvector->bytevector (bitvector 1 0 1 0 1 1 0 1))
+   => #u8(#xad))
+  (check (bitvector->bytevector (bitvector 1 0 1 0 1 1 0 1) 2)
+   => #u8(#xb4))
+  (check (bitvector->bytevector (bitvector 1 0 1 0 1 1 0 1) 2 6)
+   => #u8(#xb))
+  (check (bitvector->bytevector
+          (bitvector-concatenate
+           (map integer->bitvector '(#xca #xfe #xf0 #x0d))))
+   => #u8(#xca #xfe #xf0 #x0d))
 )
