@@ -124,7 +124,7 @@
      (bitvector->bytevector* bvec start end))))
 
 (define (bitvector->bytevector* bvec start end)
-  (let ((result (make-bytevector (ceiling (/ (- start end) 8)))))
+  (let ((result (make-bytevector (ceiling (/ (- end start) 8)))))
     (bitvector->bytevector!* result 0 bvec start end)
     result))
 
