@@ -108,6 +108,8 @@
                ((end-byte end-seg) (floor/ end 8)))
     (let* ((end-byte* (+ end-byte (if (zero? end-seg) 0 1)))
            (bvec (%unpack-bytevector bytevec start-byte end-byte*)))
+      (display bvec)
+      (newline)
       (if (and (zero? start-off) (zero? end-seg))
           bvec
           (bitvector-copy bvec start-off (+ (* 8 end-byte) end-seg))))))

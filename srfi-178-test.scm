@@ -58,6 +58,23 @@
              (display *tests-failed*)
              (newline)))))))
 
+(cond-expand
+  ((library (srfi 158))
+   (import (only (srfi 158) generator-for-each generator->list)))
+  (else
+   (begin
+    (define (generator-for-each proc g)
+      (let ((v (g)))
+        (unless (eof-object? v)
+          (proc v)
+          (generator-for-each proc g))))
+
+    (define (generator->list g)
+      (let ((v (g)))
+        (if (eof-object? v)
+            '()
+            (cons v (generator->list g))))))))
+
 (define (print-header message)
   (newline)
   (display ";;; ")
@@ -109,6 +126,7 @@
 (include "test/selectors.scm")
 (include "test/conversions.scm")
 (include "test/quasi-string.scm")
+(include "test/gen-accum.scm")
 
 (define (check-all)
   ;; Check predicates, bitvector conversions, and selectors first,
