@@ -21,7 +21,7 @@
        (> (string-length str) 1)
        (char=? (string-ref str 0) #\#)
        (char=? (string-ref str 1) #\*)
-       (bitvector-unfold/int
+       (bitvector-unfold
         (lambda (ri si)
           (case (string-ref str si)
             ((#\0) (values 0 (+ si 1)))
@@ -60,7 +60,7 @@
     ((bvec len) (%bitvector->integer bvec len))))
 
 (define (integer->bitvector int)
-  (bitvector-unfold/bool
+  (bitvector-unfold
    (lambda (_ int)
      (values (bit-set? 0 int) (arithmetic-shift int -1)))
    (integer-length int)

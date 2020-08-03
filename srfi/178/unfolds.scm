@@ -1,4 +1,4 @@
-(define (bitvector-unfold/bool f length seed)
+(define (bitvector-unfold f length seed)
   (let ((result (make-u8vector length)))
     (let lp ((i 0) (state seed))
       (if (>= i length)
@@ -7,7 +7,7 @@
             (u8vector-set! result i (I b))
 	    (lp (+ i 1) state*))))))
 
-(define (bitvector-unfold-right/bool f length seed)
+(define (bitvector-unfold-right f length seed)
   (let ((result (make-u8vector length)))
     (let lp ((i (- length 1)) (state seed))
       (if (< i 0)

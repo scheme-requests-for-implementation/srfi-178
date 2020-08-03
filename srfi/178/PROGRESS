@@ -10,10 +10,8 @@ bit->boolean                    Done            convert.scm
 
 make-bitvector                  Done            wrappers.scm
 bitvector                       Done            wrappers.scm
-bitvector-unfold/int            Done            wrappers.scm
-bitvector-unfold/bool           Done            wrappers.scm
-bitvector-unfold-right/int      Done            wrappers.scm
-bitvector-unfold-right/bool     Done            wrappers.scm
+bitvector-unfold                Done            unfolds.scm
+bitvector-unfold-right          Done            unfolds.scm
 bitvector-copy                  Done            wrappers.scm
 bitvector-reverse-copy          Done            wrappers.scm
 bitvector-append                Done            wrappers.scm
@@ -88,7 +86,7 @@ reverse-bitvector->list/bool    Done            wrappers.scm
 list->bitvector                 Done            wrappers.scm
 reverse-list->bitvector         Done            wrappers.scm
 bitvector->vector/int           Done            wrappers.scm
-bitvector->vector/bool          Done            wrappers.scm
+bitvector->vector/bool          Done            convert.scm
 vector->bitvector               Done            wrappers.scm
 bitvector->string               Done            convert.scm
 string->bitvector               Done            convert.scm

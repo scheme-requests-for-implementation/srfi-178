@@ -5,11 +5,6 @@
     ((size) (W (make-u8vector size)))
     ((size fill) (W (make-u8vector size (I fill))))))
 
-(define (bitvector-unfold/int f length seed)
-  (W (u8vector-unfold f length seed)))
-
-(define (bitvector-unfold-right/int f length seed)
-  (W (u8vector-unfold-right f length seed)))
 
 (define bitvector-copy
   (case-lambda

@@ -18,9 +18,8 @@
   (export bit->integer bit->boolean  ; Bit conversion
 
           ;; Constructors
-          make-bitvector bitvector bitvector-unfold/int
-          bitvector-unfold/bool bitvector-unfold-right/int
-          bitvector-unfold-right/bool bitvector-copy
+          make-bitvector bitvector bitvector-unfold
+          bitvector-unfold-right bitvector-copy
           bitvector-reverse-copy bitvector-append bitvector-concatenate
           bitvector-append-subbitvectors
 

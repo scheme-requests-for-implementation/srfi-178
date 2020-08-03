@@ -8,33 +8,21 @@
   ;;; unfolds
 
   (check (bitvector->list/int
-          (bitvector-unfold/int (lambda (i n) (values 0 0)) 4 0))
+          (bitvector-unfold (lambda (i n) (values 0 0)) 4 0))
    => '(0 0 0 0))
   (check (bitvector->list/int
-          (bitvector-unfold/int (lambda (i n) (values n (if (zero? n) 1 0)))
+          (bitvector-unfold (lambda (i n) (values n (if (zero? n) 1 0)))
                                 4
                                 1))
    => '(1 0 1 0))
   (check (bitvector->list/int
-          (bitvector-unfold/bool (lambda (i b) (values #f #f)) 4 #f))
+          (bitvector-unfold-right (lambda (i n) (values 0 0)) 4 0))
    => '(0 0 0 0))
   (check (bitvector->list/int
-          (bitvector-unfold/bool (lambda (i b) (values b (not b))) 4 #t))
-   => '(1 0 1 0))
-  (check (bitvector->list/int
-          (bitvector-unfold-right/int (lambda (i n) (values 0 0)) 4 0))
-   => '(0 0 0 0))
-  (check (bitvector->list/int
-          (bitvector-unfold-right/int
+          (bitvector-unfold-right
            (lambda (i n) (values n (if (zero? n) 1 0)))
            4
            1))
-   => '(0 1 0 1))
-  (check (bitvector->list/int
-          (bitvector-unfold-right/bool (lambda (i b) (values #f #f)) 4 #f))
-   => '(0 0 0 0))
-  (check (bitvector->list/int
-          (bitvector-unfold-right/bool (lambda (i b) (values b (not b))) 4 #t))
    => '(0 1 0 1))
 
   ;;; copy
