@@ -1,5 +1,6 @@
 (define-library (srfi 178)
   (import (scheme base))
+  (import (scheme write))
   (import (scheme case-lambda))
   (import (srfi 151))
   (import (srfi 160 u8))
@@ -59,7 +60,7 @@
           bitvector->bytevector bitvector->bytevector! bytevector->bitvector
 
           ;; Generators and accumulators
-          make-bitvector/int-generator make-bitvector/bool-generator
+          make-bitvector-generator/int make-bitvector-generator/bool
           make-bitvector-accumulator
 
           ;; Basic operations

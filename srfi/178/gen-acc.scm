@@ -1,4 +1,4 @@
-(define (make-bitvector/int-generator bvec)
+(define (make-bitvector-generator/int bvec)
   (lambda ()
     (let ((len (bitvector-length bvec))
           (i 0))
@@ -8,7 +8,7 @@
           (set! i (+ i 1))
           r)))))
 
-(define (make-bitvector/bool-generator bvec)
+(define (make-bitvector-generator/bool bvec)
   (lambda ()
     (let ((len (bitvector-length bvec))
           (i 0))
