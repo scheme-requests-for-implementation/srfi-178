@@ -21,6 +21,7 @@
 
 (import (scheme base))
 (import (scheme write))
+(import (srfi 151))
 (import (srfi 178))
 
 (cond-expand
@@ -127,6 +128,7 @@
 (include "test/conversions.scm")
 (include "test/quasi-string.scm")
 (include "test/gen-accum.scm")
+(include "test/logic-ops.scm")
 
 (define (check-all)
   ;; Check predicates, bitvector conversions, and selectors first,
