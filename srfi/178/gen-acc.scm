@@ -15,8 +15,8 @@
   (%make-bitvector-generator bvec bitvector-ref/bool))
 
 (define (make-bitvector-accumulator)
-  (lambda (x)
-    (let ((r '()))
+  (let ((r '()))
+    (lambda (x)
       (if (eof-object? x)
         (reverse-list->bitvector r)
         (set! r (cons x r))))))
