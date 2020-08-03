@@ -134,9 +134,10 @@ bitvector-orc2!                 Done            logic-ops.scm
 
 bitvector-logical-shift         NOSPEC          quasi-ints.scm
 bitvector-logical-shift!        NOSPEC          quasi-ints.scm
-bitvector-count                 Done            quasi-ints.scm
+bitvector-count                 FIXME           quasi-ints.scm
+bitvector-count-run             TODO            quasi-ints.scm
 bitvector-if                    Done            quasi-ints.scm
-bitvector-first-bit             Done            quasi-ints.scm
+bitvector-first-bit             FIXME           quasi-ints.scm
 
 
 # Bit field operations (Mostly done)

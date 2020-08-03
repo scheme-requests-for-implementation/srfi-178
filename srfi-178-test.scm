@@ -129,6 +129,7 @@
 (include "test/quasi-string.scm")
 (include "test/gen-accum.scm")
 (include "test/logic-ops.scm")
+(include "test/quasi-ints.scm")
 
 (define (check-all)
   ;; Check predicates, bitvector conversions, and selectors first,
