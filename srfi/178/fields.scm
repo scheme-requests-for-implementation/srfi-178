@@ -35,7 +35,12 @@
   (unspecified))
 
 (define (bitvector-field-replace dest source start end)
-  #f)
+  (%bitvector-tabulate/int
+   (bitvector-length dest)
+   (lambda (i)
+     (if (and (>= i start) (< i end))
+         (bitvector-ref/int source (- i start))
+         (bitvector-ref/int dest i)))))
 
 (define (bitvector-field-replace! dest source start end)
   #f)
@@ -57,7 +62,13 @@
   #f)
 
 (define (bitvector-field-reverse bvec start end)
-  #f)
+  (%bitvector-tabulate/int
+   (bitvector-length bvec)
+   (lambda (i)
+     (bitvector-ref/int bvec
+                        (if (and (>= i start) (< i end))
+                            (- end (+ 1 (- i start)))
+                            i)))))
 
 (define (bitvector-field-reverse! bvec start end)
   #f)
