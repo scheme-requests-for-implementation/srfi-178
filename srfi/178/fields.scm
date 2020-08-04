@@ -77,7 +77,7 @@
   (%bitvector-tabulate/int
    (bitvector-length bvec)
    (lambda (i)
-     (I (if (and (>= start i) (< i end))
+     (I (if (and (>= i start) (< i end))
             (not (bitvector-ref/bool bvec i))
             (bitvector-ref/bool bvec i))))))
 
