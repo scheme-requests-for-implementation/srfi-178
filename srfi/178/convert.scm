@@ -105,14 +105,14 @@
 ;; align to byte boundaries; in this case, a subbitvector is copied.
 (define (bytevector->bitvector* bytevec start end)
   (let-values (((start-byte start-off) (floor/ start 8))
-               ((end-byte end-seg) (floor/ end 8)))
-    (let* ((end-byte* (+ end-byte (if (zero? end-seg) 0 1)))
-           (bvec (%unpack-bytevector bytevec start-byte end-byte*)))
-      (display bvec)
-      (newline)
+               ((last-whole end-seg) (floor/ end 8)))
+    ;; If there are trailing bits (i.e. if end doesn't align to a
+    ;; byte boundary), then copy the whole trailing byte.
+    (let* ((end-byte (if (zero? end-seg) last-whole (+ last-whole 1)))
+           (bvec (%unpack-bytevector bytevec start-byte end-byte)))
       (if (and (zero? start-off) (zero? end-seg))
           bvec
-          (bitvector-copy bvec start-off (+ (* 8 end-byte) end-seg))))))
+          (bitvector-copy bvec start-off (+ start-off (- end start)))))))
 
 ;;;; Bitvector to bytevector conversions
 
