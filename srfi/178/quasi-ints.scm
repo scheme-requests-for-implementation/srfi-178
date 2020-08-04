@@ -10,6 +10,14 @@
                         0
                         bvec)))
 
+(define (bitvector-count-run bit bvec index)
+  (let ((int (I bit))
+        (len (bitvector-length bvec)))
+    (let lp ((i index) (c 0))
+      (if (or (>= i len) (not (= int (bitvector-ref/int bvec i))))
+          c
+          (lp (+ i 1) (+ c 1))))))
+
 (define (bitvector-if if-bvec then-bvec else-bvec)
   (bitvector-map/bool (lambda (bit then-bit else-bit)
 			(if bit then-bit else-bit))

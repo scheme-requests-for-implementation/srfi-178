@@ -5,6 +5,10 @@
   (check (bitvector-count #t (make-bitvector 8 0))       => 0)
   (check (bitvector-count 1 (bitvector 1 1 0 1 1 0 0 0)) => 4)
 
+  (check (bitvector-count-run 1 (make-bitvector 8 1) 0)  => 8)
+  (check (bitvector-count-run #t (make-bitvector 8 0) 4) => 0)
+  (check (bitvector-count-run 1 (bitvector 0 1 1 1) 1)   => 3)
+
   (let ((then-bvec (bitvector 1 0 1 0))
         (else-bvec (bitvector 0 0 0 1)))
     (check

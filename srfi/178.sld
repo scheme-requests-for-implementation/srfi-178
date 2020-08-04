@@ -4,6 +4,7 @@
   (import (scheme case-lambda))
   (import (srfi 151))
   (import (srfi 160 u8))
+  (import (srfi 166))
 
   (cond-expand
    ((library (srfi 1))
@@ -75,7 +76,7 @@
           ;; Quasi-integer operations
           bitvector-logical-shift
           bitvector-logical-shift!  bitvector-count bitvector-if
-          bitvector-first-bit
+          bitvector-first-bit bitvector-count-run
 
           ;; Bit field operations
           bitvector-field-any?  bitvector-field-every?
