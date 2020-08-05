@@ -130,6 +130,7 @@
 (include "test/gen-accum.scm")
 (include "test/logic-ops.scm")
 (include "test/quasi-ints.scm")
+(include "test/fields.scm")
 
 (define (check-all)
   ;; Check predicates, bitvector conversions, and selectors first,
@@ -141,6 +142,9 @@
   (check-constructors)
   (check-iterators)
   (check-quasi-string-ops)
+  (check-bitwise-operations)
+  (check-quasi-integer-operations)
+  (check-bit-field-operations)
 
   (newline)
   (check-report))
