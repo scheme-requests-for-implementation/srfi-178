@@ -152,9 +152,9 @@ bitvector-field-replace-same    Done            fields.scm
 bitvector-field-replace-same!   Done            fields.scm
 bitvector-field-flip            Done            fields.scm
 bitvector-field-flip!           Done            fields.scm
-bitvector-field-replace         Done/NOSPEC     fields.scm
+bitvector-field-replace         Removed         fields.scm
 bitvector-field-replace!        Done/NOSPEC     fields.scm
 bitvector-field-rotate          NOSPEC          fields.scm
 bitvector-field-rotate!         NOSPEC          fields.scm
-bitvector-field-reverse         Done/NOSPEC     fields.scm
+bitvector-field-reverse         Removed         fields.scm
 bitvector-field-reverse!        Done/NOSPEC     fields.scm
