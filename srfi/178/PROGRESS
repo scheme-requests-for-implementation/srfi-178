@@ -71,7 +71,7 @@ bitvector-trim-both             Done            quasi-strs.scm
 
 bitvector-set!                  Done            wrappers.scm
 bitvector-swap!                 Done            wrappers.scm
-bitvector-fill!                 Done            wrappers.scm
+bitvector-fill!                 Done/NOSPEC     wrappers.scm
 bitvector-reverse!              Done            wrappers.scm
 bitvector-copy!                 Done            wrappers.scm
 bitvector-reverse-copy!         Done            wrappers.scm
