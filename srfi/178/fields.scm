@@ -43,7 +43,7 @@
          (bitvector-ref/int dest i)))))
 
 (define (bitvector-field-replace! dest source start end)
-  #f)
+  (bitvector-copy! dest start source 0 (- end start)))
 
 (define (bitvector-field-replace-same dest source start end)
   (%bitvector-tabulate/int
@@ -71,7 +71,14 @@
                             i)))))
 
 (define (bitvector-field-reverse! bvec start end)
-  #f)
+  (let ((u8vec (U bvec))
+        (pivot (+ start (floor-quotient (- end start) 2))))
+    (display pivot)
+    (newline)
+    (let lp ((i start) (j (- end 1)))
+      (unless (>= i pivot)
+        (u8vector-swap! u8vec i j)
+        (lp (+ i 1) (- j 1))))))
 
 (define (bitvector-field-flip bvec start end)
   (%bitvector-tabulate/int
