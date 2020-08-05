@@ -45,30 +45,12 @@
 (define (bitvector-field-replace! dest source start end)
   (bitvector-copy! dest start source 0 (- end start)))
 
-(define (bitvector-field-replace-same dest source start end)
-  (%bitvector-tabulate/int
-   (bitvector-length dest)
-   (lambda (i)
-     (bitvector-ref/int (if (and (>= i start) (< i end))
-                            source
-                            dest)
-                        i))))
-
 (define (bitvector-field-replace-same! dest source start end)
   (bitvector-copy! dest start source start end)
   (unspecified))
 
 (define (bitvector-field-rotate bvec count start end)
   #f)
-
-(define (bitvector-field-reverse bvec start end)
-  (%bitvector-tabulate/int
-   (bitvector-length bvec)
-   (lambda (i)
-     (bitvector-ref/int bvec
-                        (if (and (>= i start) (< i end))
-                            (- end (+ 1 (- i start)))
-                            i)))))
 
 (define (bitvector-field-reverse! bvec start end)
   (let ((u8vec (U bvec))
