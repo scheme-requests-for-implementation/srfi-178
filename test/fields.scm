@@ -25,4 +25,62 @@
     (check (bitvector= (begin (bitvector-field-set! bvec 0 2) bvec)
                        (bitvector 1 1 0 0))
      => #t))
+
+  ;;; replace
+
+  (check
+   (bitvector=
+    (bitvector-field-replace-same (make-bitvector 4 0)
+                                  (make-bitvector 4 1)
+                                  1
+                                  3)
+    (bitvector 0 1 1 0))
+   => #t)
+  (let ((bvec (make-bitvector 4 0)))
+    (check
+     (bitvector= (begin
+                  (bitvector-field-replace-same! bvec
+                                                 (make-bitvector 4 1)
+                                                 1
+                                                 3)
+                  bvec)
+                 (bitvector 0 1 1 0))
+     => #t))
+  (let ((bvec (make-bitvector 4 0)))
+    (check
+     (bitvector= (begin
+                  (bitvector-field-replace! bvec (make-bitvector 4 1) 1 3)
+                  bvec)
+                 (bitvector 0 1 1 0))
+     => #t))
+
+  ;;; reverse!
+
+  (let ((bvec (bitvector 0 1 0 1 1)))
+    (check
+     (bitvector= (begin (bitvector-field-reverse! bvec 0 5) bvec)
+                 (bitvector 1 1 0 1 0))
+     => #t))
+  (let ((bvec (bitvector 0 1 0 1 1)))
+    (check
+     (bitvector= (begin (bitvector-field-reverse! bvec 1 3) bvec)
+                 (bitvector 0 0 1 1 1))
+     => #t))
+
+  ;;; flip
+
+  (check (bitvector= (bitvector-field-flip (bitvector 0 1 0 1) 0 4)
+                     (bitvector 1 0 1 0))
+   => #t)
+  (check (bitvector= (bitvector-field-flip (bitvector 0 1 0 1) 2 4)
+                     (bitvector 0 1 1 0))
+   => #t)
+  (let ((bvec (bitvector 0 1 0 1)))
+    (check (bitvector= (begin (bitvector-field-flip! bvec 0 4) bvec)
+                       (bitvector 1 0 1 0))
+     => #t))
+  (let ((bvec (bitvector 0 1 0 1)))
+    (check (bitvector= (begin (bitvector-field-flip! bvec 2 4) bvec)
+                       (bitvector 0 1 1 0))
+     => #t))
 )
