@@ -54,6 +54,23 @@
                  (bitvector 0 1 1 0))
      => #t))
 
+  ;;; rotate
+
+  (check (bitvector= (bitvector-field-rotate (bitvector 1 0 0 1) 1 0 4)
+                     (bitvector 0 0 1 1))
+   => #t)
+  (check (bitvector= (bitvector-field-rotate (bitvector 1 0 0 1) -1 0 4)
+                     (bitvector 1 1 0 0))
+   => #t)
+  (check (bitvector=
+          (bitvector-field-rotate (bitvector 1 0 0 1 1 0 1 0) 2 2 6)
+          (bitvector 1 0 1 0 0 1 1 0))
+   => #t)
+  (check (bitvector=
+          (bitvector-field-rotate (bitvector 1 0 0 1 1 0 1 0) -3 2 6)
+          (bitvector 1 0 1 1 0 0 1 0))
+   => #t)
+
   ;;; reverse!
 
   (let ((bvec (bitvector 0 1 0 1 1)))

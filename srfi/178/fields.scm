@@ -1,5 +1,3 @@
-;;; TODO: Bounds checks.
-
 (define (bitvector-field-any? bvec start end)
   (let lp ((i start))
     (and (< i end)
@@ -50,8 +48,19 @@
   (bitvector-copy! dest start source start end)
   (unspecified))
 
+
 (define (bitvector-field-rotate bvec count start end)
-  #f)
+  (if (zero? count)
+      bvec
+      (let ((field-len (- end start)))
+        (%bitvector-tabulate/int
+         (bitvector-length bvec)
+         (lambda (i)
+           (if (and (>= i start) (< i end))
+               (bitvector-ref/int
+                bvec
+                (+ start (floor-remainder (+ (- i start) count) field-len)))
+               (bitvector-ref/int bvec i)))))))
 
 (define (bitvector-field-reverse! bvec start end)
   (let ((u8vec (U bvec))

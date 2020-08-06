@@ -133,6 +133,7 @@ bitvector-orc2!                 Done            logic-ops.scm
 # Quasi-integer operations (Done)
 
 bitvector-logical-shift         Done/NOSPEC     quasi-ints.scm
+bitvector-logical-shift!        Removed
 bitvector-count                 Done            quasi-ints.scm
 bitvector-count-run             Done            quasi-ints.scm
 bitvector-if                    Done            quasi-ints.scm
@@ -153,7 +154,7 @@ bitvector-field-flip            Done            fields.scm
 bitvector-field-flip!           Done            fields.scm
 bitvector-field-replace         Removed         fields.scm
 bitvector-field-replace!        Done/NOSPEC     fields.scm
-bitvector-field-rotate          NOSPEC          fields.scm
-bitvector-field-rotate!         NOSPEC          fields.scm
+bitvector-field-rotate          Done/NOSPEC     fields.scm
+bitvector-field-rotate!         Removed
 bitvector-field-reverse         Removed         fields.scm
 bitvector-field-reverse!        Done/NOSPEC     fields.scm
