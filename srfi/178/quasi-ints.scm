@@ -1,5 +1,25 @@
 (define (bitvector-logical-shift bvec count bit)
-  #f)
+  (cond ((positive? count)
+         (%bitvector-left-shift bvec count (I bit)))
+        ((negative? count)
+         (%bitvector-right-shift bvec (- count) (I bit)))
+        (else bvec)))
+
+(define (%bitvector-left-shift bvec count bit)
+  (let ((len (bitvector-length bvec)))
+    (%bitvector-tabulate/int
+     len
+     (lambda (i)
+       (let ((i* (+ i count)))
+         (if (< i* len) (bitvector-ref/int bvec i*) bit))))))
+
+(define (%bitvector-right-shift bvec count bit)
+  (%bitvector-tabulate/int
+   (bitvector-length bvec)
+   (lambda (i)
+     (if (< i count)
+         bit
+         (bitvector-ref/int bvec (- i count))))))
 
 (define (bitvector-count bit bvec)
   (let ((int (I bit)))

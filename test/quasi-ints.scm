@@ -1,6 +1,13 @@
 (define (check-quasi-integer-operations)
   (print-header "Checking quasi-integer operations...")
 
+  (check (bitvector= (bitvector-logical-shift (bitvector 1 0 1 1) 2 0)
+                     (bitvector 1 1 0 0))
+   => #t)
+  (check (bitvector= (bitvector-logical-shift (bitvector 1 0 1 1) -2 #t)
+                     (bitvector 1 1 1 0))
+   => #t)
+
   (check (bitvector-count 1 (make-bitvector 8 1))        => 8)
   (check (bitvector-count #t (make-bitvector 8 0))       => 0)
   (check (bitvector-count 1 (bitvector 1 1 0 1 1 0 0 0)) => 4)

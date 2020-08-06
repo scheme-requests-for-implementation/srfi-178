@@ -75,7 +75,7 @@
 
           ;; Quasi-integer operations
           bitvector-logical-shift
-          bitvector-logical-shift!  bitvector-count bitvector-if
+          bitvector-count bitvector-if
           bitvector-first-bit bitvector-count-run
 
           ;; Bit field operations

@@ -130,10 +130,9 @@ bitvector-orc2                  Done            logic-ops.scm
 bitvector-orc2!                 Done            logic-ops.scm
 
 
-# Quasi-integer operations (Mostly done)
+# Quasi-integer operations (Done)
 
-bitvector-logical-shift         NOSPEC          quasi-ints.scm
-bitvector-logical-shift!        Removed
+bitvector-logical-shift         Done/NOSPEC     quasi-ints.scm
 bitvector-count                 Done            quasi-ints.scm
 bitvector-count-run             Done            quasi-ints.scm
 bitvector-if                    Done            quasi-ints.scm
