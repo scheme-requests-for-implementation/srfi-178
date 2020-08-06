@@ -22,15 +22,13 @@
   (%bitvector-field-modify bvec 0 start end))
 
 (define (bitvector-field-clear! bvec start end)
-  (bitvector-fill! bvec 0 start end)
-  (unspecified))
+  (bitvector-fill! bvec 0 start end))
 
 (define (bitvector-field-set bvec start end)
   (%bitvector-field-modify bvec 1 start end))
 
 (define (bitvector-field-set! bvec start end)
-  (bitvector-fill! bvec 1 start end)
-  (unspecified))
+  (bitvector-fill! bvec 1 start end))
 
 (define (bitvector-field-replace dest source start end)
   (%bitvector-tabulate/int
@@ -53,9 +51,7 @@
                         i))))
 
 (define (bitvector-field-replace-same! dest source start end)
-  (bitvector-copy! dest start source start end)
-  (unspecified))
-
+  (bitvector-copy! dest start source start end))
 
 (define (bitvector-field-rotate bvec count start end)
   (if (zero? count)
@@ -101,6 +97,5 @@
   (let lp ((i start))
     (unless (>= i end)
       (bitvector-set! bvec i (not (bitvector-ref/bool bvec i)))
-      (lp (+ i 1))))
-  (unspecified))
+      (lp (+ i 1)))))
 

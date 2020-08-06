@@ -1,5 +1,3 @@
-(define (unspecified) (if #f #f))
-
 ;; Return a bitvector of length len.  The element at index i is
 ;; given by (proc i).
 (define (%bitvector-tabulate/int len proc)
