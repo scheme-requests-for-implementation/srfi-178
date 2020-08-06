@@ -140,7 +140,7 @@ bitvector-if                    Done            quasi-ints.scm
 bitvector-first-bit             Done            quasi-ints.scm
 
 
-# Bit field operations (Mostly done)
+# Bitvector field operations (Done)
 
 bitvector-field-any?            Done            fields.scm
 bitvector-field-every?          Done            fields.scm
