@@ -85,6 +85,7 @@
           bitvector-field-replace-same bitvector-field-replace-same!
           bitvector-field-rotate bitvector-field-flip
           bitvector-field-flip! bit->integer bit->boolean
+          bitvector-field-replace bitvector-field-reverse
           bitvector-field-replace! bitvector-field-reverse!
           )
 

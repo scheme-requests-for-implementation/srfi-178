@@ -32,6 +32,14 @@
   (bitvector-fill! bvec 1 start end)
   (unspecified))
 
+(define (bitvector-field-replace dest source start end)
+  (%bitvector-tabulate/int
+   (bitvector-length dest)
+   (lambda (i)
+     (if (and (>= i start) (< i end))
+         (bitvector-ref/int source (- i start))
+         (bitvector-ref/int dest i)))))
+
 (define (bitvector-field-replace! dest source start end)
   (bitvector-copy! dest start source 0 (- end start)))
 
@@ -61,6 +69,15 @@
                 bvec
                 (+ start (floor-remainder (+ (- i start) count) field-len)))
                (bitvector-ref/int bvec i)))))))
+
+(define (bitvector-field-reverse bvec start end)
+  (%bitvector-tabulate/int
+   (bitvector-length bvec)
+   (lambda (i)
+     (bitvector-ref/int bvec
+                        (if (and (>= i start) (< i end))
+                            (- end (+ 1 (- i start)))
+                            i)))))
 
 (define (bitvector-field-reverse! bvec start end)
   (let ((u8vec (U bvec))
