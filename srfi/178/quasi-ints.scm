@@ -1,9 +1,6 @@
 (define (bitvector-logical-shift bvec count bit)
   #f)
 
-(define (bitvector-logical-shift! bvec count bit)
-  #f)
-
 (define (bitvector-count bit bvec)
   (let ((int (I bit)))
     (bitvector-fold/int (lambda (n b) (if (= b int) (+ n 1) n))
