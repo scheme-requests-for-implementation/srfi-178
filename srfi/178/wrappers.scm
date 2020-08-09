@@ -268,11 +268,11 @@
 (define bitvector->vector/bool
   (case-lambda
     ((bvec)
-     (vector->map bit->boolean (u8vector->vector (U bvec))))
+     (vector-map bit->boolean (u8vector->vector (U bvec))))
     ((bvec start)
-     (vector->map bit->boolean (u8vector->vector (U bvec) start)))
+     (vector-map bit->boolean (u8vector->vector (U bvec) start)))
     ((bvec start end)
-     (vector->map bit->boolean (u8vector->vector (U bvec) start end)))))
+     (vector-map bit->boolean (u8vector->vector (U bvec) start end)))))
 
 (define (list->bitvector list)
   (W (list->u8vector (map bit->integer list))))
