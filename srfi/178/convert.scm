@@ -4,8 +4,6 @@
 
 (define (bit->boolean bit) (B bit))
 
-;;;; String conversions
-
 (define (bitvector->string bvec)
   (let loop ((i (- (bitvector-length bvec) 1))
              (r '()))
@@ -29,18 +27,6 @@
             (else (return #f))))
         (- (string-length str) 2)
         2)))))
-
-;;;; Vector conversions
-
-(define (bitvector->vector/bool bvec)
-  (let* ((u8vec (U bvec))
-         (len (u8vector-length u8vec))
-         (result (make-vector len)))
-    (let lp ((i 0) (j 0))
-      (unless (>= i len)
-        (vector-set! result j (B (u8vector-ref u8vec i)))
-        (lp (+ i 1) (+ j 1))))
-    result))
 
 ;;;; Bitvector/integer conversions
 
