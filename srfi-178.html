@@ -23,7 +23,7 @@
 
 <H2>Abstract</H2>
 
-This SRFI describes a set of operations on 
+This SRFI describes a set of operations on
 homogeneous bitvectors.
 Operations analogous to those provided on the other homogeneous
 vector types described in
@@ -232,7 +232,7 @@ all the elements of the bitvector are initialized to it.</p>
 
 <p>Creates a vector whose length is <i>length</i> and iterates across each index
 <i>k</i> between 0 and <i>length</i>, applying <i>f</i> at each iteration to the current
-index and current state, in that order, to receive two values: 
+index and current state, in that order, to receive two values:
 the bit to put in the k<i>th</i> slot of the new vector and a new state
 for the next iteration.
 On the first call to <i>f</i>, the state's value is <i>seed</i>.</p>
@@ -353,7 +353,7 @@ and an undefined value with no change to <i>bvec1</i>.</p>
 
 <code>(bitvector-suffix-length <i>bvec1 bvec2</i>) -> index</code></p>
 
-<p>Return the number of elements that are equal in the prefix/suffix 
+<p>Return the number of elements that are equal in the prefix/suffix
 of the two <i>bvecs</i>.</p>
 
 <code>(bitvector-prefix? <i>bvec1 bvec2</i>) -> boolean</code><br>
@@ -592,7 +592,7 @@ from which bitvector to take each value.
 That is, if the <em>k</em>th value of <em>if-bitvector</em> is <code>#t</code>
 (or 1, depending in how you look at it),
 then the <em>k</em>th bit of the result is the <em>k</em>th bit of <em>then-bitvector</em>,
-otherwise the <em>k</em>th bit of <em>else-bitvector</em>.  
+otherwise the <em>k</em>th bit of <em>else-bitvector</em>.
 </p>
 
 
