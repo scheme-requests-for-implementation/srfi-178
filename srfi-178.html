@@ -515,9 +515,6 @@ It is an error unless all <em>bitvector</em>
 arguments passed to the following procedures are of the same length.
 </p>
 
-<p>SRFI 151 procedures that involve shifting or rotating
-are not provided by this SRFI.</p>
-
 <h3 id="Basicoperations">Basic operations</h3>
 <p><code>(bitvector-not </code><em>bvec</em><code>)</code> {map}<br />
 <code>(bitvector-not! </code><em>bvec</em><code>)</code>  {map!}</p>
@@ -578,6 +575,13 @@ These operations are not associative.
 </p>
 <h3 id="Quasiintegeroperations">Quasi-integer operations</h3>
 <p>
+<code>(bitvector-logical-shift </code><em>bvec count bit</em><code>)</code> {new}</p>
+<p>
+Returns a bitvector equal in length to <em>bvec</em>
+containing the logical left shift (toward lower indices) when <em>count</em>>=0
+or the right shift (toward upper indices) when <em>count</em>&lt;0.
+Newly vacated elements are filled with <i>bit</i>.
+</p>
 <p>
 <code>(bitvector-count </code><em>bit bvec</em><code>)</code> {fold}</p>
 <p>
@@ -645,6 +649,17 @@ Returns a bitvector containing
 </p>
 
 <p>
+<code>(bitvector-field-replace </code><em>dest source start end</em><code>)</code>  {new}<br />
+<code>(bitvector-field-replace! </code><em>dest source start end</em><code>)</code> {new}</p>
+<p>
+Returns a bitvector containing
+<em>dest</em> with the field replaced
+by the first <em>end-start</em> bits in <em>source</em>.
+</p>
+
+
+
+<p>
 <code>(bitvector-field-replace-same </code><em>dest source start end</em><code>)</code> {new}<br />
 <code>(bitvector-field-replace-same! </code><em>dest source start end</em><code>)</code>  {new}</code> </p>
 <p>
@@ -652,6 +667,24 @@ Returns a bitvector containing
 <em>dest</em> with its field replaced
 by the corresponding field in <em>source</em>.
 </p>
+
+
+<p>
+<code>(bitvector-field-rotate </code><em>bvec count start end</em><code>)</code> {new}</p>
+<p>
+Returns <em>bvec</em> with the field cyclically permuted
+by <em>count</em> bits towards high-order.
+</p>
+
+
+
+<p>
+<code>(bitvector-field-reverse </code><em>bvec start end</em><code>)</code> {new}<br />
+<code>(bitvector-field-reverse! </code><em>bvec start end</em><code>)</code> {new}</p>
+<p>
+Returns <em>bvec</em> with the order of the bits in the field reversed.
+</p>
+
 <p>
 <code>(bitvector-field-flip </code><em>bvec start end</em><code>)</code> {new}<br />
 <code>(bitvector-field-flip! </code><em>bvec start end</em><code>)</code> {new}</p>
@@ -661,6 +694,9 @@ that is, each value is replaced by the opposite value.
 There is no SRFI 151 equivalent.
 </p>
 
+
+<p>
+<p>
 <H1>Implementation</H1>
 
 <p>The sample implementation is (not yet) in the repository of this SRFI.
