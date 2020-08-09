@@ -56,13 +56,13 @@
   (bitvector-map!/int u1-nand a b))
 
 (define (u1-nor a b)
-  (u1-not (u1-and a b)))
+  (u1-not (u1-ior a b)))
 
 (define (bitvector-nor a b)
-  (bitvector-map/int bitvector-nor a b))
+  (bitvector-map/int u1-nor a b))
 
 (define (bitvector-nor! a b)
-  (bitvector-map!/int bitvector-nor a b))
+  (bitvector-map!/int u1-nor a b))
 
 (define (u1-andc1 a b)
   (u1-and (u1-not a) b))
@@ -83,7 +83,7 @@
   (bitvector-map!/int u1-andc2 a b))
 
 (define (u1-orc1 a b)
-  (u1-xor (u1-not a) b))
+  (u1-ior (u1-not a) b))
 
 (define (bitvector-orc1 a b)
   (bitvector-map/int u1-orc1 a b))
@@ -92,7 +92,7 @@
   (bitvector-map!/int u1-orc1 a b))
 
 (define (u1-orc2 a b)
-  (u1-xor a (u1-not b)))
+  (u1-ior a (u1-not b)))
 
 (define (bitvector-orc2 a b)
   (bitvector-map/int u1-orc2 a b))
