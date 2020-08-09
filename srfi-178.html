@@ -1,24 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
     <title>SRFI 178: Bitvector library</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/srfi.css" type="text/css" />
-    <link href="/favicon.png" rel="icon" sizes="192x192" type="image/png" />
-  </head>
-
+    <link href="/favicon.png" rel="icon" sizes="192x192" type="image/png">
+    <link rel="stylesheet" href="https://srfi.schemers.org/srfi.css" type="text/css">
+    <meta name="viewport" content="width=device-width, initial-scale=1"></head>
   <body>
+    <h1><a href="https://srfi.schemers.org/"><img class="srfi-logo" src="https://srfi.schemers.org/srfi-logo.svg" alt="SRFI logo" /></a>178: Bitvector library</h1>
 
-<H1>Title</H1>
+<p>by John Cowan</p>
 
-Bitvector library
-
-<H1>Author</H1>
-
-John Cowan
-
-<h1>Status</h1>
+<h2>Status</h2>
 
 <p>This SRFI is currently in <em>draft</em> status.  Here is <a href="https://srfi.schemers.org/srfi-process.html">an explanation</a> of each status that a SRFI can hold.  To provide input on this SRFI, please send email to <code><a href="mailto:srfi+minus+178+at+srfi+dotschemers+dot+org">srfi-178@<span class="antispam">nospam</span>srfi.schemers.org</a></code>.  To subscribe to the list, follow <a href="https://srfi.schemers.org/srfi-list-subscribe.html">these instructions</a>.  You can access previous messages via the mailing list <a href="https://srfi-email.schemers.org/srfi-178">archive</a>.</p>
 <ul>
@@ -28,7 +21,7 @@ John Cowan
   <li>Draft #2 published: 2020-05-02</li>
 </ul>
 
-<H1>Abstract</H1>
+<H2>Abstract</H2>
 
 This SRFI describes a set of operations on 
 homogeneous bitvectors.
@@ -44,14 +37,14 @@ which may be supported by the <code>read</code> and <code>write</code>
 procedures and by the program parser so that programs can contain
 references to literal bitvectors.
 
-<H1>Issues</H1>
+<H2>Issues</H2>
 
 <ul>
   <li>None at present.</li>
 
 </ul>
 
-<H1>Rationale</H1>
+<H2>Rationale</H2>
 
 <p>Bitvectors were excluded from the final draft of SRFI 160 because they
 are the only type of homogeneous numeric vectors for which bitwise
@@ -60,7 +53,7 @@ In addition, there are two ways to view them: as vectors of exact integers
 limited to the values 0 and 1, and as vectors of booleans.
 This SRFI is designed to allow bitvectors to be viewed in either way.</p>
 
-<H1>Specification</H1>
+<H2>Specification</H2>
 
 <p>Bitvectors are disjoint from all other Scheme types
 with the possible exception of u1vectors,
@@ -79,7 +72,7 @@ those ending in <code>/int</code> pass exact integers to their
 procedure arguments, whereas
 those ending in <code>/bool</code> pass booleans to theirs.
 
-<H2>Notation</H2>
+<H3>Notation</H3>
 
     <p>
       In the section containing specifications of procedures, the
@@ -210,9 +203,9 @@ However, a zero-length value need not be separately allocated.</p>
 <p>Except as otherwise noted, the semantics of each procedure are those
 of the corresponding SRFI 133 or SRFI 151 procedure.</p>
 
-<H2>Procedures</H2>
+<H3>Procedures</H3>
 
-<H3>Bit conversion</H3>
+<H4>Bit conversion</H4>
 
 <p><code>(bit->integer <i>bit</i>) -> exact integer</code></p>
 
@@ -224,7 +217,7 @@ and 1 if <i>bit</i> is 1 or <code>#t</code>.</p>
 <p>Returns <code>#f</code> if <i>bit</i> is 0 or <code>#f</code>
 and <code>#t</code> if <i>bit</i> is 1 or <code>#t</code>.</p>
 
-<H3>Constructors</H3>
+<H4>Constructors</H4>
 
 <p><code>(make-bitvector <i>size</i> [<i>fill</i>]) -> bitvector </code> </p>
 
@@ -271,7 +264,7 @@ multiple arguments.</p>
 <p>Concatenates the result of applying <code>bitvector-copy</code> to each triplet of
 <i>bvec, start, end</i> arguments, but may be implemented more efficiently.</p>
 
-<H3>Predicates</H3>
+<H4>Predicates</H4>
 
 <p><code>(bitvector? <i>obj</i>) -> boolean</code> </p>
 
@@ -289,7 +282,7 @@ and <code>#f</code> otherwise.</p>
 <code>eqv?</code> to do the comparisons,
 and returns <code>#t</code> or <code>#f</code> accordingly.
 
-<H3>Selectors</H3>
+<H4>Selectors</H4>
 
 <p><code>(bitvector-ref/int <i>bvec i</i>) -> integer</code> <br>
 <code>(bitvector-ref/bool <i>bvec i</i>) -> boolean</code> </p>
@@ -301,7 +294,7 @@ as an exact integer or boolean respectively.
 
 <p>Returns the length of <i>bvec</i>.</p>
 
-<H3>Iteration</H3>
+<H4>Iteration</H4>
 
 <p><code>(bitvector-take <i>bvec n</i>) -> bitvector</code> <br>
 
@@ -352,7 +345,7 @@ a list of the results,
 and an undefined value with no change to <i>bvec1</i>.</p>
 
 
-<H3>Prefixes, suffixes, trimming, padding</H3>
+<H4>Prefixes, suffixes, trimming, padding</H4>
 
 
 
@@ -385,7 +378,7 @@ is <i>length</i>.</p>
 <p>Returns a copy of <i>bvec</i> with leading/trailing/both
 elements equal to <i>bit</i> removed.</p>
 
-<H3>Mutators</H3>
+<H4>Mutators</H4>
 
 <p><code>(bitvector-set! <i>bvec i bit</i>) -> unspecified</code> </p>
 
@@ -408,7 +401,7 @@ onto <i>to</i>, starting at index <i>at</i>.
 
 <p>The same as <code>bitvector-copy!</code>, but copies in reverse.</p>
 
-<H3>Conversion</H3>
+<H4>Conversion</H4>
 
 <p><code>(bitvector->list/int <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of integers</code> <br>
 <code>(bitvector->list/bool <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of booleans</code> <br>
@@ -484,7 +477,7 @@ For example, requesting bits 8 through 15 will create a bitvector
 of length 8 with the contents of byte 1 of <i>bytevec</i>,
 starting with the most significant bit.</p>
 
-<h3>Generators</h3>
+<h4>Generators</h4>
 <p>
 <code>(make-bitvector-generator/int </code><em>bitvector</em><code>)</code> <br>
 <code>(make-bitvector-generator/bool </code><em>bitvector</em><code>)</code> </p>
@@ -500,7 +493,7 @@ Returns a <a href="https://srfi.schemers.org/srfi-158/srfi-158.html">SRFI 158</a
 accumulator that collects all the values of <em>bit-or-eof</em>.
 When the argument is an end of file object, returns a bitvector containing
 all the values in order.</p>
-<H2>Bitwise operations</H2>
+<H3>Bitwise operations</H3>
 
 <p>Procedures whose names end in <code>!</code> are the same as the
 corresponding procedures without <code>!</code>, except that the first
@@ -511,7 +504,7 @@ It is an error unless all <em>bitvector</em>
 arguments passed to the following procedures are of the same length.
 </p>
 
-<h3 id="Basicoperations">Basic operations</h3>
+<h4 id="Basicoperations">Basic operations</h4>
 <p><code>(bitvector-not </code><em>bvec</em><code>)</code> <br>
 <code>(bitvector-not! </code><em>bvec</em><code>)</code>  </p>
 <p>
@@ -569,7 +562,7 @@ Rather, it produces <code>(bitvector-eqv a (bitvector-eqv b c))</code> or the eq
 <p>
 These operations are not associative.
 </p>
-<h3 id="Quasiintegeroperations">Quasi-integer operations</h3>
+<h4 id="Quasiintegeroperations">Quasi-integer operations</h4>
 <p>
 <code>(bitvector-logical-shift </code><em>bvec count bit</em><code>)</code> </p>
 <p>
@@ -609,7 +602,7 @@ otherwise the <em>k</em>th bit of <em>else-bitvector</em>.
 Return the index of the first (smallest index) <i>bit</i> value in <em>bvec</em>.
 Return -1 if <em>bvec</em> contains no values equal to <i>bit</i>.
 </p>
-<h3 id="Bitfieldoperations">Bit field operations</h3>
+<h4 id="Bitfieldoperations">Bit field operations</h4>
 <p>
 These procedures operate on a contiguous field of bits (a "byte", in
 Common Lisp parlance) in a given bitvector. The <em>start</em> and <em>end</em>
@@ -693,7 +686,7 @@ There is no SRFI 151 equivalent.
 
 <p>
 <p>
-<H1>Implementation</H1>
+<H2>Implementation</H2>
 
 <p>The sample implementation is (not yet) in the repository of this SRFI.
 Bitvectors are implemented as wrapped bytevectors;
@@ -704,7 +697,7 @@ complex implementation that packs bits into bytes
 but still operates bytewise as much as possible <i>might</i> be provided.
 
 
-<H1>Copyright</H1>
+<H2>Copyright</H2>
 Copyright &copy; John Cowan 2018.
 <p>
 Permission is hereby granted, free of charge, to any person obtaining
