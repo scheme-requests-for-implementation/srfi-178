@@ -8,10 +8,10 @@
 	    (set! i (+ i 1))
 	    r)))))
 
-(define (make-bitvector-generator/int bvec)
+(define (make-bitvector/int-generator bvec)
   (%make-bitvector-generator bvec bitvector-ref/int))
 
-(define (make-bitvector-generator/bool bvec)
+(define (make-bitvector/bool-generator bvec)
   (%make-bitvector-generator bvec bitvector-ref/bool))
 
 (define (make-bitvector-accumulator)

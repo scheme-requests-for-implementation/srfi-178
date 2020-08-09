@@ -61,7 +61,7 @@
           bitvector->bytevector bitvector->bytevector! bytevector->bitvector
 
           ;; Generators and accumulators
-          make-bitvector-generator/int make-bitvector-generator/bool
+          make-bitvector/int-generator make-bitvector/bool-generator
           make-bitvector-accumulator
 
           ;; Basic operations

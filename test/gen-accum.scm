@@ -4,18 +4,18 @@
 
   ;;; Generators
 
-  (check (eof-object? ((make-bitvector-generator/int (bitvector)))) => #t)
-  (check (eof-object? ((make-bitvector-generator/bool (bitvector)))) => #t)
+  (check (eof-object? ((make-bitvector/int-generator (bitvector)))) => #t)
+  (check (eof-object? ((make-bitvector/bool-generator (bitvector)))) => #t)
   (check (bitvector=
           (bitvector-unfold (lambda (_ g) (values (g) g))
                             (bitvector-length test-bvec)
-                            (make-bitvector-generator/int test-bvec))
+                            (make-bitvector/int-generator test-bvec))
           test-bvec)
    => #t)
   (check (bitvector=
           (bitvector-unfold (lambda (_ g) (values (g) g))
                             (bitvector-length test-bvec)
-                            (make-bitvector-generator/bool test-bvec))
+                            (make-bitvector/bool-generator test-bvec))
           test-bvec)
    => #t)
 
@@ -40,7 +40,7 @@
 
   ;; Accumulating generated values yields the original structure.
   (check (bitvector=
-          (let ((gen (make-bitvector-generator/int test-bvec))
+          (let ((gen (make-bitvector/int-generator test-bvec))
                 (acc (make-bitvector-accumulator)))
             (generator-for-each acc gen)
             (acc (eof-object)))
@@ -54,7 +54,7 @@
             (let ((acc (make-bitvector-accumulator)))
               (for-each acc lis)
               (generator->list
-               (make-bitvector-generator/int (acc (eof-object)))))
+               (make-bitvector/int-generator (acc (eof-object)))))
             lis)
      => #t))
   ;; Boolean generator.
@@ -63,7 +63,7 @@
             (let ((acc (make-bitvector-accumulator)))
               (for-each acc lis)
               (generator->list
-               (make-bitvector-generator/bool (acc (eof-object)))))
+               (make-bitvector/bool-generator (acc (eof-object)))))
             lis)
      => #t))
 )
