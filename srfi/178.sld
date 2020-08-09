@@ -77,6 +77,7 @@
           bitvector-logical-shift
           bitvector-count bitvector-if
           bitvector-first-bit bitvector-count-run
+          bitvector-count-run
 
           ;; Bit field operations
           bitvector-field-any?  bitvector-field-every?
