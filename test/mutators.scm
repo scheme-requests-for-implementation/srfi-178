@@ -18,29 +18,6 @@
                  (bitvector 0 1 1 0)))
    => #t)
 
-  ;;; fill!
-
-  (check
-   (let ((bvec (bitvector 0 0 0 0)))
-     (bitvector= (begin (bitvector-fill! bvec 1) bvec)
-                 (bitvector 1 1 1 1)))
-   => #t)
-  (check
-   (let ((bvec (bitvector 0 0 0 0)))
-     (bitvector= (begin (bitvector-fill! bvec 1) bvec)
-                 (bitvector 1 1 1 1)))
-   => #t)
-  (check
-   (let ((bvec (bitvector 0 0 0 0)))
-     (bitvector= (begin (bitvector-fill! bvec #t 2) bvec)
-                 (bitvector 0 0 1 1)))
-   => #t)
-  (check
-   (let ((bvec (bitvector 0 0 0 0)))
-     (bitvector= (begin (bitvector-fill! bvec #t 1 3) bvec)
-                 (bitvector 0 1 1 0)))
-   => #t)
-
   ;;; reverse!
 
   (check

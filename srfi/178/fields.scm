@@ -21,14 +21,17 @@
 (define (bitvector-field-clear bvec start end)
   (%bitvector-field-modify bvec 0 start end))
 
+(define (%bitvector-fill!/int bvec int start end)
+  (u8vector-fill! (U bvec) int start end))
+
 (define (bitvector-field-clear! bvec start end)
-  (bitvector-fill! bvec 0 start end))
+  (%bitvector-fill!/int bvec 0 start end))
 
 (define (bitvector-field-set bvec start end)
   (%bitvector-field-modify bvec 1 start end))
 
 (define (bitvector-field-set! bvec start end)
-  (bitvector-fill! bvec 1 start end))
+  (%bitvector-fill!/int bvec 1 start end))
 
 (define (bitvector-field-replace dest source start end)
   (%bitvector-tabulate/int

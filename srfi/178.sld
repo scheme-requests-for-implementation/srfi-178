@@ -48,7 +48,7 @@
 
           ;; Mutators
           bitvector-set!
-          bitvector-swap!  bitvector-fill!  bitvector-reverse!
+          bitvector-swap! bitvector-reverse!
           bitvector-copy!  bitvector-reverse-copy!
 
           ;; Conversion
