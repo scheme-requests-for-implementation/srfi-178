@@ -43,6 +43,17 @@
   (check (bitvector->vector/bool (bitvector))         => #())
   (check (bitvector->vector/bool (bitvector 1 0 1 0)) => #(#t #f #t #f))
 
+  (check (bitvector-empty? (vector->bitvector #())) => #t)
+  (check (bitvector= (vector->bitvector #(1 0 #t #f))
+                     (bitvector 1 0 1 0))
+   => #t)
+  (check (bitvector= (vector->bitvector #(1 0 1 0) 1)
+                     (bitvector 0 1 0))
+   => #t)
+  (check (bitvector= (vector->bitvector #(1 0 1 0) 1 3)
+                     (bitvector 0 1))
+   => #t)
+
   ;;; strings
 
   (check (bitvector->string (bitvector 1 0 1 0))     => "#*1010")
@@ -60,9 +71,13 @@
 
   ;;; integers
 
+  ;; Remember, these are little-endian!
   (check (bitvector->integer (bitvector 0 1 0 1)) => #xa)
-  (check (bitvector->integer (bitvector 0 1 0 1) 2) => #x2)
+  (check (bitvector->integer (bitvector 1 0 1 0 1 1 0 1)) => #xb5)
   (check (bitvector= (integer->bitvector #xa) (bitvector 0 1 0 1)) => #t)
+  (check (bitvector= (integer->bitvector #xb5) (bitvector 1 0 1 0 1 1 0 1))
+    => #t)
+  (check (bitvector= (integer->bitvector #xb5 4) (bitvector 1 0 1 0)) => #t)
 
   ;;; bytevectors
 

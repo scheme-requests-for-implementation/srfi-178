@@ -3,8 +3,7 @@
 (define make-bitvector
   (case-lambda
     ((size) (W (make-u8vector size)))
-    ((size fill) (W (make-u8vector size (I fill))))))
-
+    ((size bit) (W (make-u8vector size (I bit))))))
 
 (define bitvector-copy
   (case-lambda
@@ -116,14 +115,13 @@
      (lambda (i)
        (f (u8vector-ref u8vec1 i) (u8vector-ref u8vec2 i))))))
 
-;; FIXME: The variadic case--yowch.
 (define bitvector-map/bool
   (case-lambda
     ((f bvec)          ; one-bitvector fast path
      (W (u8vector-map (lambda (n) (I (f (B n)))) (U bvec))))
     ((f bvec1 bvec2)   ; two-bitvector fast path
      (%bitvector-map2/int (lambda (n m) (I (f (B n) (B m)))) bvec1 bvec2))
-    ((f . bvecs)       ; normal path
+    ((f . bvecs)       ; normal path (ugh)
      (W (apply u8vector-map
                (lambda ns (I (apply f (map bit->boolean ns))))
                (map U bvecs))))))
@@ -149,14 +147,13 @@
         (lp (+ i 1))))
     bvec1))
 
-;; FIXME: The variadic case--yowch.
 (define bitvector-map!/bool
   (case-lambda
     ((f bvec)          ; one-bitvector fast path
      (u8vector-map! (lambda (n) (I (f (B n)))) (U bvec)))
     ((f bvec1 bvec2)   ; two-bitvector fast path
      (%bitvector-map2!/int (lambda (n m) (I (f (B n) (B m)))) bvec1 bvec2))
-    ((f . bvecs)
+    ((f . bvecs)       ; normal path (ugh)
      (apply u8vector-map!
             (lambda ns (I (apply f (map bit->boolean ns))))
             (map U bvecs)))))
@@ -168,7 +165,6 @@
     ((f . bvecs)
      (apply u8vector-for-each f (map U bvecs)))))
 
-;; FIXME: The variadic case--yowch.
 (define bitvector-for-each/bool
   (case-lambda
     ((f bvec)
@@ -184,14 +180,6 @@
 (define (bitvector-swap! bvec i j)
   (u8vector-swap! (U bvec) i j))
 
-(define bitvector-fill!
-  (case-lambda
-    ((bvec fill)
-     (u8vector-fill! (U bvec) (I fill)))
-    ((bvec fill start)
-     (u8vector-fill! (U bvec) (I fill) start))
-    ((bvec fill start end)
-     (u8vector-fill! (U bvec) (I fill) start end))))
 
 (define bitvector-reverse!
   (case-lambda
@@ -280,8 +268,13 @@
 (define (reverse-list->bitvector list)
   (W (reverse-list->u8vector (map bit->integer list))))
 
-(define (bitvector . args) (list->bitvector args))
+(define (bitvector . bits) (list->bitvector bits))
 
-(define (vector->bitvector vector)
-  (W (vector->u8vector (vector-map bit->integer vector))))
-
+(define vector->bitvector
+  (case-lambda
+    ((vec)
+     (W (vector->u8vector (vector-map bit->integer vec))))
+    ((vec start)
+     (W (vector->u8vector (vector-map bit->integer vec) start)))
+    ((vec start end)
+     (W (vector->u8vector (vector-map bit->integer vec) start end)))))

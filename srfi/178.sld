@@ -48,7 +48,7 @@
 
           ;; Mutators
           bitvector-set!
-          bitvector-swap!  bitvector-fill!  bitvector-reverse!
+          bitvector-swap! bitvector-reverse!
           bitvector-copy!  bitvector-reverse-copy!
 
           ;; Conversion
@@ -77,7 +77,6 @@
           bitvector-logical-shift
           bitvector-count bitvector-if
           bitvector-first-bit bitvector-count-run
-          bitvector-count-run
 
           ;; Bit field operations
           bitvector-field-any?  bitvector-field-every?
@@ -85,9 +84,8 @@
           bitvector-field-set bitvector-field-set!
           bitvector-field-replace-same bitvector-field-replace-same!
           bitvector-field-rotate bitvector-field-flip
-          bitvector-field-flip! bit->integer bit->boolean
-          bitvector-field-replace bitvector-field-reverse
-          bitvector-field-replace! bitvector-field-reverse!
+          bitvector-field-flip!
+          bitvector-field-replace bitvector-field-replace!
           )
 
   (include "178/macros.scm")
