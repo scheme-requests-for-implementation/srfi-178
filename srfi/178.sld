@@ -85,8 +85,7 @@
           bitvector-field-replace-same bitvector-field-replace-same!
           bitvector-field-rotate bitvector-field-flip
           bitvector-field-flip!
-          bitvector-field-replace bitvector-field-reverse
-          bitvector-field-replace! bitvector-field-reverse!
+          bitvector-field-replace bitvector-field-replace!
           )
 
   (include "178/macros.scm")
