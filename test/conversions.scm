@@ -71,9 +71,13 @@
 
   ;;; integers
 
+  ;; Remember, these are little-endian!
   (check (bitvector->integer (bitvector 0 1 0 1)) => #xa)
-  (check (bitvector->integer (bitvector 0 1 0 1) 2) => #x2)
+  (check (bitvector->integer (bitvector 1 0 1 0 1 1 0 1)) => #xb5)
   (check (bitvector= (integer->bitvector #xa) (bitvector 0 1 0 1)) => #t)
+  (check (bitvector= (integer->bitvector #xb5) (bitvector 1 0 1 0 1 1 0 1))
+    => #t)
+  (check (bitvector= (integer->bitvector #xb5 4) (bitvector 1 0 1 0)) => #t)
 
   ;;; bytevectors
 
