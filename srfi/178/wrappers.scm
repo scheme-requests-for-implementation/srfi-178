@@ -270,6 +270,11 @@
 
 (define (bitvector . bits) (list->bitvector bits))
 
-(define (vector->bitvector vector)
-  (W (vector->u8vector (vector-map bit->integer vector))))
-
+(define vector->bitvector
+  (case-lambda
+    ((vec)
+     (W (vector->u8vector (vector-map bit->integer vec))))
+    ((vec start)
+     (W (vector->u8vector (vector-map bit->integer vec) start)))
+    ((vec start end)
+     (W (vector->u8vector (vector-map bit->integer vec) start end)))))

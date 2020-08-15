@@ -43,6 +43,17 @@
   (check (bitvector->vector/bool (bitvector))         => #())
   (check (bitvector->vector/bool (bitvector 1 0 1 0)) => #(#t #f #t #f))
 
+  (check (bitvector-empty? (vector->bitvector #())) => #t)
+  (check (bitvector= (vector->bitvector #(1 0 #t #f))
+                     (bitvector 1 0 1 0))
+   => #t)
+  (check (bitvector= (vector->bitvector #(1 0 1 0) 1)
+                     (bitvector 0 1 0))
+   => #t)
+  (check (bitvector= (vector->bitvector #(1 0 1 0) 1 3)
+                     (bitvector 0 1))
+   => #t)
+
   ;;; strings
 
   (check (bitvector->string (bitvector 1 0 1 0))     => "#*1010")
