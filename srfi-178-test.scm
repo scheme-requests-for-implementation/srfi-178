@@ -150,3 +150,5 @@
 
   (newline)
   (check-report))
+
+(check-all)

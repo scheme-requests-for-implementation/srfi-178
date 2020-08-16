@@ -184,14 +184,6 @@
 (define (bitvector-swap! bvec i j)
   (u8vector-swap! (U bvec) i j))
 
-(define bitvector-fill!
-  (case-lambda
-    ((bvec fill)
-     (u8vector-fill! (U bvec) (I fill)))
-    ((bvec fill start)
-     (u8vector-fill! (U bvec) (I fill) start))
-    ((bvec fill start end)
-     (u8vector-fill! (U bvec) (I fill) start end))))
 
 (define bitvector-reverse!
   (case-lambda
