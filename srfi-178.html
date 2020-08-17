@@ -270,7 +270,7 @@ and <code>#f</code> otherwise.</p>
 
 <p><code>(bitvector= <i>bvec ...</i>) -> boolean</code> </p>
 
-<p>Compares the <i>bvecs</i> for elementwise equality, using
+<p>Compares the <i>bvecs</i> for element-wise equality, using
 <code>eqv?</code> to do the comparisons,
 and returns <code>#t</code> or <code>#f</code> accordingly.
 
@@ -490,7 +490,7 @@ Note that the generator is finite.
 <p>
 Returns a <a href="https://srfi.schemers.org/srfi-158/srfi-158.html">SRFI 158</a>
 accumulator that collects all the values of <em>bit-or-eof</em>.
-When the argument is an end of file object, returns a bitvector containing
+When the argument is an end-of-file object, returns a bitvector containing
 all the values in order.</p>
 <h3>Bitwise operations</h3>
 
@@ -603,7 +603,7 @@ Return -1 if <em>bvec</em> contains no values equal to <i>bit</i>.
 </p>
 <h3 id="Bitfieldoperations">Bit field operations</h3>
 <p>
-These procedures operate on a contiguous field of bits (a "byte", in
+These procedures operate on a contiguous field of bits (a "byte" in
 Common Lisp parlance) in a given bitvector. The <em>start</em> and <em>end</em>
 arguments, which are not optional, are
 non-negative exact integers specifying the field: it is the <em>end&nbsp;&#x2212;&nbsp;start</em> bits
@@ -688,7 +688,7 @@ for simplicity and possibly for speed,
 they use a whole byte to represent each bit, as Java and C# do.
 At a later date, a more
 complex implementation that packs bits into bytes
-but still operates bytewise as much as possible <i>might</i> be provided.
+but still operates byte-wise as much as possible <i>might</i> be provided.
 
 
 <H1>Copyright</H1>
