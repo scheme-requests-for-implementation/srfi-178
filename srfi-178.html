@@ -40,8 +40,7 @@ references to literal bitvectors.
 
 <h2>Issues</h2>
 
-<ul>
-  <li>None at present.</li>
+None at present.
 
 </ul>
 
@@ -67,7 +66,7 @@ Procedures that return a bit or a list of bits
 come in two flavors:
 one ending in <code>/int</code> that returns an exact integer, and
 one ending in <code>/bool</code> that returns a boolean.</p>
-<p>Mapping, folding, and unfolding
+<p>Mapping and folding
 procedures also come in two flavors:
 those ending in <code>/int</code> pass exact integers to their
 procedure arguments, whereas
@@ -138,13 +137,6 @@ those ending in <code>/bool</code> pass booleans to theirs.
       <dd>
         A procedure taking one or more
         arguments, which returns (except as noted otherwise) exactly one value.
-        <br>
-        <br>
-      </dd>
-
-      <dt><i>=</i></dt>
-      <dd>
-        An equivalence procedure.
         <br>
         <br>
       </dd>
@@ -486,8 +478,8 @@ starting with the most significant bit.</p>
 
 <h3>Generators</h3>
 <p>
-<code>(make-bitvector-int-generator </code><em>bitvector</em><code>)</code> <br>
-<code>(make-bitvector-bool-generator </code><em>bitvector</em><code>)</code> </p>
+<code>(make-bitvector/int-generator </code><em>bitvector</em><code>)</code> <br>
+<code>(make-bitvector/bool-generator </code><em>bitvector</em><code>)</code> </p>
 <p>
 Returns a <a href="https://srfi.schemers.org/srfi-158/srfi-158.html">SRFI 158</a>
 generator that generates all the values of <em>bitvector</em> in order.
@@ -690,8 +682,8 @@ There is no SRFI 151 equivalent.
 <p>
 <h2>Implementation</h2>
 
-<p>The sample implementation is (not yet) in the repository of this SRFI.
-Bitvectors are implemented as wrapped bytevectors;
+<p>The sample implementation is in the repository of this SRFI.
+Bitvectors are implemented as wrapped <a href="https://srfi.schemers.org/srfi-160/srfi-160.html">SRFI 160</a> u8vectors;
 for simplicity and possibly for speed,
 they use a whole byte to represent each bit, as Java and C# do.
 At a later date, a more
