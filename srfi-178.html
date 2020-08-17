@@ -30,19 +30,14 @@ John Cowan (text), Wolfgang Corcoran-Mathe (implementation)
 
 <h2>Abstract</h2>
 
-This SRFI describes a set of operations on
+<p>This SRFI describes a set of operations on
 homogeneous bitvectors.
 Operations analogous to those provided on the other homogeneous
 vector types described in
 <a href="https://srfi.schemers.org/srfi-160/srfi-160.html">SRFI 160</a>
 are provided,
 along with operations analogous to the bitwise operations of
-<a href="https://srfi.schemers.org/srfi-151/srfi-151.html">SRFI 151</a>.
-In addition,
-a compact string representation compatible with Common Lisp is specified,
-which may be supported by the <code>read</code> and <code>write</code>
-procedures and by the program parser so that programs can contain
-references to literal bitvectors.
+<a href="https://srfi.schemers.org/srfi-151/srfi-151.html">SRFI 151</a>.</p>
 
 <h2>Issues</h2>
 
@@ -691,8 +686,16 @@ that is, each value is replaced by the opposite value.
 There is no SRFI 151 equivalent.
 </p>
 
+<h3>Bitvector literals</h3>
+<p>The compact string representation used by
+<code>bitvector->string</code> and
+<code>string->bitvector</code>
+may be supported by the standard <code>read</code> and <code>write</code>
+procedures and by the program parser, so that programs can contain
+references to literal bitvectors.
+On input, it is an error if such a literal is not followed by a &lt;delimiter&gt;.
+</p>
 
-<p>
 <p>
 <h2>Implementation</h2>
 
