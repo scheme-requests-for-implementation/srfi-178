@@ -40,8 +40,7 @@ references to literal bitvectors.
 
 <h2>Issues</h2>
 
-<ul>
-  <li>None at present.</li>
+None at present.
 
 </ul>
 
@@ -67,7 +66,7 @@ Procedures that return a bit or a list of bits
 come in two flavors:
 one ending in <code>/int</code> that returns an exact integer, and
 one ending in <code>/bool</code> that returns a boolean.</p>
-<p>Mapping, folding, and unfolding
+<p>Mapping and folding
 procedures also come in two flavors:
 those ending in <code>/int</code> pass exact integers to their
 procedure arguments, whereas
@@ -138,13 +137,6 @@ those ending in <code>/bool</code> pass booleans to theirs.
       <dd>
         A procedure taking one or more
         arguments, which returns (except as noted otherwise) exactly one value.
-        <br>
-        <br>
-      </dd>
-
-      <dt><i>=</i></dt>
-      <dd>
-        An equivalence procedure.
         <br>
         <br>
       </dd>
@@ -220,9 +212,9 @@ and <code>#t</code> if <i>bit</i> is 1 or <code>#t</code>.</p>
 
 <h3>Constructors</h3>
 
-<p><code>(make-bitvector <i>size</i> [<i>fill</i>]) -> bitvector </code> </p>
+<p><code>(make-bitvector <i>size</i> [<i>bit</i>]) -> bitvector </code> </p>
 
-<p>Returns a bitvector whose length is <i>size</i>.  If <i>fill</i> is provided,
+<p>Returns a bitvector whose length is <i>size</i>.  If <i>bit</i> is provided,
 all the elements of the bitvector are initialized to it.</p>
 
 <p><code>(bitvector <i>value ...</i>) -> bitvector </code> </p>
@@ -238,8 +230,7 @@ the bit to put in the k<i>th</i> slot of the new vector and a new state
 for the next iteration.
 On the first call to <i>f</i>, the state's value is <i>seed</i>.</p>
 
-<p><code>(bitvector-unfold-right/int <i>f length seed</i>) -> bitvector</code> <br>
-<code>(bitvector-unfold-right/bool <i>f length seed</i>) -> bitvector</code> </p>
+<p><code>(bitvector-unfold-right <i>f length seed</i>) -> bitvector</code> </p>
 
 <p>The same as <code>bitvector-unfold</code>, but initializes the bitvector from right to left.</p>
 
@@ -414,8 +405,8 @@ onto <i>to</i>, starting at index <i>at</i>.
 
 <code>(reverse-list->bitvector <i>list</i>) -> bitvector</code> <br>
 
-<code>(bitvector->vector/int <i>bvec</i>) -> vector of integers</code> <br>
-<code>(bitvector->vector/bool <i>bvec</i>) -> vector of booleans</code> <br>
+<code>(bitvector->vector/int <i>bvec [ start [end] ]</i>) -> vector of integers</code> <br>
+<code>(bitvector->vector/bool <i>bvec [ start [end] </i>) -> vector of booleans</code> <br>
 
 <code>(vector->bitvector <i>bvec</i>) -> bitvector</code> </p>
 
@@ -436,7 +427,7 @@ and returns the corresponding bitvector, or <code>#f</code> if the
 string is not in this format.</p>
 
 <p>
-<code>(bitvector->integer </code><em>bitvector</em> [ <em>len</em> ]<code>)</code> <br>
+<code>(bitvector->integer </code><em>bitvector</em><code>)</code> <br>
 </p>
 <p>
 Returns a non-negative exact integer whose bits,
@@ -444,13 +435,20 @@ starting with the least significant bit as bit 0,
 correspond to the values in <em>bitvector</em>.
 This ensures compatibility with the integers-as-bits operations of
 <a href="https://srfi.schemers.org/srfi-151/srfi-151.html">SRFI 151</a>.<p>
-<code>(integer->bitvector </code><em>integer</em><code>)</code> </p>
+<code>(integer->bitvector </code><em>integer</em> [ <em>len</em> ]<code>)</code> </p>
 <p>
-Returns a bitvector whose values correspond to the bits
+Returns a bitvector whose length is <em>len</em>
+whose values correspond to the bits
 of <em>integer</em>, a non-negative exact integer,
 starting with the least significant bit as bit 0.
 This ensures compatibility with the integers-as-bits operations of
 <a href="https://srfi.schemers.org/srfi-151/srfi-151.html">SRFI 151</a>.<p>
+</p>
+<p>The default value of <em>len</em> is
+<code>(integer-length </code><em>integer</em><code>)</code>.
+If the value of <em>len</em> is less than the default,
+the resulting bitvector cannot be converted back by
+<code>bitvector->integer</code> correctly.
 </p>
 <p><code>(bitvector->bytevector </code><i>bvec</i><code> [<i>start</i> [<i>end</i>] ])</code> </p>
 <p>
@@ -480,8 +478,8 @@ starting with the most significant bit.</p>
 
 <h3>Generators</h3>
 <p>
-<code>(make-bitvector-generator/int </code><em>bitvector</em><code>)</code> <br>
-<code>(make-bitvector-generator/bool </code><em>bitvector</em><code>)</code> </p>
+<code>(make-bitvector/int-generator </code><em>bitvector</em><code>)</code> <br>
+<code>(make-bitvector/bool-generator </code><em>bitvector</em><code>)</code> </p>
 <p>
 Returns a <a href="https://srfi.schemers.org/srfi-158/srfi-158.html">SRFI 158</a>
 generator that generates all the values of <em>bitvector</em> in order.
@@ -669,11 +667,6 @@ by <em>count</em> bits towards high-order.
 
 
 <p>
-<code>(bitvector-field-reverse </code><em>bvec start end</em><code>)</code> <br>
-<code>(bitvector-field-reverse! </code><em>bvec start end</em><code>)</code> </p>
-<p>
-Returns <em>bvec</em> with the order of the bits in the field reversed.
-</p>
 
 <p>
 <code>(bitvector-field-flip </code><em>bvec start end</em><code>)</code> <br>
@@ -689,8 +682,8 @@ There is no SRFI 151 equivalent.
 <p>
 <h2>Implementation</h2>
 
-<p>The sample implementation is (not yet) in the repository of this SRFI.
-Bitvectors are implemented as wrapped bytevectors;
+<p>The sample implementation is in the repository of this SRFI.
+Bitvectors are implemented as wrapped <a href="https://srfi.schemers.org/srfi-160/srfi-160.html">SRFI 160</a> u8vectors;
 for simplicity and possibly for speed,
 they use a whole byte to represent each bit, as Java and C# do.
 At a later date, a more
