@@ -74,6 +74,18 @@ those ending in <code>/int</code> pass exact integers to their
 procedure arguments, whereas
 those ending in <code>/bool</code> pass booleans to theirs.
 
+<p>Procedures whose names end in <code>!</code> are the same as the
+corresponding procedures without <code>!</code>, except that the first
+bitvector argument is mutated and an unspecified result is returned.
+Consequently, only the non-<code>!</code> version is documented below.</p>
+
+<p>
+It is an error unless all <em>bitvector</em>
+arguments passed to procedures
+that accept more than one are of the same length.
+</p>
+
+
 <h3>Notation</h3>
 
     <p>
@@ -501,17 +513,6 @@ Returns a <a href="https://srfi.schemers.org/srfi-158/srfi-158.html">SRFI 158</a
 accumulator that collects all the values of <em>bit-or-eof</em>.
 When the argument is an end of file object, returns a bitvector containing
 all the values in order.</p>
-<h3>Bitwise operations</h3>
-
-<p>Procedures whose names end in <code>!</code> are the same as the
-corresponding procedures without <code>!</code>, except that the first
-bitvector argument is mutated and an unspecified result is returned.</p>
-
-<p>
-It is an error unless all <em>bitvector</em>
-arguments passed to the following procedures are of the same length.
-</p>
-
 <h3 id="Basicoperations">Basic operations</h3>
 <p><code>(bitvector-not </code><em>bvec</em><code>)</code> <br>
 <code>(bitvector-not! </code><em>bvec</em><code>)</code>  </p>
