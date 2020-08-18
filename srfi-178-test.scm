@@ -88,6 +88,8 @@
 
 (define (constantly x) (lambda (_) x))
 
+(define bitvector= bitvector=?)
+
 (define (check-bit-conversions)
   (print-header "Checking bit conversions...")
 

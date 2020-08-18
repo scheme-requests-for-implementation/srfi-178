@@ -30,7 +30,7 @@
 (define (bitvector-empty? bvec)
   (eqv? 0 (u8vector-length (U bvec))))
 
-(define (bitvector= . bvecs)
+(define (bitvector=? . bvecs)
   (apply u8vector= (map U bvecs)))
 
 (define (bitvector-ref/int bvec i)

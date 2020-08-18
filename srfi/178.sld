@@ -25,7 +25,7 @@
           bitvector-append-subbitvectors
 
           ;; Predicates
-          bitvector? bitvector-empty? bitvector=
+          bitvector? bitvector-empty? bitvector=?
 
           ;; Selectors
           bitvector-ref/int bitvector-ref/bool bitvector-length
