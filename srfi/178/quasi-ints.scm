@@ -37,10 +37,10 @@
 
 (define (bitvector-if if-bvec then-bvec else-bvec)
   (bitvector-map/bool (lambda (bit then-bit else-bit)
-			(if bit then-bit else-bit))
-		      if-bvec
-		      then-bvec
-		      else-bvec))
+                        (if bit then-bit else-bit))
+                      if-bvec
+                      then-bvec
+                      else-bvec))
 
 (define (bitvector-first-bit bit bvec)
   (let ((int (I bit)) (len (bitvector-length bvec)))
