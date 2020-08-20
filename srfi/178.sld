@@ -1,6 +1,5 @@
 (define-library (srfi 178)
   (import (scheme base))
-  (import (scheme write))     ; DELETE ME
   (import (scheme case-lambda))
   (import (srfi 151))
   (import (srfi 160 u8))
