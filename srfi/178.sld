@@ -5,17 +5,6 @@
   (import (srfi 151))
   (import (srfi 160 u8))
 
-  (cond-expand
-   ((library (srfi 1))
-    (import (only (srfi 1) list-tabulate)))
-   (else
-    (begin
-     (define (list-tabulate len f)
-       (let lp ((i 0))
-         (if (= i len)
-             '()
-             (cons (f i) (lp (+ i 1)))))))))
-
   (export bit->integer bit->boolean  ; Bit conversion
 
           ;; Constructors
