@@ -110,10 +110,10 @@
 (define (%bitvector-map2/int f bvec1 bvec2)
   (let ((u8vec1 (U bvec1))
         (u8vec2 (U bvec2)))
-    (%bitvector-tabulate/int
-     (bitvector-length bvec1)
+    (bitvector-unfold
      (lambda (i)
-       (f (u8vector-ref u8vec1 i) (u8vector-ref u8vec2 i))))))
+       (f (u8vector-ref u8vec1 i) (u8vector-ref u8vec2 i)))
+     (bitvector-length bvec1))))
 
 (define bitvector-map/bool
   (case-lambda

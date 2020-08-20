@@ -7,19 +7,19 @@
 
 (define (%bitvector-left-shift bvec count bit)
   (let ((len (bitvector-length bvec)))
-    (%bitvector-tabulate/int
-     len
+    (bitvector-unfold
      (lambda (i)
        (let ((i* (+ i count)))
-         (if (< i* len) (bitvector-ref/int bvec i*) bit))))))
+         (if (< i* len) (bitvector-ref/int bvec i*) bit)))
+     len)))
 
 (define (%bitvector-right-shift bvec count bit)
-  (%bitvector-tabulate/int
-   (bitvector-length bvec)
+  (bitvector-unfold
    (lambda (i)
      (if (< i count)
          bit
-         (bitvector-ref/int bvec (- i count))))))
+         (bitvector-ref/int bvec (- i count))))
+   (bitvector-length bvec)))
 
 (define (bitvector-count bit bvec)
   (let ((int (I bit)))

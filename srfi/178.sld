@@ -96,6 +96,5 @@
   (include "178/quasi-ints.scm")
   (include "178/quasi-strs.scm")
   (include "178/unfolds.scm")
-  (include "178/util.scm")
   (include "178/wrappers.scm")
 )
