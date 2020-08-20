@@ -53,6 +53,16 @@
   (check (bitvector= (vector->bitvector #(1 0 1 0) 1 3)
                      (bitvector 0 1))
    => #t)
+  (check (bitvector-empty? (reverse-vector->bitvector #())) => #t)
+  (check (bitvector= (reverse-vector->bitvector #(1 0 #t #f))
+                     (bitvector 0 1 0 1))
+   => #t)
+  (check (bitvector= (reverse-vector->bitvector #(1 0 1 0) 2)
+                     (bitvector 0 1))
+   => #t)
+  (check (bitvector= (reverse-vector->bitvector #(1 0 1 0) 1 3)
+                     (bitvector 1 0))
+   => #t)
 
   ;;; strings
 

@@ -134,3 +134,15 @@
      (bitvector->bytevector!* bytevec at bvec start (bitvector-length bvec)))
     ((bytevec at bvec start end)
      (bitvector->bytevector!* bytevec at bvec start end))))
+
+;;; Additional vector conversions
+
+(define reverse-vector->bitvector
+  (case-lambda
+    ((vec) (reverse-vector->bitvector vec 0 (vector-length vec)))
+    ((vec start) (reverse-vector->bitvector vec start (vector-length vec)))
+    ((vec start end)
+     (bitvector-unfold
+      (lambda (i)
+        (vector-ref vec (- end 1 i)))
+      (- end start)))))
