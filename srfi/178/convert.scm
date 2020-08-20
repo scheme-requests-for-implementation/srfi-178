@@ -49,3 +49,15 @@
      (values (bit-set? 0 int) (arithmetic-shift int -1)))
    (integer-length int)
    int))
+
+;;; Additional vector conversions
+
+(define reverse-vector->bitvector
+  (case-lambda
+    ((vec) (reverse-vector->bitvector vec 0 (vector-length vec)))
+    ((vec start) (reverse-vector->bitvector vec start (vector-length vec)))
+    ((vec start end)
+     (bitvector-unfold
+      (lambda (i)
+        (vector-ref vec (- end 1 i)))
+      (- end start)))))
