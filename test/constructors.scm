@@ -7,23 +7,38 @@
 
   ;;; unfolds
 
-  (check (bitvector->list/int
-          (bitvector-unfold (lambda (i n) (values 0 0)) 4 0))
-   => '(0 0 0 0))
-  (check (bitvector->list/int
-          (bitvector-unfold (lambda (i n) (values n (if (zero? n) 1 0)))
-                                4
-                                1))
-   => '(1 0 1 0))
-  (check (bitvector->list/int
-          (bitvector-unfold-right (lambda (i n) (values 0 0)) 4 0))
-   => '(0 0 0 0))
-  (check (bitvector->list/int
-          (bitvector-unfold-right
-           (lambda (i n) (values n (if (zero? n) 1 0)))
-           4
-           1))
-   => '(0 1 0 1))
+  (check (bitvector=
+          (bitvector-unfold (lambda (_) 0) 4)
+          (bitvector 0 0 0 0))
+   => #t)
+  (check (bitvector=
+          (bitvector-unfold (lambda (_ b) (values b (not b))) 4 #f)
+          (bitvector 0 1 0 1))
+   => #t)
+  (check (bitvector=
+          (bitvector-unfold (lambda (_ b c)
+                              (values (and b c) (not b) c))
+                            4
+                            #t
+                            #t)
+          (bitvector 1 0 1 0))
+   => #t)
+  (check (bitvector=
+          (bitvector-unfold-right (lambda (_) 0) 4)
+          (bitvector 0 0 0 0))
+   => #t)
+  (check (bitvector=
+          (bitvector-unfold-right (lambda (_ b) (values b (not b))) 4 #f)
+          (bitvector 1 0 1 0))
+   => #t)
+  (check (bitvector=
+          (bitvector-unfold-right (lambda (_ b c)
+                                    (values (and b c) (not b) c))
+                                  4
+                                  #t
+                                  #t)
+          (bitvector 0 1 0 1))
+   => #t)
 
   ;;; copy
 
