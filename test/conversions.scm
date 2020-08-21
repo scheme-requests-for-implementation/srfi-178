@@ -38,10 +38,24 @@
 
   ;;; vectors
 
-  (check (bitvector->vector/int (bitvector))          => #())
-  (check (bitvector->vector/int (bitvector 1 0 1 0))  => #(1 0 1 0))
-  (check (bitvector->vector/bool (bitvector))         => #())
-  (check (bitvector->vector/bool (bitvector 1 0 1 0)) => #(#t #f #t #f))
+  (check (bitvector->vector/int (bitvector))              => #())
+  (check (bitvector->vector/int (bitvector 1 0 1 0))      => #(1 0 1 0))
+  (check (bitvector->vector/int (bitvector 1 0 1 0) 1)    => #(0 1 0))
+  (check (bitvector->vector/int (bitvector 1 0 1 0) 1 3)  => #(0 1))
+  (check (bitvector->vector/bool (bitvector))             => #())
+  (check (bitvector->vector/bool (bitvector 1 0 1 0))     => #(#t #f #t #f))
+  (check (bitvector->vector/bool (bitvector 1 0 1 0) 1)   => #(#f #t #f))
+  (check (bitvector->vector/bool (bitvector 1 0 1 0) 1 3) => #(#f #t))
+
+  (check (reverse-bitvector->vector/int (bitvector))              => #())
+  (check (reverse-bitvector->vector/int (bitvector 1 0 1 0))      => #(0 1 0 1))
+  (check (reverse-bitvector->vector/int (bitvector 1 0 1 0) 2)    => #(0 1))
+  (check (reverse-bitvector->vector/int (bitvector 1 0 1 0) 1 3)  => #(1 0))
+  (check (reverse-bitvector->vector/bool (bitvector))             => #())
+  (check (reverse-bitvector->vector/bool (bitvector 1 0 1 0))
+   => #(#f #t #f #t))
+  (check (reverse-bitvector->vector/bool (bitvector 1 0 1 0) 2)   => #(#f #t))
+  (check (reverse-bitvector->vector/bool (bitvector 1 0 1 0) 1 3) => #(#t #f))
 
   (check (bitvector-empty? (vector->bitvector #())) => #t)
   (check (bitvector= (vector->bitvector #(1 0 #t #f))
