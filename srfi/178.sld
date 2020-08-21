@@ -4,6 +4,18 @@
   (import (srfi 151))
   (import (srfi 160 u8))
 
+  (cond-expand
+    ((library (srfi 133))
+     (import (only (srfi 133) vector-unfold)))
+    (else
+     (begin
+      ;; The "seedless" case is all we need.
+      (define (vector-unfold f len)
+        (let ((res (make-vector len)))
+          (cond ((= i len) res)
+                (else (vector-set! res i (f i))
+                      (lp (+ i 1)))))))))
+
   (export bit->integer bit->boolean  ; Bit conversion
 
           ;; Constructors
@@ -46,7 +58,8 @@
           bitvector->vector/bool vector->bitvector bitvector->string
           string->bitvector bitvector->integer integer->bitvector
           bitvector->bytevector bitvector->bytevector! bytevector->bitvector
-          reverse-vector->bitvector
+          reverse-vector->bitvector reverse-bitvector->vector/int
+          reverse-bitvector->vector/bool
 
           ;; Generators and accumulators
           make-bitvector/int-generator make-bitvector/bool-generator
