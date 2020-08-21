@@ -61,3 +61,27 @@
       (lambda (i)
         (vector-ref vec (- end 1 i)))
       (- end start)))))
+
+(define reverse-bitvector->vector/int
+  (case-lambda
+    ((bvec)
+     (reverse-bitvector->vector/int bvec 0 (bitvector-length bvec)))
+    ((bvec start)
+     (reverse-bitvector->vector/int bvec start (bitvector-length bvec)))
+    ((bvec start end)
+     (let ((u8vec (U bvec)))
+       (vector-unfold (lambda (i)
+                        (u8vector-ref u8vec (- end 1 i)))
+                      (- end start))))))
+
+(define reverse-bitvector->vector/bool
+  (case-lambda
+    ((bvec)
+     (reverse-bitvector->vector/bool bvec 0 (bitvector-length bvec)))
+    ((bvec start)
+     (reverse-bitvector->vector/bool bvec start (bitvector-length bvec)))
+    ((bvec start end)
+     (let ((u8vec (U bvec)))
+       (vector-unfold (lambda (i)
+                        (B (u8vector-ref u8vec (- end 1 i))))
+                      (- end start))))))
