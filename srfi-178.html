@@ -64,6 +64,18 @@ those ending in <code>/int</code> pass exact integers to their
 procedure arguments, whereas
 those ending in <code>/bool</code> pass booleans to theirs.
 
+<p>Procedures whose names end in <code>!</code> are the same as the
+corresponding procedures without <code>!</code>, except that the first
+bitvector argument is mutated and an unspecified result is returned.
+Consequently, only the non-<code>!</code> version is documented below.</p>
+
+<p>
+It is an error unless all <em>bitvector</em>
+arguments passed to procedures
+that accept more than one are of the same length.
+</p>
+
+
 <h3>Notation</h3>
 
     <p>
@@ -83,16 +95,16 @@ those ending in <code>/bool</code> pass booleans to theirs.
         implementation-dependent value; this SRFI does not specify what it
         returns, and in order to write portable code, the return value
         should be ignored.
-        <br>
-        <br>
+        <br/>
+        <br/>
       </dd>
 
       <dt><i>vec</i></dt>
       <dd>
         A heterogeneous vector; that is, it must
         satisfy the predicate <code>vector?</code>.
-        <br>
-        <br>
+        <br/>
+        <br/>
       </dd>
 
       <dt><i>bvec, to, from</i></dt>
@@ -101,8 +113,8 @@ those ending in <code>/bool</code> pass booleans to theirs.
         satisfy the predicate <code>bitvector?</code>.
         In <code>bitvector-copy!</code> and <code>reverse-bitvector-copy!</code>,
         <i>to</i> is the destination and <i>from</i> is the source.
-        <br>
-        <br>
+        <br/>
+        <br/>
       </dd>
 
       <dt><i>i, j, start, at</i></dt>
@@ -110,8 +122,8 @@ those ending in <code>/bool</code> pass booleans to theirs.
         An exact nonnegative integer less than the length of the bitvector.
         In <code>bitvector-copy!</code> and <code>reverse-bitvector-copy!</code>,
         <i>at</i> refers to the destination and <i>start</i> to the source.
-        <br>
-        <br>
+        <br/>
+        <br/>
       </dd>
 
       <dt><i>end</i></dt>
@@ -121,16 +133,23 @@ those ending in <code>/bool</code> pass booleans to theirs.
         which traversal will stop &mdash; processing will occur until
         the index of the vector is one less than <code><i>end</i></code>.  It is the
         open right side of a range.
-        <br>
-        <br>
+        <br/>
+        <br/>
       </dd>
 
       <dt><i>f</i></dt>
       <dd>
         A procedure taking one or more
         arguments, which returns (except as noted otherwise) exactly one value.
-        <br>
-        <br>
+        <br/>
+        <br/>
+      </dd>
+
+      <dt><i>=</i></dt>
+      <dd>
+        An equivalence procedure.
+        <br/>
+        <br/>
       </dd>
 
       <dt><i>
@@ -138,8 +157,8 @@ those ending in <code>/bool</code> pass booleans to theirs.
       </i></dt>
       <dd>
         Any Scheme object.
-        <br>
-        <br>
+        <br/>
+        <br/>
       </dd>
 
 
@@ -148,24 +167,24 @@ those ending in <code>/bool</code> pass booleans to theirs.
         An optional argument; it needn't necessarily be applied.
         <code><i>Something</i></code> needn't necessarily be one thing; for
         example, this usage of it is perfectly valid:
-        <br>
-        <br>
+        <br/>
+        <br/>
         <code>
           &nbsp;&nbsp;&nbsp;[start [end]]
         </code>
-        <br>
-        <br>
+        <br/>
+        <br/>
         and is indeed used quite often.
-        <br>
-        <br>
+        <br/>
+        <br/>
       </dd>
 
       <dt><i>something ...</i></dt>
       <dd>
         Zero or more <code><i>something</i></code>s are
         allowed to be arguments.
-        <br>
-        <br>
+        <br/>
+        <br/>
       </dd>
 
       <dt><i>
@@ -175,8 +194,8 @@ those ending in <code>/bool</code> pass booleans to theirs.
       <dd>
         One or more <code><i>something</i></code>s must be
         arguments.
-        <br>
-        <br>
+        <br/>
+        <br/>
       </dd>
 
     </dl>
@@ -213,14 +232,14 @@ all the elements of the bitvector are initialized to it.</p>
 
 <p>Returns a bitvector initialized with <i>values</i>.</p>
 
-<p><code>(bitvector-unfold <i>f length seed</i>) -> bitvector</code> </p>
+<p><code>(bitvector-unfold <i>f length seed ...</i>) -> bitvector</code> </p>
 
 <p>Creates a vector whose length is <i>length</i> and iterates across each index
 <i>k</i> between 0 and <i>length</i>, applying <i>f</i> at each iteration to the current
-index and current state, in that order, to receive two values:
-the bit to put in the k<i>th</i> slot of the new vector and a new state
+index and current states, in that order, to receive <var>n</var> + 1 values:
+the bit to put in the k<i>th</i> slot of the new vector and new states
 for the next iteration.
-On the first call to <i>f</i>, the state's value is <i>seed</i>.</p>
+On the first call to <i>f</i>, the states' values are the <i>seeds</i>.</p>
 
 <p><code>(bitvector-unfold-right <i>f length seed</i>) -> bitvector</code> </p>
 
@@ -260,7 +279,7 @@ otherwise.</p>
 <p>Returns <code>#t</code> if <i>bvec</i> has a length of zero,
 and <code>#f</code> otherwise.</p>
 
-<p><code>(bitvector= <i>bvec ...</i>) -> boolean</code> </p>
+<p><code>(bitvector=? <i>bvec ...</i>) -> boolean</code> </p>
 
 <p>Compares the <i>bvecs</i> for element-wise equality, using
 <code>eqv?</code> to do the comparisons,
@@ -268,7 +287,7 @@ and returns <code>#t</code> or <code>#f</code> accordingly.
 
 <h3>Selectors</h3>
 
-<p><code>(bitvector-ref/int <i>bvec i</i>) -> integer</code> <br>
+<p><code>(bitvector-ref/int <i>bvec i</i>) -> integer</code> <br/>
 <code>(bitvector-ref/bool <i>bvec i</i>) -> boolean</code> </p>
 
 <p>Returns the <i>i</i>th element of <i>bvec</i>
@@ -280,14 +299,14 @@ as an exact integer or boolean respectively.
 
 <h3>Iteration</h3>
 
-<p><code>(bitvector-take <i>bvec n</i>) -> bitvector</code> <br>
+<p><code>(bitvector-take <i>bvec n</i>) -> bitvector</code> <br/>
 
 <p><code>(bitvector-take-right <i>bvec n</i>) -> bitvector</code> </p>
 
 <p>Returns a bitvector containing the first/last <i>n</i>
 elements of <i>bvec</i>.</p>
 
-<p><code>(bitvector-drop <i>bvec n</i>) -> bitvector</code> <br>
+<p><code>(bitvector-drop <i>bvec n</i>) -> bitvector</code> <br/>
 
 <p><code>(bitvector-drop-right <i>bvec n</i>) -> bitvector</code> </p>
 
@@ -300,26 +319,29 @@ elements of <i>bvec</i>.</p>
 consecutive elements of <i>bvec</i>.
 The last bitvector may be shorter than <i>n</i>.</p>
 
-<p><code>(bitvector-fold/int <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> <br>
-<code>(bitvector-fold/bool <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> <br>
+<p><code>(bitvector-fold/int <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> <br/>
+<code>(bitvector-fold/bool <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> <br/>
 
-<code>(bitvector-fold-right/int <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> <br>
+<code>(bitvector-fold-right/int <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> <br/>
 <code>(bitvector-fold-right/bool <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> </p>
 
 <p>Folds <i>kons</i> over the elements of <i>bvec</i>
 in increasing/decreasing order using <i>knil</i>
-as the initial value.</p>
+as the initial value.
 
-<p><code>(bitvector-map/int <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> bitvector</code> <br>
-<code>(bitvector-map/bool <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> bitvector</code> <br>
+The kons procedure is called with the states first and the new element
+last, as in SRFIs 43, 133, and 160.<p>
 
-<code>(bitvector-map!/int <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code> <br>
-<code>(bitvector-map!/bool <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code> <br>
+<p><code>(bitvector-map/int <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> bitvector</code> <br/>
+<code>(bitvector-map/bool <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> bitvector</code> <br/>
 
-<code>(bitvector-map->list/int <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> list</code> <br>
-<code>(bitvector-map->list/bool <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> list</code> <br>
+<code>(bitvector-map!/int <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code> <br/>
+<code>(bitvector-map!/bool <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code> <br/>
 
-<code>(bitvector-for-each/int <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code> <br>
+<code>(bitvector-map->list/int <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> list</code> <br/>
+<code>(bitvector-map->list/bool <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> list</code> <br/>
+
+<code>(bitvector-for-each/int <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code> <br/>
 <code>(bitvector-for-each/bool <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> unspecified</code> </p>
 
 <p>Iterate over the corresponding elements of the <i>bvecs</i> and apply <i>f</i>
@@ -333,21 +355,21 @@ and an undefined value with no change to <i>bvec1</i>.</p>
 
 
 
-<p><code>(bitvector-prefix-length <i>bvec1 bvec2</i>) -> index</code><br>
+<p><code>(bitvector-prefix-length <i>bvec1 bvec2</i>) -> index</code><br/>
 
 <code>(bitvector-suffix-length <i>bvec1 bvec2</i>) -> index</code></p>
 
 <p>Return the number of elements that are equal in the prefix/suffix
 of the two <i>bvecs</i>.</p>
 
-<code>(bitvector-prefix? <i>bvec1 bvec2</i>) -> boolean</code><br>
+<code>(bitvector-prefix? <i>bvec1 bvec2</i>) -> boolean</code><br/>
 
 <p><code>(bitvector-suffix? <i>bvec1 bvec2</i>) -> boolean</code></p>
 
 <p>Returns <code>#t</code> if <i>bvec1</i> is a prefix/suffix of <i>bvec2</i>,
 and <code>#f</code> otherwise.</p>
 
-<p><code>(bitvector-pad <i> bit bvec length</i>) -> bvec</code><br>
+<p><code>(bitvector-pad <i> bit bvec length</i>) -> bvec</code><br/>
 <code>(bitvector-pad-right <i> bit bvec length</i>) -> bvec</code></p>
 
 <p>Returns a copy of <i>bvec</i> with leading/trailing
@@ -355,8 +377,8 @@ elements equal to <i>bit</i>
 added (if necessary) so that the length of the result
 is <i>length</i>.</p>
 
-<p><code>(bitvector-trim <i>bit bvec</i>) -> bvec</code> <br>
-<code>(bitvector-trim-right <i>bit bvec</i>) -> bvec</code> <br>
+<p><code>(bitvector-trim <i>bit bvec</i>) -> bvec</code> <br/>
+<code>(bitvector-trim-right <i>bit bvec</i>) -> bvec</code> <br/>
 <code>(bitvector-trim-both <i>bit bvec</i>) -> bvec</code> </p>
 
 <p>Returns a copy of <i>bvec</i> with leading/trailing/both
@@ -387,20 +409,23 @@ onto <i>to</i>, starting at index <i>at</i>.
 
 <h3>Conversion</h3>
 
-<p><code>(bitvector->list/int <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of integers</code> <br>
-<code>(bitvector->list/bool <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of booleans</code> <br>
+<p><code>(bitvector->list/int <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of integers</code> <br/>
+<code>(bitvector->list/bool <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of booleans</code> <br/>
 
-<code>(reverse-bitvector->list/int <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of integers</code> <br>
-<code>(reverse-bitvector->list/bool <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of booleans</code> <br>
+<code>(reverse-bitvector->list/int <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of integers</code> <br/>
+<code>(reverse-bitvector->list/bool <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of booleans</code> </p>
 
-<code>(list->bitvector <i>list</i>) -> bitvector</code> <br>
+<code>(list->bitvector <i>list</i>) -> bitvector</code> <br/>
 
-<code>(reverse-list->bitvector <i>list</i>) -> bitvector</code> <br>
+<code>(reverse-list->bitvector <i>list</i>) -> bitvector</code> </p>
 
-<code>(bitvector->vector/int <i>bvec [ start [end] ]</i>) -> vector of integers</code> <br>
-<code>(bitvector->vector/bool <i>bvec [ start [end] </i>) -> vector of booleans</code> <br>
+<code>(bitvector->vector/int <i>bvec [ start [end] ]</i>) -> vector of integers</code> <br/>
+<code>(bitvector->vector/bool <i>bvec [ start [end] </i>) -> vector of booleans</code> <br/>
+<code>(reverse-bitvector->vector/int <i>bvec [ start [end] ]</i>) -> vector of integers</code> <br/>
+<code>(reverse-bitvector->vector/bool <i>bvec [ start [end] </i>) -> vector of booleans</code> </p>
 
-<code>(vector->bitvector <i>bvec</i>) -> bitvector</code> </p>
+<code>(vector->bitvector <i>bvec</i>) -> bitvector</code> <br/>
+<code>(reverse-vector->bitvector <i>bvec</i>) -> bitvector</code> </p>
 
 
 <p>Returns a list, bitvector, or heterogeneous vector with the same
@@ -419,7 +444,7 @@ and returns the corresponding bitvector, or <code>#f</code> if the
 string is not in this format.</p>
 
 <p>
-<code>(bitvector->integer </code><em>bitvector</em><code>)</code> <br>
+<code>(bitvector->integer </code><em>bitvector</em><code>)</code> <br/>
 </p>
 <p>
 Returns a non-negative exact integer whose bits,
@@ -442,36 +467,10 @@ If the value of <em>len</em> is less than the default,
 the resulting bitvector cannot be converted back by
 <code>bitvector->integer</code> correctly.
 </p>
-<p><code>(bitvector->bytevector </code><i>bvec</i><code> [<i>start</i> [<i>end</i>] ])</code> </p>
-<p>
-Returns a bytevector into which the bits of <i>bvec</i> have been packed
-in strict big-endian order.
-That is, bit 0 of <i>bvec</i> is put into the most significant bit of
-byte 0 of the result.
-Any additional bits in the result are set to 0.
-</p>
-<p><code>(bitvector->bytevector! </code><i>bytevec at bvec</i> [ <i>start</i> [ <i>end</i> ] ]<code>)</code></p>
-<p>
-Packs the selected bits of <i>bvec</i> into <i>bytevec</i> starting at
-bit (not byte) <i>at</i>.
-All other bits of <i>bvec</i> are undisturbed.
-Returns an unspecified value.
-</p>
-<p><code>(bytevector->bitvector </code><i>bvec</i><code> [<i>start</i> [<i>end</i>] ])</code> </p>
-<p>
-Returns a bitvector into which the bits of <i>bytevec</i> have been unpacked
-in strict big-endian order.
-</p>
-<p><b>Note:</b>
-<i>Start</i> and <i>end</i> are bit indices, not byte indices.
-For example, requesting bits 8 through 15 will create a bitvector
-of length 8 with the contents of byte 1 of <i>bytevec</i>,
-starting with the most significant bit.</p>
-
 <h3>Generators</h3>
 <p>
-<code>(make-bitvector/int-generator </code><em>bitvector</em><code>)</code> <br>
-<code>(make-bitvector/bool-generator </code><em>bitvector</em><code>)</code> </p>
+<code>(make-bitvector-int-generator </code><em>bitvector</em><code>)</code> <br/>
+<code>(make-bitvector-bool-generator </code><em>bitvector</em><code>)</code> </p>
 <p>
 Returns a <a href="https://srfi.schemers.org/srfi-158/srfi-158.html">SRFI 158</a>
 generator that generates all the values of <em>bitvector</em> in order.
@@ -484,19 +483,8 @@ Returns a <a href="https://srfi.schemers.org/srfi-158/srfi-158.html">SRFI 158</a
 accumulator that collects all the values of <em>bit-or-eof</em>.
 When the argument is an end-of-file object, returns a bitvector containing
 all the values in order.</p>
-<h3>Bitwise operations</h3>
-
-<p>Procedures whose names end in <code>!</code> are the same as the
-corresponding procedures without <code>!</code>, except that the first
-bitvector argument is mutated and an unspecified result is returned.</p>
-
-<p>
-It is an error unless all <em>bitvector</em>
-arguments passed to the following procedures are of the same length.
-</p>
-
 <h3 id="Basicoperations">Basic operations</h3>
-<p><code>(bitvector-not </code><em>bvec</em><code>)</code> <br>
+<p><code>(bitvector-not </code><em>bvec</em><code>)</code> <br/>
 <code>(bitvector-not! </code><em>bvec</em><code>)</code>  </p>
 <p>
 Returns the element-wise complement of <em>bvec</em>;
@@ -509,13 +497,13 @@ the corresponding bitvector operator
 maps that function across two or more bitvectors in an element-wise fashion.
 The core idea of this group of functions is this element-wise "lifting"
 of the set of dyadic boolean functions to bitvector parameters.  </p>
-<p> <code>(bitvector-and </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> <br>
-<code>(bitvector-and! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> <br>
-<code>(bitvector-ior </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> <br>
-<code>(bitvector-ior! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> <br>
-<code>(bitvector-xor </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> <br>
-<code>(bitvector-xor! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> <br>
-<code>(bitvector-eqv </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> <br>
+<p> <code>(bitvector-and </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> <br/>
+<code>(bitvector-and! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> <br/>
+<code>(bitvector-ior </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> <br/>
+<code>(bitvector-ior! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> <br/>
+<code>(bitvector-xor </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> <br/>
+<code>(bitvector-xor! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> <br/>
+<code>(bitvector-eqv </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code> <br/>
 <code>(bitvector-eqv! </code><em>bvec1</em> <em>bvec2</em> <em>bvec</em> ...<code>)</code>  </p>
 <p>
 These operations are associative.
@@ -537,17 +525,17 @@ Rather, it produces <code>(bitvector-eqv a (bitvector-eqv b c))</code> or the eq
 <code>(bitvector-eqv (bitvector-eqv a b) c)</code>.
 </p>
 <p>
-<code>(bitvector-nand </code><em>bvec1 bvec2</em><code>)</code> <br>
-<code>(bitvector-nand! </code><em>bvec1 bvec2</em><code>)</code> <br>
-<code>(bitvector-nor </code><em>bvec1 bvec2</em><code>)</code> <br>
-<code>(bitvector-nor! </code><em>bvec1 bvec2</em><code>)</code> <br>
-<code>(bitvector-andc1 </code><em>bvec1 bvec2</em><code>)</code> <br>
-<code>(bitvector-andc1! </code><em>bvec1 bvec2</em><code>)</code> <br>
-<code>(bitvector-andc2 </code><em>bvec1 bvec2</em><code>)</code> <br>
-<code>(bitvector-andc2! </code><em>bvec1 bvec2</em><code>)</code> <br>
-<code>(bitvector-orc1 </code><em>bvec1 bvec2</em><code>)</code> <br>
-<code>(bitvector-orc1! </code><em>bvec1 bvec2</em><code>)</code> <br>
-<code>(bitvector-orc2 </code><em>bvec1 bvec2</em><code>)</code> <br>
+<code>(bitvector-nand </code><em>bvec1 bvec2</em><code>)</code> <br/>
+<code>(bitvector-nand! </code><em>bvec1 bvec2</em><code>)</code> <br/>
+<code>(bitvector-nor </code><em>bvec1 bvec2</em><code>)</code> <br/>
+<code>(bitvector-nor! </code><em>bvec1 bvec2</em><code>)</code> <br/>
+<code>(bitvector-andc1 </code><em>bvec1 bvec2</em><code>)</code> <br/>
+<code>(bitvector-andc1! </code><em>bvec1 bvec2</em><code>)</code> <br/>
+<code>(bitvector-andc2 </code><em>bvec1 bvec2</em><code>)</code> <br/>
+<code>(bitvector-andc2! </code><em>bvec1 bvec2</em><code>)</code> <br/>
+<code>(bitvector-orc1 </code><em>bvec1 bvec2</em><code>)</code> <br/>
+<code>(bitvector-orc1! </code><em>bvec1 bvec2</em><code>)</code> <br/>
+<code>(bitvector-orc2 </code><em>bvec1 bvec2</em><code>)</code> <br/>
 <code>(bitvector-orc2! </code><em>bvec1 bvec2</em><code>)</code> </p>
 <p>
 <p>
@@ -619,9 +607,9 @@ Returns <code>#t</code> if any of the field's bits are set in <em>bvec</em>, and
 
 
 <p>
-<code>(bitvector-field-clear </code><em>bvec start end</em><code>)</code> <br>
-<code>(bitvector-field-clear! </code><em>bvec start end</em><code>)</code> <br>
-<code>(bitvector-field-set </code><em>bvec start end</em><code>)</code> <br>
+<code>(bitvector-field-clear </code><em>bvec start end</em><code>)</code> <br/>
+<code>(bitvector-field-clear! </code><em>bvec start end</em><code>)</code> <br/>
+<code>(bitvector-field-set </code><em>bvec start end</em><code>)</code> <br/>
 <code>(bitvector-field-set! </code><em>bvec start end</em><code>)</code> </p>
 <p>
 Returns a bitvector containing
@@ -629,7 +617,7 @@ Returns a bitvector containing
 </p>
 
 <p>
-<code>(bitvector-field-replace </code><em>dest source start end</em><code>)</code>  <br>
+<code>(bitvector-field-replace </code><em>dest source start end</em><code>)</code>  <br/>
 <code>(bitvector-field-replace! </code><em>dest source start end</em><code>)</code> </p>
 <p>
 Returns a bitvector containing
@@ -640,7 +628,7 @@ by the first <em>end-start</em> bits in <em>source</em>.
 
 
 <p>
-<code>(bitvector-field-replace-same </code><em>dest source start end</em><code>)</code> <br>
+<code>(bitvector-field-replace-same </code><em>dest source start end</em><code>)</code> <br/>
 <code>(bitvector-field-replace-same! </code><em>dest source start end</em><code>)</code></p>
 <p>
 Returns a bitvector containing
@@ -661,7 +649,7 @@ by <em>count</em> bits towards high-order.
 <p>
 
 <p>
-<code>(bitvector-field-flip </code><em>bvec start end</em><code>)</code> <br>
+<code>(bitvector-field-flip </code><em>bvec start end</em><code>)</code> <br/>
 <code>(bitvector-field-flip! </code><em>bvec start end</em><code>)</code> </p>
 <p>
 Returns <em>bvec</em> with the bits in the field flipped:
@@ -676,7 +664,8 @@ There is no SRFI 151 equivalent.
 may be supported by the standard <code>read</code> and <code>write</code>
 procedures and by the program parser, so that programs can contain
 references to literal bitvectors.
-On input, it is an error if such a literal is not followed by a &lt;delimiter&gt;.
+On input, it is an error if such a literal is not followed by a &lt;delimiter&gt;
+or the end of input.
 </p>
 
 <p>
