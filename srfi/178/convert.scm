@@ -43,94 +43,38 @@
       len
       int))))
 
-;;;; Bytvector to bitvector conversion
+;;; Additional vector conversions
 
-(define bytevector->bitvector
+(define reverse-vector->bitvector
   (case-lambda
-    ((bytevec)
-     (bytevector->bitvector* bytevec
-                             0
-                             (* 8 (bytevector-length bytevec))))
-    ((bytevec start)
-     (bytevector->bitvector* bytevec
-                             start
-                             (* 8 (bytevector-length bytevec))))
-    ((bytevec start end)
-     (bytevector->bitvector* bytevec start end))))
+    ((vec) (reverse-vector->bitvector vec 0 (vector-length vec)))
+    ((vec start) (reverse-vector->bitvector vec start (vector-length vec)))
+    ((vec start end)
+     (bitvector-unfold
+      (lambda (i)
+        (vector-ref vec (- end 1 i)))
+      (- end start)))))
 
-;; Write the bits of byte into the bitvector bvec starting at index at.
-;; Big-endian.
-(define (%bitvector-copy-byte! to at byte)
-  (let lp ((i at) (j 0))
-    (when (< j 8)
-      (bitvector-set! to i (bit-set? (- 7 j) byte))
-      (lp (+ i 1) (+ j 1)))))
-
-;; Unpack the bytes of bytevec into a fresh bitvector.  start and end
-;; are bytevector indices.
-(define (%unpack-bytevector bytevec start end)
-  (let ((result (make-bitvector (* 8 (- end start)))))
-    (let lp ((i 0) (j start))
-      (cond ((>= j end) result)
-            (else
-             (%bitvector-copy-byte! result i (bytevector-u8-ref bytevec j))
-             (lp (+ i 8) (+ j 1)))))))
-
-;; Unpack the bytes of bytevec into a fresh bitvector.  NB: start and
-;; end are bit indices!
-;;
-;; FIXME: This implementation is inefficient when start and end do not
-;; align to byte boundaries; in this case, a subbitvector is copied.
-(define (bytevector->bitvector* bytevec start end)
-  (let-values (((start-byte start-off) (floor/ start 8))
-               ((last-whole end-seg) (floor/ end 8)))
-    ;; If there are trailing bits (i.e. if end doesn't align to a
-    ;; byte boundary), then copy the whole trailing byte.
-    (let* ((end-byte (if (zero? end-seg) last-whole (+ last-whole 1)))
-           (bvec (%unpack-bytevector bytevec start-byte end-byte)))
-      (if (and (zero? start-off) (zero? end-seg))
-          bvec
-          (bitvector-copy bvec start-off (+ start-off (- end start)))))))
-
-;;;; Bitvector to bytevector conversions
-
-(define bitvector->bytevector
+(define reverse-bitvector->vector/int
   (case-lambda
     ((bvec)
-     (bitvector->bytevector* bvec 0 (bitvector-length bvec)))
+     (reverse-bitvector->vector/int bvec 0 (bitvector-length bvec)))
     ((bvec start)
-     (bitvector->bytevector* bvec start (bitvector-length bvec)))
+     (reverse-bitvector->vector/int bvec start (bitvector-length bvec)))
     ((bvec start end)
-     (bitvector->bytevector* bvec start end))))
+     (let ((u8vec (U bvec)))
+       (vector-unfold (lambda (i)
+                        (u8vector-ref u8vec (- end 1 i)))
+                      (- end start))))))
 
-(define (bitvector->bytevector* bvec start end)
-  (let ((result (make-bytevector (ceiling (/ (- end start) 8)))))
-    (bitvector->bytevector!* result 0 bvec start end)
-    result))
-
-;; Convert len (< 8) bits in bvec to a big-endian integer.
-(define (%bitvector->be-byte bvec start len)
-  (let lp ((r 0) (i 0))
-    (if (>= i len)
-        r
-        (lp (bitwise-ior
-             r
-             (arithmetic-shift (bitvector-ref/int bvec (+ i start))
-                               (- 7 i)))
-            (+ i 1)))))
-
-(define (bitvector->bytevector!* bytevec at bvec start end)
-  (let lp ((i 0) (j start))
-    (when (< j end)
-      (let ((len (min 8 (- end j))))
-        (bytevector-u8-set! bytevec i (%bitvector->be-byte bvec j len))
-        (lp (+ i 1) (+ j len))))))
-
-(define bitvector->bytevector!
+(define reverse-bitvector->vector/bool
   (case-lambda
-    ((bytevec at bvec)
-     (bitvector->bytevector!* bytevec at bvec 0 (bitvector-length bvec)))
-    ((bytevec at bvec start)
-     (bitvector->bytevector!* bytevec at bvec start (bitvector-length bvec)))
-    ((bytevec at bvec start end)
-     (bitvector->bytevector!* bytevec at bvec start end))))
+    ((bvec)
+     (reverse-bitvector->vector/bool bvec 0 (bitvector-length bvec)))
+    ((bvec start)
+     (reverse-bitvector->vector/bool bvec start (bitvector-length bvec)))
+    ((bvec start end)
+     (let ((u8vec (U bvec)))
+       (vector-unfold (lambda (i)
+                        (B (u8vector-ref u8vec (- end 1 i))))
+                      (- end start))))))

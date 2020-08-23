@@ -21,7 +21,6 @@
 
 (import (scheme base))
 (import (scheme write))
-(import (srfi 151))
 (import (srfi 178))
 
 (cond-expand
@@ -87,6 +86,8 @@
 (define (proc-or a b) (or a b))
 
 (define (constantly x) (lambda (_) x))
+
+(define bitvector= bitvector=?)
 
 (define (check-bit-conversions)
   (print-header "Checking bit conversions...")

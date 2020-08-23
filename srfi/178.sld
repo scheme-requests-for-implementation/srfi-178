@@ -1,20 +1,20 @@
 (define-library (srfi 178)
   (import (scheme base))
-  (import (scheme write))
   (import (scheme case-lambda))
   (import (srfi 151))
   (import (srfi 160 u8))
 
   (cond-expand
-   ((library (srfi 1))
-    (import (only (srfi 1) list-tabulate)))
-   (else
-    (begin
-     (define (list-tabulate len f)
-       (let lp ((i 0))
-         (if (= i len)
-             '()
-             (cons (f i) (lp (+ i 1)))))))))
+    ((library (srfi 133))
+     (import (only (srfi 133) vector-unfold)))
+    (else
+     (begin
+      ;; The "seedless" case is all we need.
+      (define (vector-unfold f len)
+        (let ((res (make-vector len)))
+          (cond ((= i len) res)
+                (else (vector-set! res i (f i))
+                      (lp (+ i 1)))))))))
 
   (export bit->integer bit->boolean  ; Bit conversion
 
@@ -25,7 +25,7 @@
           bitvector-append-subbitvectors
 
           ;; Predicates
-          bitvector? bitvector-empty? bitvector=
+          bitvector? bitvector-empty? bitvector=?
 
           ;; Selectors
           bitvector-ref/int bitvector-ref/bool bitvector-length
@@ -57,7 +57,8 @@
           reverse-list->bitvector bitvector->vector/int
           bitvector->vector/bool vector->bitvector bitvector->string
           string->bitvector bitvector->integer integer->bitvector
-          bitvector->bytevector bitvector->bytevector! bytevector->bitvector
+          reverse-vector->bitvector reverse-bitvector->vector/int
+          reverse-bitvector->vector/bool
 
           ;; Generators and accumulators
           make-bitvector/int-generator make-bitvector/bool-generator
@@ -96,6 +97,5 @@
   (include "178/quasi-ints.scm")
   (include "178/quasi-strs.scm")
   (include "178/unfolds.scm")
-  (include "178/util.scm")
   (include "178/wrappers.scm")
 )
