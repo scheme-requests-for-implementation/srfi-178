@@ -57,7 +57,6 @@
           reverse-list->bitvector bitvector->vector/int
           bitvector->vector/bool vector->bitvector bitvector->string
           string->bitvector bitvector->integer integer->bitvector
-          bitvector->bytevector bitvector->bytevector! bytevector->bitvector
           reverse-vector->bitvector reverse-bitvector->vector/int
           reverse-bitvector->vector/bool
 
