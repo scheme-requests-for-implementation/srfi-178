@@ -58,7 +58,6 @@
           reverse-list->bitvector bitvector->vector/int
           bitvector->vector/bool vector->bitvector bitvector->string
           string->bitvector bitvector->integer integer->bitvector
-          bitvector->bytevector bitvector->bytevector! bytevector->bitvector
 
           ;; Generators and accumulators
           make-bitvector/int-generator make-bitvector/bool-generator
