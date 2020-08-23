@@ -21,7 +21,6 @@
 
 (import (scheme base))
 (import (scheme write))
-(import (srfi 151))
 (import (srfi 178))
 
 (cond-expand
