@@ -30,19 +30,18 @@
 
 ;;;; Bitvector/integer conversions
 
-(define (%bitvector->integer bvec len)
-  (let lp ((r 0) (i 0))
-    (if (>= i len)
-        r
-        (lp (bitwise-ior
-             r
-             (arithmetic-shift (bitvector-ref/int bvec i) i))
-            (+ i 1)))))
+(define (bitvector->integer bvec)
+  (bitvector-fold-right/int (lambda (r b) (+ (* r 2) b)) 0 bvec))
 
-(define bitvector->integer
+(define integer->bitvector
   (case-lambda
-    ((bvec) (%bitvector->integer bvec (bitvector-length bvec)))
-    ((bvec len) (%bitvector->integer bvec len))))
+    ((int) (integer->bitvector int (integer-length int)))
+    ((int len)
+     (bitvector-unfold
+      (lambda (_ int)
+        (values (bit-set? 0 int) (arithmetic-shift int -1)))
+      len
+      int))))
 
 (define (integer->bitvector int)
   (bitvector-unfold

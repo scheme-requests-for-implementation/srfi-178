@@ -9,13 +9,7 @@
   <body>
     <h1><a href="https://srfi.schemers.org/"><img class="srfi-logo" src="https://srfi.schemers.org/srfi-logo.svg" alt="SRFI logo" /></a>178: Bitvector library</h1>
 
-<h2>Title</h2>
-
-Bitvector library
-
-<h2>Authors</h2>
-
-John Cowan (text), Wolfgang Corcoran-Mathe (implementation)
+<p>by John Cowan (text), Wolfgang Corcoran-Mathe (implementation)</p>
 
 <h2>Status</h2>
 
@@ -41,8 +35,7 @@ along with operations analogous to the bitwise operations of
 
 <h2>Issues</h2>
 
-<ul>
-  <li>None at present.</li>
+None at present.
 
 </ul>
 
@@ -68,7 +61,7 @@ Procedures that return a bit or a list of bits
 come in two flavors:
 one ending in <code>/int</code> that returns an exact integer, and
 one ending in <code>/bool</code> that returns a boolean.</p>
-<p>Mapping, folding, and unfolding
+<p>Mapping and folding
 procedures also come in two flavors:
 those ending in <code>/int</code> pass exact integers to their
 procedure arguments, whereas
@@ -681,8 +674,8 @@ or the end of input.
 <p>
 <h2>Implementation</h2>
 
-<p>The sample implementation is (not yet) in the repository of this SRFI.
-Bitvectors are implemented as wrapped bytevectors;
+<p>The sample implementation is in the repository of this SRFI.
+Bitvectors are implemented as wrapped <a href="https://srfi.schemers.org/srfi-160/srfi-160.html">SRFI 160</a> u8vectors;
 for simplicity and possibly for speed,
 they use a whole byte to represent each bit, as Java and C# do.
 At a later date, a more

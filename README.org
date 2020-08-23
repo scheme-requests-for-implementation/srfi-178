@@ -1,6 +1,6 @@
 * SRFI 178: Bitvector library
 
-** by John Cowan
+** by John Cowan (text) and Wolfgang Corcoran-Mathe (implementation)
 
 
 

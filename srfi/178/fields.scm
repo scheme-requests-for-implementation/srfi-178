@@ -11,12 +11,12 @@
              (lp (+ i 1))))))
 
 (define (%bitvector-field-modify bvec bit start end)
-  (%bitvector-tabulate/int
-   (bitvector-length bvec)
+  (bitvector-unfold
    (lambda (i)
      (if (and (>= i start) (< i end))
          bit
-         (bitvector-ref/int bvec i)))))
+         (bitvector-ref/int bvec i)))
+   (bitvector-length bvec)))
 
 (define (bitvector-field-clear bvec start end)
   (%bitvector-field-modify bvec 0 start end))
@@ -34,24 +34,24 @@
   (%bitvector-fill!/int bvec 1 start end))
 
 (define (bitvector-field-replace dest source start end)
-  (%bitvector-tabulate/int
-   (bitvector-length dest)
+  (bitvector-unfold
    (lambda (i)
      (if (and (>= i start) (< i end))
          (bitvector-ref/int source (- i start))
-         (bitvector-ref/int dest i)))))
+         (bitvector-ref/int dest i)))
+   (bitvector-length dest)))
 
 (define (bitvector-field-replace! dest source start end)
   (bitvector-copy! dest start source 0 (- end start)))
 
 (define (bitvector-field-replace-same dest source start end)
-  (%bitvector-tabulate/int
-   (bitvector-length dest)
+  (bitvector-unfold
    (lambda (i)
      (bitvector-ref/int (if (and (>= i start) (< i end))
                             source
                             dest)
-                        i))))
+                        i))
+   (bitvector-length dest)))
 
 (define (bitvector-field-replace-same! dest source start end)
   (bitvector-copy! dest start source start end))
@@ -60,22 +60,22 @@
   (if (zero? count)
       bvec
       (let ((field-len (- end start)))
-        (%bitvector-tabulate/int
-         (bitvector-length bvec)
+        (bitvector-unfold
          (lambda (i)
            (if (and (>= i start) (< i end))
                (bitvector-ref/int
                 bvec
                 (+ start (floor-remainder (+ (- i start) count) field-len)))
-               (bitvector-ref/int bvec i)))))))
+               (bitvector-ref/int bvec i)))
+         (bitvector-length bvec)))))
 
 (define (bitvector-field-flip bvec start end)
-  (%bitvector-tabulate/int
-   (bitvector-length bvec)
+  (bitvector-unfold
    (lambda (i)
      (I (if (and (>= i start) (< i end))
             (not (bitvector-ref/bool bvec i))
-            (bitvector-ref/bool bvec i))))))
+            (bitvector-ref/bool bvec i))))
+   (bitvector-length bvec)))
 
 (define (bitvector-field-flip! bvec start end)
   (let lp ((i start))

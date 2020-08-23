@@ -3,8 +3,7 @@
 (define make-bitvector
   (case-lambda
     ((size) (W (make-u8vector size)))
-    ((size fill) (W (make-u8vector size (I fill))))))
-
+    ((size bit) (W (make-u8vector size (I bit))))))
 
 (define bitvector-copy
   (case-lambda
@@ -31,7 +30,7 @@
 (define (bitvector-empty? bvec)
   (eqv? 0 (u8vector-length (U bvec))))
 
-(define (bitvector= . bvecs)
+(define (bitvector=? . bvecs)
   (apply u8vector= (map U bvecs)))
 
 (define (bitvector-ref/int bvec i)
@@ -111,19 +110,18 @@
 (define (%bitvector-map2/int f bvec1 bvec2)
   (let ((u8vec1 (U bvec1))
         (u8vec2 (U bvec2)))
-    (%bitvector-tabulate/int
-     (bitvector-length bvec1)
+    (bitvector-unfold
      (lambda (i)
-       (f (u8vector-ref u8vec1 i) (u8vector-ref u8vec2 i))))))
+       (f (u8vector-ref u8vec1 i) (u8vector-ref u8vec2 i)))
+     (bitvector-length bvec1))))
 
-;; FIXME: The variadic case--yowch.
 (define bitvector-map/bool
   (case-lambda
     ((f bvec)          ; one-bitvector fast path
      (W (u8vector-map (lambda (n) (I (f (B n)))) (U bvec))))
     ((f bvec1 bvec2)   ; two-bitvector fast path
      (%bitvector-map2/int (lambda (n m) (I (f (B n) (B m)))) bvec1 bvec2))
-    ((f . bvecs)       ; normal path
+    ((f . bvecs)       ; normal path (ugh)
      (W (apply u8vector-map
                (lambda ns (I (apply f (map bit->boolean ns))))
                (map U bvecs))))))
@@ -149,14 +147,13 @@
         (lp (+ i 1))))
     bvec1))
 
-;; FIXME: The variadic case--yowch.
 (define bitvector-map!/bool
   (case-lambda
     ((f bvec)          ; one-bitvector fast path
      (u8vector-map! (lambda (n) (I (f (B n)))) (U bvec)))
     ((f bvec1 bvec2)   ; two-bitvector fast path
      (%bitvector-map2!/int (lambda (n m) (I (f (B n) (B m)))) bvec1 bvec2))
-    ((f . bvecs)
+    ((f . bvecs)       ; normal path (ugh)
      (apply u8vector-map!
             (lambda ns (I (apply f (map bit->boolean ns))))
             (map U bvecs)))))
@@ -168,7 +165,6 @@
     ((f . bvecs)
      (apply u8vector-for-each f (map U bvecs)))))
 
-;; FIXME: The variadic case--yowch.
 (define bitvector-for-each/bool
   (case-lambda
     ((f bvec)
@@ -272,8 +268,13 @@
 (define (reverse-list->bitvector list)
   (W (reverse-list->u8vector (map bit->integer list))))
 
-(define (bitvector . args) (list->bitvector args))
+(define (bitvector . bits) (list->bitvector bits))
 
-(define (vector->bitvector vector)
-  (W (vector->u8vector (vector-map bit->integer vector))))
-
+(define vector->bitvector
+  (case-lambda
+    ((vec)
+     (W (vector->u8vector (vector-map bit->integer vec))))
+    ((vec start)
+     (W (vector->u8vector (vector-map bit->integer vec) start)))
+    ((vec start end)
+     (W (vector->u8vector (vector-map bit->integer vec) start end)))))

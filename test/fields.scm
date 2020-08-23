@@ -76,27 +76,6 @@
           (bitvector 1 0 1 1 0 0 1 0))
    => #t)
 
-  ;;; reverse
-
-  (check
-   (bitvector= (bitvector-field-reverse (bitvector 0 1 0 1 1) 0 5)
-               (bitvector 1 1 0 1 0))
-     => #t)
-  (check
-   (bitvector= (bitvector-field-reverse (bitvector 0 1 0 1 1) 1 3)
-               (bitvector 0 0 1 1 1))
-   => #t)
-  (let ((bvec (bitvector 0 1 0 1 1)))
-    (check
-     (bitvector= (begin (bitvector-field-reverse! bvec 0 5) bvec)
-                 (bitvector 1 1 0 1 0))
-     => #t))
-  (let ((bvec (bitvector 0 1 0 1 1)))
-    (check
-     (bitvector= (begin (bitvector-field-reverse! bvec 1 3) bvec)
-                 (bitvector 0 0 1 1 1))
-     => #t))
-
   ;;; flip
 
   (check (bitvector= (bitvector-field-flip (bitvector 0 1 0 1) 0 4)
