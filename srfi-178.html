@@ -16,10 +16,13 @@
 <p>This SRFI is currently in <em>draft</em> status.  Here is <a href="https://srfi.schemers.org/srfi-process.html">an explanation</a> of each status that a SRFI can hold.  To provide input on this SRFI, please send email to <code><a href="mailto:srfi+minus+178+at+srfi+dotschemers+dot+org">srfi-178@<span class="antispam">nospam</span>srfi.schemers.org</a></code>.  To subscribe to the list, follow <a href="https://srfi.schemers.org/srfi-list-subscribe.html">these instructions</a>.  You can access previous messages via the mailing list <a href="https://srfi-email.schemers.org/srfi-178">archive</a>.</p>
 <ul>
   <li>Received: 2019-12-20</li>
-  <li>60-day deadline: 2020-02-20</li>
   <li>Draft #1 published: 2019-12-21</li>
   <li>Draft #2 published: 2020-05-02</li>
   <li>Draft #3 published: 2020-08-09</li>
+  <li>Draft #4 published: 2020-08-16</li>
+  <li>John Cowan's <a href="https://github.com/johnwcowan/srfi-178">personal
+    Git repo for this SRFI</a> for reference while the SRFI is in
+    <em>draft</em> status (<a href="https://htmlpreview.github.io/?https://github.com/johnwcowan/srfi-178/blob/master/srfi-178.html">preview</a>)</li>
 </ul>
 
 <h2>Abstract</h2>
@@ -32,12 +35,6 @@ vector types described in
 are provided,
 along with operations analogous to the bitwise operations of
 <a href="https://srfi.schemers.org/srfi-151/srfi-151.html">SRFI 151</a>.</p>
-
-<h2>Issues</h2>
-
-None at present.
-
-</ul>
 
 <h2>Rationale</h2>
 
@@ -284,7 +281,7 @@ and <code>#f</code> otherwise.</p>
 
 <p><code>(bitvector=? <i>bvec ...</i>) -> boolean</code> </p>
 
-<p>Compares the <i>bvecs</i> for elementwise equality, using
+<p>Compares the <i>bvecs</i> for element-wise equality, using
 <code>eqv?</code> to do the comparisons,
 and returns <code>#t</code> or <code>#f</code> accordingly.
 
@@ -484,7 +481,7 @@ Note that the generator is finite.
 <p>
 Returns a <a href="https://srfi.schemers.org/srfi-158/srfi-158.html">SRFI 158</a>
 accumulator that collects all the values of <em>bit-or-eof</em>.
-When the argument is an end of file object, returns a bitvector containing
+When the argument is an end-of-file object, returns a bitvector containing
 all the values in order.</p>
 <h3 id="Basicoperations">Basic operations</h3>
 <p><code>(bitvector-not </code><em>bvec</em><code>)</code> <br/>
@@ -586,7 +583,7 @@ Return -1 if <em>bvec</em> contains no values equal to <i>bit</i>.
 </p>
 <h3 id="Bitfieldoperations">Bit field operations</h3>
 <p>
-These procedures operate on a contiguous field of bits (a "byte", in
+These procedures operate on a contiguous field of bits (a "byte" in
 Common Lisp parlance) in a given bitvector. The <em>start</em> and <em>end</em>
 arguments, which are not optional, are
 non-negative exact integers specifying the field: it is the <em>end&nbsp;&#x2212;&nbsp;start</em> bits
@@ -680,11 +677,11 @@ for simplicity and possibly for speed,
 they use a whole byte to represent each bit, as Java and C# do.
 At a later date, a more
 complex implementation that packs bits into bytes
-but still operates bytewise as much as possible <i>might</i> be provided.
+but still operates byte-wise as much as possible <i>might</i> be provided.
 
 
 <H1>Copyright</H1>
-Copyright &copy; John Cowan 2018, Wolfgang Corcoran-Mathe 2020
+Copyright &copy; John Cowan (2018), Wolfgang Corcoran-Mathe (2020)
 <p>
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
