@@ -289,7 +289,7 @@ otherwise.</p>
 <p>Returns <code>#t</code> if <i>bvec</i> has a length of zero,
 and <code>#f</code> otherwise.</p>
 
-<p><code>(bitvector= <i>bvec ...</i>) -> boolean</code> </p>
+<p><code>(bitvector=? <i>bvec ...</i>) -> boolean</code> </p>
 
 <p>Compares the <i>bvecs</i> for elementwise equality, using
 <code>eqv?</code> to do the comparisons,
@@ -337,7 +337,10 @@ The last bitvector may be shorter than <i>n</i>.</p>
 
 <p>Folds <i>kons</i> over the elements of <i>bvec</i>
 in increasing/decreasing order using <i>knil</i>
-as the initial value.</p>
+as the initial value.
+
+The kons procedure is called with the states first and the new element
+last, as in SRFIs 43, 133, and 160.<p>
 
 <p><code>(bitvector-map/int <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> bitvector</code> <br>
 <code>(bitvector-map/bool <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> bitvector</code> <br>
@@ -427,9 +430,12 @@ onto <i>to</i>, starting at index <i>at</i>.
 <code>(reverse-list->bitvector <i>list</i>) -> bitvector</code> <br>
 
 <code>(bitvector->vector/int <i>bvec [ start [end] ]</i>) -> vector of integers</code> <br>
+<code>(reverse-bitvector->vector/int <i>bvec [ start [end] ]</i>) -> vector of integers</code> <br>
 <code>(bitvector->vector/bool <i>bvec [ start [end] </i>) -> vector of booleans</code> <br>
+<code>(reverse-bitvector->vector/bool <i>bvec [ start [end] </i>) -> vector of booleans</code> <br>
 
 <code>(vector->bitvector <i>bvec</i>) -> bitvector</code> </p>
+<code>(reverse-vector->bitvector <i>bvec</i>) -> bitvector</code> </p>
 
 
 <p>Returns a list, bitvector, or heterogeneous vector with the same
