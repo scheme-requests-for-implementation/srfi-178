@@ -43,13 +43,6 @@
       len
       int))))
 
-(define (integer->bitvector int)
-  (bitvector-unfold
-   (lambda (_ int)
-     (values (bit-set? 0 int) (arithmetic-shift int -1)))
-   (integer-length int)
-   int))
-
 ;;; Additional vector conversions
 
 (define reverse-vector->bitvector
