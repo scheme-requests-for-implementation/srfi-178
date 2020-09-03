@@ -8,7 +8,7 @@ keywords: [[https://srfi.schemers.org/?keywords=data-structure][Data Structure]]
 
 This repository hosts [[https://srfi.schemers.org/srfi-178/][SRFI 178]]: Bitvector library, a [[https://srfi.schemers.org/][Scheme Request for Implementation]].
 
-This SRFI is in /draft/ status.
+This SRFI is in /final/ status.
 
 See also [[https://srfi.schemers.org/srfi-151/][SRFI 151: Bitwise Operations]] and [[https://srfi.schemers.org/srfi-160/][SRFI 160: Homogeneous numeric vector libraries]].
 

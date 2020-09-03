@@ -105,11 +105,11 @@
            (bitvector-map!/bool (constantly #t) bvec)
            (bitvector= bvec (bitvector #t #t #t #t)))
    => #t)
-  (check (let ((bvec#t (bitvector #t #f #f))
+  (check (let ((bvec1 (bitvector #t #f #f))
                (bvec2 (bitvector #f #t #f))
                (bvec3 (bitvector #f #f #t)))
-           (bitvector-map!/bool (lambda (a b c) b) bvec#t bvec2 bvec3)
-           (bitvector= bvec#t bvec2))
+           (bitvector-map!/bool (lambda (a b c) b) bvec1 bvec2 bvec3)
+           (bitvector= bvec1 bvec2))
    => #t)
 
 

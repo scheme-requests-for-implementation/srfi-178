@@ -23,7 +23,10 @@
 
   ;;; pad & trim
 
-  (check (bitvector-pad 0 (bitvector 1) 4) => (bitvector 0 0 0 1))
+  (check (bitvector=
+          (bitvector-pad 0 (bitvector 1) 4)
+          (bitvector 0 0 0 1))
+   => #t)
   (let ((bvec (bitvector 1 0 1 0)))
     (check (bitvector= (bitvector-pad 0 bvec (bitvector-length bvec))
                        bvec)
@@ -31,8 +34,10 @@
     (check (bitvector= (bitvector-pad-right 0 bvec (bitvector-length bvec))
                        bvec)
      => #t))
-  (check (bitvector-pad-right 0 (bitvector 1) 4) => (bitvector 1 0 0 0))
-
+  (check (bitvector=
+          (bitvector-pad-right 0 (bitvector 1) 4)
+          (bitvector 1 0 0 0))
+   => #t)
   (check (bitvector= (bitvector-trim 0 (bitvector 0 0 0 1))
                      (bitvector 1))
    => #t)
