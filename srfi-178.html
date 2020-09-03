@@ -71,7 +71,8 @@ Consequently, only the non-<code>!</code> version is documented below.</p>
 <p>
 It is an error unless all <em>bitvector</em>
 arguments passed to procedures
-that accept more than one are of the same length.
+that accept more than one are of the same length
+(except as otherwise noted).
 </p>
 
 
@@ -359,14 +360,15 @@ and an undefined value with no change to <i>bvec1</i>.</p>
 <code>(bitvector-suffix-length <i>bvec1 bvec2</i>) -> index</code></p>
 
 <p>Return the number of elements that are equal in the prefix/suffix
-of the two <i>bvecs</i>.</p>
+of the two <i>bvecs</i>, which are allowed to be of different lengths.</p>
 
 <code>(bitvector-prefix? <i>bvec1 bvec2</i>) -> boolean</code><br/>
 
 <p><code>(bitvector-suffix? <i>bvec1 bvec2</i>) -> boolean</code></p>
 
 <p>Returns <code>#t</code> if <i>bvec1</i> is a prefix/suffix of <i>bvec2</i>,
-and <code>#f</code> otherwise.</p>
+and <code>#f</code> otherwise.
+The arguments are allowed to be of different lengths.</p>
 
 <p><code>(bitvector-pad <i> bit bvec length</i>) -> bvec</code><br/>
 <code>(bitvector-pad-right <i> bit bvec length</i>) -> bvec</code></p>
@@ -409,22 +411,17 @@ onto <i>to</i>, starting at index <i>at</i>.
 <h3>Conversion</h3>
 
 <p><code>(bitvector->list/int <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of integers</code> <br/>
-<code>(bitvector->list/bool <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of booleans</code> <br/>
-
+<code>(bitvector->list/bool <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of booleans</code> </p>
 <code>(reverse-bitvector->list/int <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of integers</code> <br/>
 <code>(reverse-bitvector->list/bool <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> list of booleans</code> </p>
-
 <code>(list->bitvector <i>list</i>) -> bitvector</code> <br/>
-
-<code>(reverse-list->bitvector <i>list</i>) -> bitvector</code>
-
-<code>(bitvector->vector/int <i>bvec [ start [end] ]</i>) -> vector of integers</code> <br/>
-<code>(bitvector->vector/bool <i>bvec [ start [end] </i>) -> vector of booleans</code> <br/>
-<code>(reverse-bitvector->vector/int <i>bvec [ start [end] ]</i>) -> vector of integers</code> <br/>
-<code>(reverse-bitvector->vector/bool <i>bvec [ start [end] </i>) -> vector of booleans</code>
-
-<code>(vector->bitvector <i>bvec</i>) -> bitvector</code> <br/>
-<code>(reverse-vector->bitvector <i>bvec</i>) -> bitvector</code>
+<code>(reverse-list->bitvector <i>list</i>) -> bitvector</code> </p>
+<code>(bitvector->vector/int <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> vector of integers</code> <br/>
+<code>(bitvector->vector/bool <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> vector of booleans</code> </p>
+<code>(reverse-bitvector->vector/int <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> vector of integers</code> <br/>
+<code>(reverse-bitvector->vector/bool <i>bvec</i> [<i>start</i> [<i>end</i>]]) -> vector of booleans</code> </p>
+<code>(vector->bitvector <i>vec</i> [<i>star`t</i> [<i>end</i>]]</i>) -> bitvector</code> <br/>
+<code>(reverse-vector->bitvector <i>vec</i>  [<i>start</i> [<i>end</i>]]</i>) -> bitvector</code> </p>
 
 
 <p>Returns a list, bitvector, or heterogeneous vector with the same
@@ -476,12 +473,12 @@ generator that generates all the values of <em>bitvector</em> in order.
 Note that the generator is finite.
 </p>
 <p>
-<code>(make-bitvector-accumulator</code> <em>bit-or-eof</em><code>)</code> </p>
+<code>(make-bitvector-accumulator)</code> </p>
 <p>
 Returns a <a href="https://srfi.schemers.org/srfi-158/srfi-158.html">SRFI 158</a>
-accumulator that collects all the values of <em>bit-or-eof</em>.
-When the argument is an end-of-file object, returns a bitvector containing
-all the values in order.</p>
+accumulator that collects all the bits it is invoked on.
+When invoked on an end-of-file object, returns a bitvector containing
+all the bits in order.</p>
 <h3 id="Basicoperations">Basic operations</h3>
 <p><code>(bitvector-not </code><em>bvec</em><code>)</code> <br/>
 <code>(bitvector-not! </code><em>bvec</em><code>)</code>  </p>
@@ -640,7 +637,9 @@ by the corresponding field in <em>source</em>.
 <code>(bitvector-field-rotate </code><em>bvec count start end</em><code>)</code> </p>
 <p>
 Returns <em>bvec</em> with the field cyclically permuted
-by <em>count</em> bits towards high-order.
+by <em>count</em> bits towards 
+higher indices when <em>count is negative,
+and toward lower indices otherwise.
 </p>
 
 
