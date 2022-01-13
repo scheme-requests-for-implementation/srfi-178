@@ -22,7 +22,9 @@
   <li>Draft #4 published: 2020-08-16</li>
   <li>Draft #5 published: 2020-08-23</li>
   <li>Finalized: 2020-08-25</li>
-</ul>
+  <li>Revised to fix errata:
+    <ul>
+      <li>2022-01-13 (Fix error in return type of <a href="#bit2boolean"><code>bit->boolean</code></a>.)</li></ul></li></ul>
 
 <h2>Abstract</h2>
 
@@ -216,7 +218,7 @@ of the corresponding SRFI 133 or SRFI 151 procedure.</p>
 <p>Returns 0 if <i>bit</i> is 0 or <code>#f</code>
 and 1 if <i>bit</i> is 1 or <code>#t</code>.</p>
 
-<p><code>(bit->boolean <i>bit</i>) -> boolean</code></p>
+<p id="bit2boolean"><code>(bit->boolean <i>bit</i>) -> boolean</code></p>
 
 <p>Returns <code>#f</code> if <i>bit</i> is 0 or <code>#f</code>
 and <code>#t</code> if <i>bit</i> is 1 or <code>#t</code>.</p>
