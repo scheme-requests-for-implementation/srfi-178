@@ -55,6 +55,8 @@
   (W (u8vector-drop-right (U bvec) n)))
 
 (define (bitvector-segment bvec n)
+  (unless (and (integer? n) (positive? n))
+    (error "bitvector-segment: not a positive integer" n))
   (map W (u8vector-segment (U bvec) n)))
 
 (define bitvector-fold/int
