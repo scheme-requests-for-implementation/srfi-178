@@ -319,7 +319,8 @@ elements of <i>bvec</i>.</p>
 
 <p>Returns a list of bitvectors, each of which contains <i>n</i>
 consecutive elements of <i>bvec</i>.
-The last bitvector may be shorter than <i>n</i>.</p>
+The last bitvector may be shorter than <i>n</i>.  It is an error if
+<i>n</i> is not an exact positive integer.</p>
 
 <p><code>(bitvector-fold/int <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> <br/>
 <code>(bitvector-fold/bool <i>kons knil bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> object</code> <br/>
