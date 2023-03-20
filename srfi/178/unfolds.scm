@@ -1,65 +1,41 @@
 ;;;; unfold
 
-;; Zero-seed fast path.
-(define (%bitvector-tabulate f len)
-  (let ((res (make-u8vector len)))
-    (let lp ((i 0))
-    (cond ((= i len) (W res))
-          (else (u8vector-set! res i (I (f i)))
-                (lp (+ i 1)))))))
+;;; These procedures work by building temporary lists, then converting
+;;; them to vectors. This uses more space than pre-allocating a bitvector
+;;; and filling it, but it's referentially transparent: there's no way
+;;; to capture a partially-filled bitvector through continuation tricks.
 
-;; One-seed fast path.
-(define (%bitvector-unfold-1 f len seed)
-  (let ((res (make-u8vector len)))
-    (let lp ((i 0) (seed seed))
-      (if (= i len)
-          (W res)
-          (let-values (((b seed*) (f i seed)))
-            (u8vector-set! res i (I b))
-            (lp (+ i 1) seed*))))))
+;; Unfold a list. f is passed the current index and list of seeds
+;; on each step, and must return a bit and new seeds on each step.
+(define (%unfold/index f len seeds)
+  (letrec
+   ((build
+     (lambda (i seeds)
+       (if (= i len)
+           '()
+           (let-values (((b . seeds*) (apply f i seeds)))
+             (cons b (build (+ i 1) seeds*)))))))
 
-(define bitvector-unfold
-  (case-lambda
-   ((f len) (%bitvector-tabulate f len))
-   ((f len seed) (%bitvector-unfold-1 f len seed))
-   ((f len . seeds)
-    (let ((res (make-u8vector len)))
-      (let lp ((i 0) (seeds seeds))
-        (if (= i len)
-            (W res)
-            (let-values (((b . seeds*) (apply f i seeds)))
-              (u8vector-set! res i (I b))
-              (lp (+ i 1) seeds*))))))))
+    (build 0 seeds)))
+
+(define (bitvector-unfold f len . seeds)
+  (list->bitvector (%unfold/index f len seeds)))
 
 ;;;; unfold-right
 
-;; Zero-seed fast path.
-(define (%bitvector-tabulate-right f len)
-  (let ((res (make-u8vector len)))
-    (let lp ((i (- len 1)))
-      (cond ((< i 0) (W res))
-            (else (u8vector-set! res i (I (f i)))
-                  (lp (- i 1)))))))
+;; Unfold a list from the right. f is passed the current index and
+;; list of seeds on each step, and must return a bit and new seeds
+;; on each step.
+(define (%unfold-right/index f len seeds)
+  (letrec
+   ((build
+     (lambda (i seeds res)
+       (if (< i 0)
+           res
+           (let-values (((b . seeds*) (apply f i seeds)))
+             (build (- i 1) seeds* (cons b res)))))))
 
-;; One-seed fast path.
-(define (%bitvector-unfold-1-right f len seed)
-  (let ((result (make-u8vector len)))
-    (let lp ((i (- len 1)) (seed seed))
-      (if (< i 0)
-          (W result)
-          (let-values (((b seed*) (f i seed)))
-            (u8vector-set! result i (I b))
-            (lp (- i 1) seed*))))))
+    (build (- len 1) seeds '())))
 
-(define bitvector-unfold-right
-  (case-lambda
-   ((f len) (%bitvector-tabulate-right f len))
-   ((f len seed) (%bitvector-unfold-1-right f len seed))
-   ((f len . seeds)
-    (let ((res (make-u8vector len)))
-      (let lp ((i (- len 1)) (seeds seeds))
-        (if (< i 0)
-            (W res)
-            (let-values (((b . seeds*) (apply f i seeds)))
-              (u8vector-set! res i (I b))
-              (lp (- i 1) seeds*))))))))
+(define (bitvector-unfold-right f len . seeds)
+  (list->bitvector (%unfold-right/index f len seeds)))
