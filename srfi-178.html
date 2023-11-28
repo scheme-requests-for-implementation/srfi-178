@@ -65,6 +65,7 @@ procedures also come in two flavors:
 those ending in <code>/int</code> pass exact integers to their
 procedure arguments, whereas
 those ending in <code>/bool</code> pass booleans to theirs.
+</p>
 
 <p>Procedures whose names end in <code>!</code> are the same as the
 corresponding procedures without <code>!</code>, except that the first
@@ -287,6 +288,7 @@ and <code>#f</code> otherwise.</p>
 <p>Compares the <i>bvecs</i> for element-wise equality, using
 <code>eqv?</code> to do the comparisons,
 and returns <code>#t</code> or <code>#f</code> accordingly.
+</p>
 
 <h3>Selectors</h3>
 
@@ -295,6 +297,7 @@ and returns <code>#t</code> or <code>#f</code> accordingly.
 
 <p>Returns the <i>i</i>th element of <i>bvec</i>
 as an exact integer or boolean respectively.
+</p>
 
 <p><code>(bitvector-length <i>bvec</i>) -> exact nonnegative integer</code> </p>
 
@@ -303,15 +306,13 @@ as an exact integer or boolean respectively.
 <h3>Iteration</h3>
 
 <p><code>(bitvector-take <i>bvec n</i>) -> bitvector</code> <br/>
-
-<p><code>(bitvector-take-right <i>bvec n</i>) -> bitvector</code> </p>
+<code>(bitvector-take-right <i>bvec n</i>) -> bitvector</code></p>
 
 <p>Returns a bitvector containing the first/last <i>n</i>
 elements of <i>bvec</i>.</p>
 
 <p><code>(bitvector-drop <i>bvec n</i>) -> bitvector</code> <br/>
-
-<p><code>(bitvector-drop-right <i>bvec n</i>) -> bitvector</code> </p>
+<code>(bitvector-drop-right <i>bvec n</i>) -> bitvector</code> </p>
 
 <p>Returns a bitvector containing all except the first/last <i>n</i>
 elements of <i>bvec</i>.</p>
@@ -334,7 +335,7 @@ in increasing/decreasing order using <i>knil</i>
 as the initial value.
 
 The kons procedure is called with the states first and the new element
-last, as in SRFIs 43, 133, and 160.<p>
+last, as in SRFIs 43, 133, and 160.</p>
 
 <p><code>(bitvector-map/int <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> bitvector</code> <br/>
 <code>(bitvector-map/bool <i>f bvec<sub>1</sub> bvec<sub>2</sub> ...</i>) -> bitvector</code> <br/>
@@ -366,9 +367,9 @@ and an undefined value with no change to <i>bvec1</i>.</p>
 <p>Return the number of elements that are equal in the prefix/suffix
 of the two <i>bvecs</i>, which are allowed to be of different lengths.</p>
 
+<p>
 <code>(bitvector-prefix? <i>bvec1 bvec2</i>) -> boolean</code><br/>
-
-<p><code>(bitvector-suffix? <i>bvec1 bvec2</i>) -> boolean</code></p>
+<code>(bitvector-suffix? <i>bvec1 bvec2</i>) -> boolean</code></p>
 
 <p>Returns <code>#t</code> if <i>bvec1</i> is a prefix/suffix of <i>bvec2</i>,
 and <code>#f</code> otherwise.
@@ -406,7 +407,7 @@ elements equal to <i>bit</i> removed.</p>
 <p><code>(bitvector-copy! <i>to at from</i> [<i>start</i> [<i>end</i>]]) -> unspecified</code> </p>
 
 <p>Copies the portion of <i>from</i> from <i>start</i> to <i>end</i>
-onto <i>to</i>, starting at index <i>at</i>.
+onto <i>to</i>, starting at index <i>at</i>.</p>
 
 <p><code>(bitvector-reverse-copy! <i>to at from</i> [<i>start</i> [<i>end</i>]]) -> unspecified</code> </p>
 
@@ -433,9 +434,9 @@ elements as the argument, in reverse order where specified.</p>
 
 <p><code>(bitvector->string <i>bvec</i>) -> string</code> </p>
 
-Returns a string beginning with <code>"#*"</code> and followed by the values of <i>bvec</i>
+<p>Returns a string beginning with <code>"#*"</code> and followed by the values of <i>bvec</i>
 represented as 0 and 1 characters.
-This is the Common Lisp representation of a bitvector
+This is the Common Lisp representation of a bitvector.</p>
 
 <p><code>(string->bitvector <i>string</i>) -> bitvector</code> </p>
 
@@ -451,16 +452,19 @@ Returns a non-negative exact integer whose bits,
 starting with the least significant bit as bit 0,
 correspond to the values in <em>bitvector</em>.
 This ensures compatibility with the integers-as-bits operations of
-<a href="https://srfi.schemers.org/srfi-151/srfi-151.html">SRFI 151</a>.<p>
+<a href="https://srfi.schemers.org/srfi-151/srfi-151.html">SRFI 151</a>.</p>
+<p>
 <code>(integer->bitvector </code><em>integer</em> [ <em>len</em> ]<code>)</code> </p>
+
 <p>
 Returns a bitvector whose length is <em>len</em>
 whose values correspond to the bits
 of <em>integer</em>, a non-negative exact integer,
 starting with the least significant bit as bit 0.
 This ensures compatibility with the integers-as-bits operations of
-<a href="https://srfi.schemers.org/srfi-151/srfi-151.html">SRFI 151</a>.<p>
+<a href="https://srfi.schemers.org/srfi-151/srfi-151.html">SRFI 151</a>.
 </p>
+
 <p>The default value of <em>len</em> is
 <code>(integer-length </code><em>integer</em><code>)</code>.
 If the value of <em>len</em> is less than the default,
@@ -538,7 +542,6 @@ Rather, it produces <code>(bitvector-eqv a (bitvector-eqv b c))</code> or the eq
 <code>(bitvector-orc2 </code><em>bvec1 bvec2</em><code>)</code> <br/>
 <code>(bitvector-orc2! </code><em>bvec1 bvec2</em><code>)</code> </p>
 <p>
-<p>
 These operations are not associative.
 </p>
 <h3 id="Quasiintegeroperations">Quasi-integer operations</h3>
@@ -555,12 +558,13 @@ Newly vacated elements are filled with <i>bit</i>.
 <p>
 Returns the number of <i>bit</i> values in <i>bvec</i>.
 </p>
-<code>(bitvector-count-run </code><em>bit bvec i</em><code>)</code>
+<p>
+<code>(bitvector-count-run </code><em>bit bvec i</em><code>)</code> </p>
 <p>
 Returns the number of consecutive <i>bit</i> values in <i>bvec</i>,
 starting at index <i>i</i>.
 </p>
-<p>
+
 <p>
 <code>(bitvector-if </code><em>if-bitvector then-bitvector else-bitvector</em><code>)</code> </p>
 <p>
@@ -647,9 +651,6 @@ and toward lower indices otherwise.
 </p>
 
 
-
-<p>
-
 <p>
 <code>(bitvector-field-flip </code><em>bvec start end</em><code>)</code> <br/>
 <code>(bitvector-field-flip! </code><em>bvec start end</em><code>)</code> </p>
@@ -670,7 +671,6 @@ On input, it is an error if such a literal is not followed by a &lt;delimiter&gt
 or the end of input.
 </p>
 
-<p>
 <h2>Implementation</h2>
 
 <p>The sample implementation can be found in the <a href="https://github.com/scheme-requests-for-implementation/srfi-178">repository</a> of
@@ -681,7 +681,7 @@ they use a whole byte to represent each bit, as Java and C# do.
 At a later date, a more
 complex implementation that packs bits into bytes
 but still operates byte-wise as much as possible <i>might</i> be provided.
-
+</p>
 
 <H1>Copyright</H1>
 <p>&copy; 2018 John Cowan, 2020 Wolfgang Corcoran-Mathe</p>
