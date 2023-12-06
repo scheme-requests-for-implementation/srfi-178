@@ -1,3 +1,7 @@
+;;; SPDX-FileCopyrightText: 2020 Wolfgang Corcoran-Mathe <wcm@sigwinch.xyz>
+;;;
+;;; SPDX-License-Identifier: MIT
+
 (define (check-generators-and-accumulators)
   (define test-bvec (bitvector 1 0 1 1 0 1 0 1))
   (print-header "Checking generators and accumulators...")

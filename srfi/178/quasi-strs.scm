@@ -1,3 +1,7 @@
+;;; SPDX-FileCopyrightText: 2020 Wolfgang Corcoran-Mathe <wcm@sigwinch.xyz>
+;;;
+;;; SPDX-License-Identifier: MIT
+
 (define (bitvector-prefix-length bvec1 bvec2)
   (let ((end (min (bitvector-length bvec1) (bitvector-length bvec2))))
     (if (eqv? bvec1 bvec2)

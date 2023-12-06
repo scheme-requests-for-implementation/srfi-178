@@ -1,3 +1,7 @@
+;;; SPDX-FileCopyrightText: 2020 Wolfgang Corcoran-Mathe <wcm@sigwinch.xyz>
+;;;
+;;; SPDX-License-Identifier: MIT
+
 (define (check-bitwise-operations)
   (define test-bvec1 (bitvector 1 0 1 0))
   (define test-bvec2 (bitvector 1 1 0 0))
