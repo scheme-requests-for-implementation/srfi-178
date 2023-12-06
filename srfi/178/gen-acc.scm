@@ -1,3 +1,7 @@
+;;; SPDX-FileCopyrightText: 2020 Wolfgang Corcoran-Mathe <wcm@sigwinch.xyz>
+;;;
+;;; SPDX-License-Identifier: MIT
+
 (define (%make-bitvector-generator bvec ref-proc)
   (let ((len (bitvector-length bvec))
         (i 0))

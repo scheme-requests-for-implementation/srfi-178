@@ -1,3 +1,7 @@
+;;; SPDX-FileCopyrightText: 2020 Wolfgang Corcoran-Mathe <wcm@sigwinch.xyz>
+;;;
+;;; SPDX-License-Identifier: MIT
+
 (define (bitvector-logical-shift bvec count bit)
   (cond ((positive? count)
          (%bitvector-left-shift bvec count (I bit)))
