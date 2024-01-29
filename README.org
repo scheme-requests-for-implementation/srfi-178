@@ -1,7 +1,6 @@
-# SPDX-FileCopyrightText: 2019 - 2020 Arthur A. Gleckler <srfi@speechcode.com>
-#
-# SPDX-License-Identifier: MIT
 
+# SPDX-FileCopyrightText: 2024 John Cowan (text) and Wolfgang Corcoran-Mathe (implementation)
+# SPDX-License-Identifier: MIT
 * SRFI 178: Bitvector library
 
 ** by John Cowan (text) and Wolfgang Corcoran-Mathe (implementation)
@@ -13,14 +12,11 @@ keywords: [[https://srfi.schemers.org/?keywords=data-structure][Data Structure]]
 This repository hosts [[https://srfi.schemers.org/srfi-178/][SRFI 178]]: Bitvector library, a [[https://srfi.schemers.org/][Scheme Request for Implementation]].
 
 This SRFI is in /final/ status.
-
-See also [[https://srfi.schemers.org/srfi-151/][SRFI 151: Bitwise Operations]] and [[https://srfi.schemers.org/srfi-160/][SRFI 160: Homogeneous numeric vector libraries]].
-
+See also [[/srfi-151/][SRFI 151: Bitwise Operations]] and [[/srfi-160/][SRFI 160: Homogeneous numeric vector libraries]].
 The full documentation for this SRFI can be found in the [[https://srfi.schemers.org/srfi-178/srfi-178.html][SRFI Document]].
 
 If you'd like to participate in the discussion of this SRFI, or report issues with it, please [[https://srfi.schemers.org/srfi-178/][join the SRFI-178 mailing list]] and send your message there.
 
 Thank you.
-
 
 [[mailto:srfi-editors@srfi.schemers.org][The SRFI Editors]]
