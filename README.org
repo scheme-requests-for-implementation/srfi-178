@@ -1,5 +1,5 @@
 
-# SPDX-FileCopyrightText: 2024 John Cowan (text) and Wolfgang Corcoran-Mathe (implementation)
+# SPDX-FileCopyrightText: 2024 Arthur A. Gleckler
 # SPDX-License-Identifier: MIT
 * SRFI 178: Bitvector library
 
